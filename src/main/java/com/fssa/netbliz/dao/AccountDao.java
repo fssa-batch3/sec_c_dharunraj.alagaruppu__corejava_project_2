@@ -20,7 +20,7 @@ public class AccountDao {
 	 * give the result
 	 */
 
-	public static boolean getAccountByNumber(String accNo) throws  AccountDaoException { 
+	public static boolean getAccountByNumber(String accNo) throws  AccountValidatorExceptions, AccountDaoException, SQLException  { 
 
 		String query = "SELECT * FROM accounts WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
 
@@ -51,15 +51,10 @@ public class AccountDao {
 				}
 			}
 		}
-		
-		catch(SQLException e) {
-			
-			throw new AccountDaoException(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
-		}
 		return true;
 	}
 
-	public static boolean updateAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean updateAccount(Account account) throws AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -84,14 +79,19 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean addAccount(Account account) throws  AccountValidatorExceptions, AccountDaoException {
+	public static boolean addAccount(Account account) throws AccountDaoException {
 		// Validate the account using AccountValidator
-		AccountValidator.validate(account);
+		try {
+			AccountValidator.validate(account);
+		} catch (AccountValidatorExceptions e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 
 		// SQL query to insert the account details into the database
 		final String query = "INSERT INTO accounts (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (Connection con = ConnectionUtil.getConnection()) { 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				// Set the parameters for the prepared statement
 				pst.setString(1, account.getAccountNumber());

@@ -10,6 +10,9 @@ import com.fssa.netbliz.model.Transaction;
 
 public class TransactionDao {
 
+	static double holderBalance = 0;
+	static double remittanceBalance = 0;
+
 	public static boolean isActiveAccount(String holder) throws SQLException {
 
 		String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true";
@@ -51,14 +54,19 @@ public class TransactionDao {
 
 						avlBalance = rs.getDouble("avl_balance") - trans.getTransfer_amount();
 						System.out.println("accountHolderConditions true");
-						remittanceAccountConditions(trans);
-						return avlBalance;
+//						remittanceAccountConditions(trans);
+
 					}
 				}
 
 			}
 
-			throw new SQLException("accountHolderConditions");
+			catch (SQLException e) {
+
+				throw new SQLException("accountHolderConditions");
+			}
+
+			return avlBalance;
 
 		}
 	}
@@ -82,14 +90,15 @@ public class TransactionDao {
 
 						avlBalance = rs.getDouble("avl_balance") + trans.getTransfer_amount();
 						System.out.println("remittanceAccountConditions true");
-						updateHolderAccount(trans);
-						return avlBalance;
 					}
 				}
 
+			} catch (SQLException e) {
+
+				throw new SQLException("remittanceAccountConditions");
 			}
 
-			throw new SQLException("remittanceAccountConditions");
+			return avlBalance;
 		}
 	}
 
@@ -101,12 +110,14 @@ public class TransactionDao {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				pst.setDouble(1, accountHolderConditions(trans));
+				holderBalance = accountHolderConditions(trans);
+				remittanceBalance = remittanceAccountConditions(trans);
+				pst.setDouble(1, holderBalance);
 				pst.setString(2, trans.getAccountHolderAccNo());
-				pst.executeQuery();
-				System.out.println("updateHolderAccount true");
 				updateRemittanceAccount(trans);
-				return true;
+				pst.executeUpdate();
+
+				System.out.println("updateHolderAccount true");
 			}
 		}
 
@@ -114,6 +125,8 @@ public class TransactionDao {
 
 			throw new SQLException("updateHolderAccount");
 		}
+
+		return true;
 
 	}
 
@@ -125,22 +138,22 @@ public class TransactionDao {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				pst.setDouble(1, remittanceAccountConditions(trans));
+				pst.setDouble(1, remittanceBalance);
 				pst.setString(2, trans.getRemittanceAccNo());
-				pst.executeQuery();
-				System.out.println("updateRemittanceAccount true");
+				pst.executeUpdate();
 				insertAccountHolderDetails(trans);
-				return true;
+				System.out.println("updateRemittanceAccount true");
+
 			}
 		} catch (SQLException e) {
 			throw new SQLException("updateRemittanceAccount");
 		}
-
+		return true;
 	}
 
 	public static boolean insertAccountHolderDetails(Transaction trans) throws SQLException {
 
-		String query = "INSERT INTO transactions VALUE(? , ? , ? , ? , ? , ? )";
+		String query = "INSERT INTO transactions (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -150,47 +163,49 @@ public class TransactionDao {
 				pst.setString(2, trans.getRemittanceAccNo());
 				pst.setString(3, "credited");
 				pst.setDouble(4, trans.getTransfer_amount());
-				pst.setDouble(5, accountHolderConditions(trans));
+				pst.setDouble(5, holderBalance);
 				pst.setString(6, trans.getRemark());
+				System.out.println(pst);
 				pst.executeUpdate();
 				System.out.println("insertAccountHolderDetails true");
 				insertRemittanceAccountDetails(trans);
-				return true;
 
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 
 			throw new SQLException("insertAccountHolderDetails");
 		}
 
+		return true;
 	}
-	
+
 	public static boolean insertRemittanceAccountDetails(Transaction trans) throws SQLException {
 
-		String query = "INSERT INTO transactions VALUE(? , ? , ? , ? , ? , ? )";
+		String query = "INSERT INTO transactions (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
 				pst.setString(1, trans.getRemittanceAccNo());
-				pst.setString(2, trans.getAccountHolderAccNo()); // 
+				pst.setString(2, trans.getAccountHolderAccNo());
 				pst.setString(3, "debited");
 				pst.setDouble(4, trans.getTransfer_amount());
-				pst.setDouble(5, remittanceAccountConditions(trans));
+				pst.setDouble(5, remittanceBalance);
 				pst.setString(6, trans.getRemark());
 				pst.executeUpdate();
 				System.out.println("insertRemittanceAccountDetails true");
 				System.out.println("Check DataBase");
-				return true;
 
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
 
 			throw new SQLException("insertRemittanceAccountDetails");
 		}
+
+		return true;
 
 	}
 
@@ -269,7 +284,7 @@ public class TransactionDao {
 //
 //				if (exits != true) {
 //
-//					throw new SQLException();
+//					throw new SQLException(); 
 //				}
 //
 //			}
@@ -282,8 +297,10 @@ public class TransactionDao {
 	public static void main(String[] args) throws SQLException {
 
 		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
+//		isActiveAccount("1234567890123456");
+		updateHolderAccount(trans);
 
-		accountHolderConditions(trans);
-		
+		System.out.println("Check db");
+
 	}
 }

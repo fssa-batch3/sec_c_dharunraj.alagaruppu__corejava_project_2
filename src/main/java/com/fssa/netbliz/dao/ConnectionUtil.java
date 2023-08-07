@@ -26,6 +26,9 @@ public class ConnectionUtil {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
+//			System.out.println(url);
+//			System.out.println(userName);
+//			System.out.println(passWord);
 			con = DriverManager.getConnection(url, userName, passWord);
 			System.out.println("Connection success");
 		} catch (Exception e) {
@@ -34,10 +37,8 @@ public class ConnectionUtil {
 		}
 		return con;
 	}
-
 	public static void main(String[] args) {
-		
-		Connection conn = getConnection();
+		getConnection();
 	}
 
 }

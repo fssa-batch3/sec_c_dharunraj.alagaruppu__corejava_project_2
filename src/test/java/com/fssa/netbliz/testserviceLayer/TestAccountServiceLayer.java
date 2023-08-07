@@ -3,6 +3,8 @@ package com.fssa.netbliz.testserviceLayer;
 import java.sql.SQLException;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+
+import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.serviceLayer.AccountServiceLayer;
@@ -38,7 +40,7 @@ public class TestAccountServiceLayer {
 
 	// Creating a new Account object with updated information.
 	@Test
-	public void testUpdateAccount() throws SQLException, AccountValidatorExceptions {
+	public void testUpdateAccount() throws SQLException, AccountValidatorExceptions, AccountDaoException {
 		Account account = new Account("1234567890123456", "IDIB000K132", "9361310511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.updateAccount(account));
@@ -46,7 +48,7 @@ public class TestAccountServiceLayer {
 
 	// Creating an Account object to check its existence.
 	@Test
-	public void testExitsCheck() throws SQLException, AccountValidatorExceptions { // before push change value
+	public void testExitsCheck() throws SQLException, AccountValidatorExceptions, AccountDaoException { // before push change value
 
 		Account account = new Account("5345678901234569", "IDIB000K132", "9361320516", 1000.0, "savings");
 
@@ -62,7 +64,7 @@ public class TestAccountServiceLayer {
 
 	// Asserting that retrieving all inactive account numbers should return true.
 	@Test
-	public void testGetAllInactiveAccountNumber() throws SQLException {
+	public void testGetAllInactiveAccountNumber() throws SQLException, AccountDaoException {
 		Assertions.assertTrue(AccountServiceLayer.getAllInactiveAccountNumber());
 	}
 
