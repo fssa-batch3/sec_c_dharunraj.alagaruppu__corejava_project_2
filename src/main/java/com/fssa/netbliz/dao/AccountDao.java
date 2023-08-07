@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.fssa.errors.AccountDaoErrors;
+import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
@@ -53,7 +54,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean updateAccount(Account account) throws SQLException, AccountValidatorExceptions {
+	public static boolean updateAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -71,9 +72,9 @@ public class AccountDao {
 
 				System.out.println("Updated your account successfully");
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) { 
 
-			throw new SQLException(AccountDaoErrors.INVALID_UPDATE, e.getMessage());
+			throw new AccountDaoException(AccountDaoErrors.INVALID_UPDATE);
 		}
 		return true;
 	}
