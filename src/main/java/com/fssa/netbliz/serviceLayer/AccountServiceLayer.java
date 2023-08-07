@@ -12,7 +12,7 @@ import com.fssa.netbliz.validator.AccountValidator;
  * This AccountServiceLayer is a class it's used to validate via validator method. It's working as a service layer of the account class.
  */
 
-public class AccountServiceLayer { 
+public class AccountServiceLayer {  
 
 	// Method to add an account to the database
 	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions {
@@ -112,7 +112,7 @@ public class AccountServiceLayer {
 		return false;
 	} 
 	
-//	public static boolean removeAccountByAccountNumber(Account account) throws SQLException, validatorExceptions {
+//	public static boolean removeAccountByAccountNumber(Account account) throws SQLException {
 //
 //		if (account == null) {
 //

@@ -16,7 +16,7 @@ public class ConnectionUtil {
 			url = System.getenv("DATABASE_HOST");
 			userName = System.getenv("DATABASE_USERNAME");
 			passWord = System.getenv("DATABASE_PASSWORD");
-		} else {
+		} else { 
 			Dotenv env = Dotenv.load();
 			url = env.get("DATABASE_HOST");
 			userName = env.get("DATABASE_USERNAME");
@@ -36,7 +36,8 @@ public class ConnectionUtil {
 	}
 
 	public static void main(String[] args) {
-		Connection c = getConnection();
+		
+		Connection conn = getConnection();
 	}
 
 }

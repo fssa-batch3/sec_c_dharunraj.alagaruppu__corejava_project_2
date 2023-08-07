@@ -103,7 +103,7 @@ public class AccountDao {
 				System.out.println("Account Added Successfully");
 				return (row > 0);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) { 
 
 			throw new SQLException(AccountDaoErrors.ERROR_ALREADY_EXITS, e.getMessage());
 		}

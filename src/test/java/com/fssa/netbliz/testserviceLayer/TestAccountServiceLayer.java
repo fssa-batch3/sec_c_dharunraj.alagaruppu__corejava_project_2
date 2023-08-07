@@ -1,10 +1,8 @@
 package com.fssa.netbliz.testserviceLayer;
 
 import java.sql.SQLException;
-
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.serviceLayer.AccountServiceLayer;
@@ -15,8 +13,8 @@ public class TestAccountServiceLayer {
 
 	// Creating a new valid Account object for testing.
 	@Test
-	public void testValidAddAccount() throws Exception {
-		Account account = new Account("1234567890123459", "IDIB000K132", "9361320511", 1000.0, "savings");
+	public void testValidAddAccount() throws Exception { // before push change value
+		Account account = new Account("4987654321123456", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
 	} 
@@ -48,28 +46,28 @@ public class TestAccountServiceLayer {
 
 	// Creating an Account object to check its existence.
 	@Test
-	public void testExitsCheck() throws SQLException, AccountValidatorExceptions {
+	public void testExitsCheck() throws SQLException, AccountValidatorExceptions { // before push change value
 
-		Account account = new Account("3987654321123456", "IDIB000K132", "9361320516", 1000.0, "savings");
+		Account account = new Account("2345678901234569", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
+	}
+
+	// Specifying the account number to remove.
+	@Test
+	public void testremoveAccountByAccountNumber() throws Exception {
+		String accountNumber = "2345678901234567";
+		Assertions.assertTrue(AccountServiceLayer.removeAccountByAccountNumber(accountNumber));
 	}
 
 	// Asserting that retrieving all inactive account numbers should return true.
 	@Test
 	public void testGetAllInactiveAccountNumber() throws SQLException {
 		Assertions.assertTrue(AccountServiceLayer.getAllInactiveAccountNumber());
-	} 
-
-	// Specifying the account number to remove.
-	@Test
-	public void testRemoveAccountByAccountNumber() throws Exception {
-		String accountNumber = "2345678901234561";
-		Assertions.assertTrue(AccountServiceLayer.removeAccountByAccountNumber(accountNumber));
 	}
 
 	@Test
-	public void testGetAllActiveAccountNumber() throws SQLException {
+	public void testgetAllActiveAccountNumber() throws SQLException {
 		Assertions.assertTrue(AccountServiceLayer.getAllActiveAccountNumber());
 	}
 }
