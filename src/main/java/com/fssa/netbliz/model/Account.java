@@ -65,12 +65,4 @@ public class Account {
 		this.typeOfAccount = typeOfAccount;
 	}
 
-//	public LocalDate getDateOfjoining() { 
-//	return dateOfjoining;
-//}
-//
-//public void setDateOfjoining() {
-//	this.dateOfjoining = LocalDate.now();
-//}
-
 }
