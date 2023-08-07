@@ -20,7 +20,7 @@ public class AccountDao {
 	 * give the result
 	 */
 
-	public static boolean getAccountByNumber(String accNo) throws SQLException { 
+	public static boolean getAccountByNumber(String accNo) throws  AccountDaoException { 
 
 		String query = "SELECT * FROM accounts WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
 
@@ -51,6 +51,11 @@ public class AccountDao {
 				}
 			}
 		}
+		
+		catch(SQLException e) {
+			
+			throw new AccountDaoException(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+		}
 		return true;
 	}
 
@@ -79,7 +84,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean addAccount(Account account) throws  AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -110,7 +115,7 @@ public class AccountDao {
 		}
 	}
 
-	public static boolean exitsCheck(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean exitsCheck(Account account) throws  AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -142,7 +147,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static ArrayList<String> getAllInactiveAccountNumber() throws SQLException, AccountDaoException {
+	public static ArrayList<String> getAllInactiveAccountNumber() throws  AccountDaoException {
 
 		final String query = "SELECT acc_no FROM accounts WHERE is_active = 0";
 
@@ -168,7 +173,7 @@ public class AccountDao {
 
 	}
 
-	public static boolean removeAccountByAccountNumber(String accNo) throws SQLException, AccountValidatorExceptions {
+	public static boolean removeAccountByAccountNumber(String accNo) throws  AccountValidatorExceptions , AccountDaoException {
 
 		AccountValidator.validateAccountNumber(accNo);
 
@@ -183,6 +188,10 @@ public class AccountDao {
 				System.out.println("Your account is removed successfully");
 
 			}
+		}
+		catch(SQLException e) {
+			throw new AccountDaoException(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 		return true;
 	}
@@ -206,7 +215,7 @@ public class AccountDao {
 //		System.out.println("Delete successful");
 //	}
 
-	public static ArrayList<String> getAllAccountNumber() throws SQLException {
+	public static ArrayList<String> getAllAccountNumber() throws  AccountDaoException {
 
 		final String query = "SELECT acc_no FROM accounts";
 
@@ -223,6 +232,11 @@ public class AccountDao {
 				}
 
 			}
+		}
+		
+		catch(SQLException e) {
+			
+			throw new AccountDaoException(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
 		}
 
 	}
