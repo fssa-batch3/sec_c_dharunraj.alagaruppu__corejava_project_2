@@ -10,7 +10,7 @@ import com.fssa.netbliz.model.Account;
 
 public class AccountValidator {
  
-	public static boolean validate(Account account) throws AccountValidatorExceptions {
+	public static boolean validate(Account account) throws AccountValidatorExceptions { 
 
 		if (account == null) {  
 

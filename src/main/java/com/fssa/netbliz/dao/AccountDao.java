@@ -79,7 +79,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions {
+	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -106,11 +106,11 @@ public class AccountDao {
 			}
 		} catch (SQLException e) { 
 
-			throw new SQLException(AccountDaoErrors.ERROR_ALREADY_EXITS, e.getMessage());
+			throw new AccountDaoException(AccountDaoErrors.ERROR_ALREADY_EXITS);
 		}
 	}
 
-	public static boolean exitsCheck(Account account) throws SQLException, AccountValidatorExceptions {
+	public static boolean exitsCheck(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -129,6 +129,11 @@ public class AccountDao {
 						return true;
 					} 
 				}
+				
+				catch(SQLException e) {
+					
+					throw new AccountDaoException(AccountDaoErrors.ERROR_ALREADY_EXITS);
+				}
 			}
 		}
 
@@ -137,7 +142,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static ArrayList<String> getAllInactiveAccountNumber() throws SQLException {
+	public static ArrayList<String> getAllInactiveAccountNumber() throws SQLException, AccountDaoException {
 
 		final String query = "SELECT acc_no FROM accounts WHERE is_active = 0";
 
@@ -154,6 +159,11 @@ public class AccountDao {
 				}
 
 			}
+		}
+		
+		catch(SQLException e) {
+			
+			throw new AccountDaoException(AccountDaoErrors.NO_INVALID_ACCOUNT);
 		}
 
 	}

@@ -10,5 +10,5 @@ public class AccountDaoException extends Exception {
 	public AccountDaoException(String msg) {
 
 		super(msg);
-	} 
+	}  
 }
