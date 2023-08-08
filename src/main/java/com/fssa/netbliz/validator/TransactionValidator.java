@@ -1,7 +1,7 @@
 package com.fssa.netbliz.validator;
 
-import com.fssa.errors.AccountValidatorErrors;
-import com.fssa.errors.TransactionValidatorErrors;
+import com.fssa.error.AccountValidatorErrors;
+import com.fssa.error.TransactionValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.exception.TransactionValidatorExceptions;
 import com.fssa.netbliz.model.Transaction;

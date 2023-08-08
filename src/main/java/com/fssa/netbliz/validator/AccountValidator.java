@@ -3,7 +3,7 @@ package com.fssa.netbliz.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fssa.errors.AccountValidatorErrors;
+import com.fssa.error.AccountValidatorErrors;
 import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;

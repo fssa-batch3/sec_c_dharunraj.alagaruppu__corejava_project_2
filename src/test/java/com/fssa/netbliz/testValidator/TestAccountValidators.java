@@ -3,7 +3,7 @@ package com.fssa.netbliz.testValidator;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import com.fssa.errors.AccountValidatorErrors;
+import com.fssa.error.AccountValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
