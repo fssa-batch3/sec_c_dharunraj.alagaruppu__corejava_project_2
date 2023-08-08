@@ -12,15 +12,16 @@ public class AccountValidator {
 	
 	public static final int ACCOUNT_NUMBER_LENGTH = 16;
 	public static final int PHONE_NUMBER_LENGTH = 10;
-	public static final double ABOVE_MINIMUM_BALANCE_RANGE= 500.0;
+	public static final double ABOVE_MINIMUM_BALANCE_RANGE= 500.0; 
 	public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
  
 	public static boolean validate(Account account) throws AccountValidatorExceptions { 
  
-		if (account == null) {   
+		if (account == null) {    
 
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_OBJECT_NULL); 
 		}
+		
 		validateAccountNumber(account.getAccountNumber());
 		validateIfsc(account.getIfsc());
 		validateMinimumBalance(account.getMinimumBalance());
@@ -49,7 +50,7 @@ public class AccountValidator {
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_LENGTH_ACCOUNTNUMBER);
 		}
 
-		String regexAccountNumber = "\\d{16}";
+		String regexAccountNumber = "\\d{16}"; 
 		Pattern pattern = Pattern.compile(regexAccountNumber); // compiles the given pattern
 		Matcher matcher = pattern.matcher(accountNumber); // matcher matches the given string with compiled pattern
 		Boolean isMatch = matcher.matches(); // give final output as true or false

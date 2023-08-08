@@ -8,24 +8,28 @@ import com.fssa.netbliz.model.Transaction;
 
 public class TransactionValidator {
 
+	public static final int MINIMUM_TRNASFER_AMOUNT = 1;
+
+	public static final int MAX_LENGTH_REMARK = 30; 
+
 	public static boolean validate(Transaction trans)
 			throws TransactionValidatorExceptions, AccountValidatorExceptions {
 
 		if (trans == null) {
 
-			throw new TransactionValidatorExceptions(AccountValidatorErrors.INVALID_OBJECT_NULL);
+			throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_OBJECT_NULL);
 		}
 		AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
 		AccountValidator.validateAccountNumber(trans.getRemittanceAccNo());
 		AccountValidator.validateIfsc(trans.getReceiverIfscCode());
 		validateAmount(trans.getTransfer_amount());
 		validateRemark(trans.getRemark());
-		return true; 
-	}   
+		return true;
+	}
 
 	public static boolean validateAmount(double amount) throws TransactionValidatorExceptions {
 
-		if (amount > 0) {
+		if (amount >= MINIMUM_TRNASFER_AMOUNT) {
 
 			return true;
 		}
@@ -35,7 +39,7 @@ public class TransactionValidator {
 
 	public static boolean validateRemark(String remark) throws TransactionValidatorExceptions {
 
-		if (remark.length() < 30) { 
+		if (remark.length() < MAX_LENGTH_REMARK) {
 
 			return true;
 		}

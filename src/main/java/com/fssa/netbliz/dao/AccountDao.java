@@ -12,18 +12,21 @@ import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
-public class AccountDao {
-
+public class AccountDao { 
+ 
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
-
+	public static final int ZERO = 0;
+	// DONE
 	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions {
+		
+		
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (Connection con = ConnectionUtil.getConnection()) { 
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, accNo);
@@ -58,7 +61,7 @@ public class AccountDao {
 		return true;
 
 	}
-
+	// DONE
 	public static boolean updateAccount(Account account) throws AccountValidatorExceptions {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
@@ -83,7 +86,7 @@ public class AccountDao {
 		}
 		return true;
 	}
-
+	// DONE
 	public static boolean addAccount(Account account) throws AccountValidatorExceptions {
 
 		AccountBalanceCreater ac = new AccountBalanceCreater();
@@ -106,7 +109,7 @@ public class AccountDao {
 
 				// Print confirmation and return true if insertion was successful
 				System.out.println("Account Added Successfully");
-				return (row > 0);
+				return (row > ZERO);
 			}
 		} catch (SQLException e) {
 
@@ -114,6 +117,7 @@ public class AccountDao {
 		}
 	}
 
+	// DONE
 	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
@@ -145,7 +149,7 @@ public class AccountDao {
 		addAccount(account);
 		return true;
 	}
-
+	// DONE
 	public static ArrayList<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
@@ -170,7 +174,7 @@ public class AccountDao {
 		}
 
 	}
-
+	// DONE
 	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions {
 
 		AccountValidator.validateAccountNumber(accNo);
@@ -237,7 +241,7 @@ public class AccountDao {
 
 	}
 
-// done
+	// DONE
 	public static ArrayList<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 1";

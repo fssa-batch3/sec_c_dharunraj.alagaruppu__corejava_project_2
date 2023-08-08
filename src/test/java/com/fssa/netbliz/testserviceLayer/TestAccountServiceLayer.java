@@ -9,8 +9,8 @@ import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.serviceLayer.AccountServiceLayer;
 
-public class TestAccountServiceLayer { 
-
+public class TestAccountServiceLayer {  
+ 
 	Account account = new Account();
 
 	// Creating a new valid Account object for testing.
@@ -20,8 +20,8 @@ public class TestAccountServiceLayer {
 		Account account = new Account("1214527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
-	} 
-
+	}  
+ 
 	// Specifying the account number to retrieve.
 	@Test
 	public void testGetAccountByNumber() throws Exception {

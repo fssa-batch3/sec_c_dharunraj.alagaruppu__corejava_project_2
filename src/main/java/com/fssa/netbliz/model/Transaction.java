@@ -23,7 +23,7 @@ public class Transaction {
 	}
 
 	public String getAccountHolderAccNo() {
-		return accountHolderAccNo;
+		return accountHolderAccNo; 
 	}
 
 	public void setAccountHolderAccNo(String accountHolderAccNo) {

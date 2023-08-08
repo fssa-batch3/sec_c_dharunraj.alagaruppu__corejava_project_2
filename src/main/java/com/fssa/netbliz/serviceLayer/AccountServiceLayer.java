@@ -12,8 +12,8 @@ import com.fssa.netbliz.validator.AccountValidator;
  * This AccountServiceLayer is a class it's used to validate via validator method. It's working as a service layer of the account class.
  */
 
-public class AccountServiceLayer { 
-
+public class AccountServiceLayer {   
+	public static final int ZERO = 0;
 	// Method to add an account to the database
 	public static boolean addAccount(Account account) throws AccountValidatorExceptions {
 
@@ -75,7 +75,7 @@ public class AccountServiceLayer {
 		ArrayList<String> list = AccountDao.getAllInactiveAccountNumber();
 
 		// If the list is not empty, return true (inactive accounts exist)
-		if (list.size() > 0) {
+		if (list.size() > ZERO) {
 			return true;
 		}
 
@@ -104,7 +104,7 @@ public class AccountServiceLayer {
 		ArrayList<String> list = AccountDao.getAllActiveAccountNumber();
 
 		// If the list is not empty, return true (active accounts exist)
-		if (list.size() > 0) {
+		if (list.size() > ZERO) {
 			return true;
 		}
 

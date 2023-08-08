@@ -28,7 +28,7 @@ public class TestTransactionValidators {
 		try {
 
 			TransactionValidator.validateAmount(0);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 
 			Assertions.assertEquals(TransactionValidatorErrors.INVALID_AMOUNT, e.getMessage());
 		}

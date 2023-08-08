@@ -9,10 +9,12 @@ import com.fssa.error.TransactionDaoErrors;
 import com.fssa.netbliz.exception.TransactionDaoException;
 import com.fssa.netbliz.model.Transaction;
 
-public class TransactionDao {
-
-	static double holderBalance = 0;
-	static double remittanceBalance = 0; 
+public class TransactionDao { 
+	
+	public static final int INITIALIZE_ZERO = 0; 
+ 
+	static double holderBalance = INITIALIZE_ZERO;
+	static double remittanceBalance = INITIALIZE_ZERO;   
 
 	public static boolean isActiveAccount(String holder) throws TransactionDaoException {
 
@@ -39,11 +41,11 @@ public class TransactionDao {
 		return false;
 	}
 
-	public static double accountHolderConditions(Transaction trans, Connection con) throws SQLException {
+	public static double accountHolderConditions(Transaction trans, Connection con) throws TransactionDaoException {
 
 		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
 
-		double avlBalance = 0;
+		double avlBalance = INITIALIZE_ZERO;
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 
@@ -65,18 +67,19 @@ public class TransactionDao {
 
 		catch (SQLException e) {
 
-			throw new SQLException("accountHolderConditions");
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 
 		return avlBalance;
 
 	}
 
-	public static double remittanceAccountConditions(Transaction trans, Connection con) throws SQLException {
+	public static double remittanceAccountConditions(Transaction trans, Connection con) throws TransactionDaoException {
 
 		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND ifsc = ? AND is_active = true";
 
-		double avlBalance = 0;
+		double avlBalance = INITIALIZE_ZERO;
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 
@@ -94,14 +97,15 @@ public class TransactionDao {
 
 		} catch (SQLException e) {
 
-			throw new SQLException("remittanceAccountConditions");
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 
 		return avlBalance;
 
 	}
 
-	public static boolean updateHolderAccount(Transaction trans) throws SQLException {
+	public static boolean updateHolderAccount(Transaction trans) throws TransactionDaoException {
 
 		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
@@ -122,14 +126,15 @@ public class TransactionDao {
 
 		catch (SQLException e) {
 
-			throw new SQLException("updateHolderAccount");
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 
 		return true;
 
 	}
 
-	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws SQLException {
+	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws TransactionDaoException {
 
 		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
@@ -141,13 +146,15 @@ public class TransactionDao {
 			insertAccountHolderDetails(trans, con);
 			System.out.println("updateRemittanceAccount true");
 
-		} catch (SQLException e) {
-			throw new SQLException("updateRemittanceAccount");
+		}catch (SQLException e) {
+
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 		return true;
 	}
 
-	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws SQLException {
+	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws TransactionDaoException {
 
 		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
@@ -159,7 +166,7 @@ public class TransactionDao {
 			pst.setDouble(4, trans.getTransfer_amount());
 			pst.setDouble(5, holderBalance);
 			pst.setString(6, trans.getRemark());
-			System.out.println(pst);
+//			System.out.println(pst);
 			pst.executeUpdate();
 			System.out.println("insertAccountHolderDetails true");
 			insertRemittanceAccountDetails(trans, con);
@@ -168,13 +175,14 @@ public class TransactionDao {
 
 		catch (SQLException e) {
 
-			throw new SQLException("insertAccountHolderDetails");
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 
 		return true;
 	}
 
-	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con) throws SQLException {
+	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con) throws TransactionDaoException {
 
 		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
@@ -194,7 +202,8 @@ public class TransactionDao {
 
 		catch (SQLException e) {
 
-			throw new SQLException("insertRemittanceAccountDetails");
+			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			
 		}
 
 		return true;
@@ -286,13 +295,11 @@ public class TransactionDao {
 //		return remittance;
 //	}
 
-	public static void main(String[] args) throws SQLException { 
-
-		Transaction trans = new Transaction("6987654321123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
-//		isActiveAccount("1234567890123456");
-		updateHolderAccount(trans);
-
-		System.out.println("Check db");
-
-	}
+//	public static void main(String[] args) throws SQLException { 
+//
+//		Transaction trans = new Transaction("6987654321123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
+////		isActiveAccount("1234567890123456");
+//		updateHolderAccount(trans);
+//
+//	}
 }
