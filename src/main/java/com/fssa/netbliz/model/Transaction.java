@@ -9,7 +9,7 @@ public class Transaction {
 	private String remark; 
 
 	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
-			double transfer_amount, String remark) { 
+			double transfer_amount, String remarks) { 
 
 		this.accountHolderAccNo = accountHolderAccNo;
 		this.remittanceAccNo = remittanceAccNo;

@@ -1,16 +1,12 @@
 package com.fssa.netbliz.validator;
 
-import com.fssa.error.AccountValidatorErrors;
-import com.fssa.error.TransactionValidatorErrors;
+import com.fssa.errors.AccountValidatorErrors;
+import com.fssa.errors.TransactionValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.exception.TransactionValidatorExceptions;
 import com.fssa.netbliz.model.Transaction;
 
 public class TransactionValidator {
-
-	public static final int REMARK_LENGTH = 30;
-
-	public static final int MINIMUM_TRANSFER_AMOUNT = 0;
 
 	public static boolean validate(Transaction trans)
 			throws TransactionValidatorExceptions, AccountValidatorExceptions {
@@ -29,7 +25,7 @@ public class TransactionValidator {
 
 	public static boolean validateAmount(double amount) throws TransactionValidatorExceptions {
 
-		if (amount > MINIMUM_TRANSFER_AMOUNT) {
+		if (amount > 0) {
 
 			return true;
 		}
@@ -39,7 +35,7 @@ public class TransactionValidator {
 
 	public static boolean validateRemark(String remark) throws TransactionValidatorExceptions {
 
-		if (remark.length() < REMARK_LENGTH) {
+		if (remark.length() < 30) {
 
 			return true;
 		}

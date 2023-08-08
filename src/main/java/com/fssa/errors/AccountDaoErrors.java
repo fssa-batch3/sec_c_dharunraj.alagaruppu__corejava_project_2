@@ -7,11 +7,5 @@ public interface AccountDaoErrors {
 
     // account already exists
     public static final String ERROR_ALREADY_EXITS = "The account is already exists";
-    
-    public static final String NO_INVALID_ACCOUNT = "No invalid account occour";
-    
-    public static final String INVALID_ACCOUNT_NUMBER = "Cann't fetch data";
-    
-    
 
 }

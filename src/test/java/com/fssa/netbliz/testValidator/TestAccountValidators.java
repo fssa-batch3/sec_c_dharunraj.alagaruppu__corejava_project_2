@@ -3,14 +3,14 @@ package com.fssa.netbliz.testValidator;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import com.fssa.error.AccountValidatorErrors;
+import com.fssa.errors.AccountValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
 public class TestAccountValidators {
 
-	Account account = new Account(); 
+	Account account = new Account();
 
 	/*
 	 * This method is going to validate the object is not a null.. The value is set
@@ -281,7 +281,7 @@ public class TestAccountValidators {
 	@Test
 	public void testValidType() throws AccountValidatorExceptions {
 
-		account.setCategory("savings");
+		account.setCategory("SAVINGS");
 		Assertions.assertTrue(AccountValidator.validateType(account.getCategory()));
 	}
 
@@ -291,7 +291,7 @@ public class TestAccountValidators {
 
 		try {
 
-			account.setCategory("salary");
+			account.setCategory("SALARYACCOUNT");
 			AccountValidator.validateType(account.getCategory());
 
 		} catch (Exception e) {

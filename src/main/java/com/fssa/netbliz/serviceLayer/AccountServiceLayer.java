@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.fssa.netbliz.dao.AccountDao;
-import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
@@ -13,11 +12,11 @@ import com.fssa.netbliz.validator.AccountValidator;
  * This AccountServiceLayer is a class it's used to validate via validator method. It's working as a service layer of the account class.
  */
 
-public class AccountServiceLayer {  
+public class AccountServiceLayer { 
 
 	// Method to add an account to the database
-	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
- 
+	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions {
+
 		// Validate the account using AccountValidator
 		if (AccountValidator.validate(account)) {
 
@@ -26,10 +25,10 @@ public class AccountServiceLayer {
 		}
 		// If validation fails, return false
 		return false;   
-	} 
+	}
 
 	// Method to retrieve an account by account number
-	public static boolean getAccountByNumber(String accountNumber) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean getAccountByNumber(String accountNumber) throws SQLException, AccountValidatorExceptions {
 
 		// Validate the account number using AccountValidator
 		if (AccountValidator.validateAccountNumber(accountNumber)) {
@@ -42,7 +41,7 @@ public class AccountServiceLayer {
 	}
 
 	// Method to update an account
-	public static boolean updateAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean updateAccount(Account account) throws SQLException, AccountValidatorExceptions {
 
 		// Validate the account using AccountValidator
 		if (AccountValidator.validate(account)) {
@@ -56,7 +55,7 @@ public class AccountServiceLayer {
 	}
 
 	// Method to check if an account exists
-	public static boolean exitsCheck(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean exitsCheck(Account account) throws SQLException, AccountValidatorExceptions {
 
 		// Validate the account using AccountValidator
 		if (AccountValidator.validate(account)) {
@@ -70,7 +69,7 @@ public class AccountServiceLayer {
 	}
 
 	// Method to check if there are inactive accounts and return true if found
-	public static boolean getAllInactiveAccountNumber() throws SQLException, AccountDaoException {
+	public static boolean getAllInactiveAccountNumber() throws SQLException {
 
 		// Call AccountDao to retrieve a list of inactive account numbers
 		ArrayList<String> list = AccountDao.getAllInactiveAccountNumber();
@@ -85,7 +84,7 @@ public class AccountServiceLayer {
 	}
 
 	// Method to remove an account by account number
-	public static boolean removeAccountByAccountNumber(String accountNumber) throws SQLException, AccountValidatorExceptions, AccountDaoException {
+	public static boolean removeAccountByAccountNumber(String accountNumber) throws SQLException, AccountValidatorExceptions {
 
 		// Validate the account number using AccountValidator
 		if (AccountValidator.validateAccountNumber(accountNumber)) {
@@ -113,7 +112,7 @@ public class AccountServiceLayer {
 		return false;
 	} 
 	
-//	public static boolean removeAccountByAccountNumber(Account account) throws SQLException {
+//	public static boolean removeAccountByAccountNumber(Account account) throws SQLException, validatorExceptions {
 //
 //		if (account == null) {
 //
