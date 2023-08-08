@@ -16,7 +16,7 @@ public class TestAccountServiceLayer {
 	// Creating a new valid Account object for testing.
 	@Test
 	public void testValidAddAccount() throws Exception {
-		Account account = new Account("1234567890123459", "IDIB000K132", "9361320511", 1000.0, "savings");
+		Account account = new Account("1234527890123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
 	} 

@@ -79,9 +79,8 @@ public class AccountDao {
 	}
 
 	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions {
-		// Validate the account using AccountValidator
-		AccountValidator.validate(account);
 
+		AccountBalanceCreater ac = new AccountBalanceCreater();
 		// SQL query to insert the account details into the database
 		final String query = "INSERT INTO accounts (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -93,7 +92,7 @@ public class AccountDao {
 				pst.setString(3, account.getPhoneNumber());
 				pst.setDouble(4, account.getMinimumBalance());
 				pst.setString(5, account.getCategory());
-				pst.setDouble(6, AccountBalanceCreater.randomBalance());
+				pst.setDouble(6, ac.randomBalance());
 				pst.setBoolean(7, true);
 
 				// Execute the insert query
