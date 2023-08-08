@@ -16,10 +16,10 @@ public class TestAccountServiceLayer {
 	// Creating a new valid Account object for testing.
 	@Test
 	public void testValidAddAccount() throws Exception { // before push change value
-		Account account = new Account("5987654321123456", "IDIB000K132", "9361320511", 1000.0, "savings");
+		Account account = new Account("8987654321103416", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
-	} 
+	}  
 
 	// Specifying the account number to retrieve.
 	@Test
@@ -27,7 +27,7 @@ public class TestAccountServiceLayer {
 
 		String accountNumber = "1234567890123456";
 
-		Assertions.assertTrue(AccountServiceLayer.getAccountByNumber(accountNumber));
+		Assertions.assertTrue(AccountServiceLayer.getAccountByNumber(accountNumber)); 
 	}
 
 	// Specifying an invalid account number to test retrieval failure.
@@ -50,7 +50,7 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testExitsCheck() throws SQLException, AccountValidatorExceptions, AccountDaoException { // before push change value
 
-		Account account = new Account("5345678901234569", "IDIB000K132", "9361320516", 1000.0, "savings");
+		Account account = new Account("4345678971231569", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
 	}

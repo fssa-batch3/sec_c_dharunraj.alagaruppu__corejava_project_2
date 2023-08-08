@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.fssa.errors.AccountDaoErrors;
+import com.fssa.error.AccountDaoErrors;
 import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
-public class AccountDao { 
+public class AccountDao {  
 
 	/*
 	 * This account is working for user get details by give the account and it's
@@ -22,7 +22,7 @@ public class AccountDao {
 
 	public static boolean getAccountByNumber(String accNo) throws  AccountValidatorExceptions, AccountDaoException, SQLException  { 
 
-		String query = "SELECT * FROM accounts WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
+		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
 
 		try (Connection con = ConnectionUtil.getConnection();
 
@@ -59,7 +59,7 @@ public class AccountDao {
 		AccountValidator.validate(account);
 
 		// SQL query to update the phone number of the account
-		final String query = "UPDATE accounts SET phone_number = ? WHERE acc_no = ?";
+		final String query = "UPDATE account SET phone_number = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -89,7 +89,7 @@ public class AccountDao {
 		}
 
 		// SQL query to insert the account details into the database
-		final String query = "INSERT INTO accounts (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		final String query = "INSERT INTO account (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection con = ConnectionUtil.getConnection()) { 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -121,11 +121,11 @@ public class AccountDao {
 
 		// Retrieve a list of all inactive account numbers
 		ArrayList<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
-		// Check if the provided account number is in the list of inactive accounts
+		// Check if the provided account number is in the list of inactive account
 		for (String inactiveAccNumber : inactiveAccountNumbers) {
 			if (inactiveAccNumber.equals(account.getAccountNumber())) {
 				// Update the account status to active in the database
-				String query = "UPDATE accounts SET is_active = 1 WHERE acc_no = ?";
+				String query = "UPDATE account SET is_active = 1 WHERE acc_no = ?";
 				try (Connection con = ConnectionUtil.getConnection()) {
 					try (PreparedStatement pst = con.prepareStatement(query)) {
 						pst.setString(1, account.getAccountNumber());
@@ -142,14 +142,14 @@ public class AccountDao {
 			}
 		}
 
-		// If the account is not found among inactive accounts, add it as a new account
+		// If the account is not found among inactive account, add it as a new account
 		addAccount(account);
 		return true;
 	}
 
 	public static ArrayList<String> getAllInactiveAccountNumber() throws  AccountDaoException {
 
-		final String query = "SELECT acc_no FROM accounts WHERE is_active = 0";
+		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
 		ArrayList<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -177,7 +177,7 @@ public class AccountDao {
 
 		AccountValidator.validateAccountNumber(accNo);
 
-		String query = "UPDATE accounts SET is_active = 0 WHERE acc_no = ?";
+		String query = "UPDATE account SET is_active = 0 WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -198,7 +198,7 @@ public class AccountDao {
 
 //	public static void deleteAccount(String accNo) throws SQLException {
 //		int rs = 0;
-//		final String query = "DELETE FROM accounts WHERE acc_no = ?";
+//		final String query = "DELETE FROM account WHERE acc_no = ?";
 //
 //		try (Connection con = ConnectionUtil.getConnection()) {
 //			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -217,7 +217,7 @@ public class AccountDao {
 
 	public static ArrayList<String> getAllAccountNumber() throws  AccountDaoException {
 
-		final String query = "SELECT acc_no FROM accounts";
+		final String query = "SELECT acc_no FROM account";
 
 		ArrayList<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -244,7 +244,7 @@ public class AccountDao {
 // done
 	public static ArrayList<String> getAllActiveAccountNumber() throws SQLException {
 
-		final String query = "SELECT acc_no FROM accounts WHERE is_active = 1";
+		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
 
 		ArrayList<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {

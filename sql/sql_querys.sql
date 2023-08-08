@@ -1,5 +1,4 @@
-CREATE DATABASE netbliz;
-USE netbliz;
+
 
 CREATE TABLE IF NOT EXISTS customers (
 id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -14,7 +13,7 @@ SELECT * FROM customers;
 
 -- Account module table
 -- TINY INT 
-CREATE TABLE IF NOT EXISTS accounts (
+CREATE TABLE IF NOT EXISTS account (
 	acc_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 	acc_no VARCHAR(16) NOT NULL UNIQUE,
     ifsc VARCHAR(11) NOT NULL,
@@ -26,10 +25,10 @@ CREATE TABLE IF NOT EXISTS accounts (
     is_active BOOLEAN NOT NULL 
 );
 
-SELECT * FROM accounts;
-DESCRIBE accounts;
+SELECT * FROM account;
+DESCRIBE account;
 
-CREATE TABLE IF NOT EXISTS transactions(
+CREATE TABLE IF NOT EXISTS transaction(
 
 trans_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 acc_holder VARCHAR(16) NOT NULL,
@@ -40,48 +39,49 @@ avl_balance DOUBLE NOT NULL,
 paid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 debited_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 remarks VARCHAR(30) NULL,
-FOREIGN KEY (acc_holder) REFERENCES accounts(acc_no)
+FOREIGN KEY (acc_holder) REFERENCES account(acc_no)
 );
 
-SELECT * FROM transactions;
--- drop table transactions;
- DESCRIBE transactions;
+SELECT * FROM transaction;
+-- drop table transaction;
+ DESCRIBE transaction;
  
  /*
   * AccountDao layer using querys
   */
  
- 	String query = "SELECT * FROM accounts WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
+ 	String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection 
  	
- 	final String query = "UPDATE accounts SET phone_number = ? WHERE acc_no = ?";
+ 	final String query = "UPDATE account SET phone_number = ? WHERE acc_no = ?";
  	
- 	final String query = "INSERT INTO accounts (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
+ 	final String query = "INSERT INTO account (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-		final String query = "SELECT acc_no FROM accounts WHERE is_active = 0";
+		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 		
-		String query = "UPDATE accounts SET is_active = 0 WHERE acc_no = ?";
+		String query = "UPDATE account SET is_active = 0 WHERE acc_no = ?";
 		
-		final String query = "SELECT acc_no FROM accounts";
+		final String query = "SELECT acc_no FROM account";
 		
-		final String query = "SELECT acc_no FROM accounts WHERE is_active = 1";
+		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
 		
   /*
   * TransactionDao layer using querys
   */
 		
-	String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true";
+	String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 	
-	String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
+	String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
 
-	String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = true";
+	String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND ifsc = ? AND is_active = true";
 
-	String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+	String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
-	String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+	String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
-	String query = "INSERT INTO transactions VALUE(? , ? , ? , ? , ? , ? )";
+	String query = "INSERT INTO transaction VALUE(? , ? , ? , ? , ? , ? )";
 
-	String query = "INSERT INTO transactions VALUE(? , ? , ? , ? , ? , ? )";
+	String query = "INSERT INTO transaction VALUE(? , ? , ? , ? , ? , ? )";
 
-						
+		ALTER TABLE transactions
+        RENAME TO transaction;				
  

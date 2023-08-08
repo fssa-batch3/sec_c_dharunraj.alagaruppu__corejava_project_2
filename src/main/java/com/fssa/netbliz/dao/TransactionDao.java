@@ -15,7 +15,7 @@ public class TransactionDao {
 
 	public static boolean isActiveAccount(String holder) throws SQLException {
 
-		String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true";
+		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -31,13 +31,13 @@ public class TransactionDao {
 				}
 
 			}
-		}
+		} 
 		return false;
 	}
 
 	public static double accountHolderConditions(Transaction trans) throws SQLException {
 
-		String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
+		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
 
 		double avlBalance = 0;
 
@@ -73,7 +73,7 @@ public class TransactionDao {
 
 	public static double remittanceAccountConditions(Transaction trans) throws SQLException {
 
-		String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = true";
+		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND ifsc = ? AND is_active = true";
 
 		double avlBalance = 0;
 
@@ -104,7 +104,7 @@ public class TransactionDao {
 
 	public static boolean updateHolderAccount(Transaction trans) throws SQLException {
 
-		String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -132,7 +132,7 @@ public class TransactionDao {
 
 	public static boolean updateRemittanceAccount(Transaction trans) throws SQLException {
 
-		String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -153,7 +153,7 @@ public class TransactionDao {
 
 	public static boolean insertAccountHolderDetails(Transaction trans) throws SQLException {
 
-		String query = "INSERT INTO transactions (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
+		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -182,7 +182,7 @@ public class TransactionDao {
 
 	public static boolean insertRemittanceAccountDetails(Transaction trans) throws SQLException {
 
-		String query = "INSERT INTO transactions (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
+		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -211,7 +211,7 @@ public class TransactionDao {
 
 //	public static void readAccountDetails(Transaction trans) throws SQLException {
 //
-//		String query = "SELECT acc_no,avl_balance FROM accounts WHERE acc_no = ? AND is_active = true";
+//		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 //
 //		try (Connection con = ConnectionUtil.getConnection()) {
 //
