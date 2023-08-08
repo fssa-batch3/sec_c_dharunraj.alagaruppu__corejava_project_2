@@ -21,7 +21,7 @@ public class ConnectionUtil {
 			url = env.get("DATABASE_HOST");
 			userName = env.get("DATABASE_USERNAME");
 			passWord = env.get("DATABASE_PASSWORD");
-			System.out.println("env success");
+			System.out.println("env success"); 
 		}
 
 		try {
@@ -29,7 +29,6 @@ public class ConnectionUtil {
 			con = DriverManager.getConnection(url, userName, passWord);
 			System.out.println("Connection success");
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Unable to connect to the database");
 		}
 		return con;

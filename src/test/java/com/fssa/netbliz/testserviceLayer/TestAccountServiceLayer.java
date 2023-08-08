@@ -50,14 +50,14 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testExitsCheck() throws SQLException, AccountValidatorExceptions {
 
-		Account account = new Account("3987654321123456", "IDIB000K132", "9361320516", 1000.0, "savings");
+		Account account = new Account("3987654311123456", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
 	}
 
 	// Asserting that retrieving all inactive account numbers should return true.
 	@Test
-	public void testGetAllInactiveAccountNumber() throws SQLException {
+	public void testGetAllInactiveAccountNumber() throws SQLException, AccountValidatorExceptions {
 		Assertions.assertTrue(AccountServiceLayer.getAllInactiveAccountNumber());
 	} 
 
@@ -69,7 +69,7 @@ public class TestAccountServiceLayer {
 	}
 
 	@Test
-	public void testGetAllActiveAccountNumber() throws SQLException {
+	public void testGetAllActiveAccountNumber() throws SQLException, AccountValidatorExceptions {
 		Assertions.assertTrue(AccountServiceLayer.getAllActiveAccountNumber());
 	}
 }

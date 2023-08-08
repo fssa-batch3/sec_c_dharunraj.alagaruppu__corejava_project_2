@@ -15,9 +15,9 @@ public class TransactionDao {
 	static double remittanceBalance = 0;
 
 	public static boolean isActiveAccount(String holder) throws TransactionDaoException {
- 
-		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 
+		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
+ 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -39,71 +39,66 @@ public class TransactionDao {
 		return false;
 	}
 
-	public static double accountHolderConditions(Transaction trans) throws SQLException {
+	public static double accountHolderConditions(Transaction trans, Connection con) throws SQLException {
 
 		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
 
 		double avlBalance = 0;
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			try (PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setString(1, trans.getAccountHolderAccNo());
+			pst.setDouble(2, trans.getTransfer_amount());
 
-				pst.setString(1, trans.getAccountHolderAccNo());
-				pst.setDouble(2, trans.getTransfer_amount());
+			try (ResultSet rs = pst.executeQuery()) {
 
-				try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
 
-					while (rs.next()) {
-
-						avlBalance = rs.getDouble("avl_balance") - trans.getTransfer_amount();
-						System.out.println("accountHolderConditions true");
+					avlBalance = rs.getDouble("avl_balance") - trans.getTransfer_amount();
+					System.out.println("accountHolderConditions true");
 //						remittanceAccountConditions(trans);
 
-					}
 				}
-
 			}
-
-			catch (SQLException e) {
-
-				throw new SQLException("accountHolderConditions");
-			}
-
-			return avlBalance;
 
 		}
+
+		catch (SQLException e) {
+
+			throw new SQLException("accountHolderConditions");
+		}
+
+		return avlBalance;
+
 	}
 
-	public static double remittanceAccountConditions(Transaction trans) throws SQLException {
+	public static double remittanceAccountConditions(Transaction trans, Connection con) throws SQLException {
 
 		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND ifsc = ? AND is_active = true";
 
 		double avlBalance = 0;
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			try (PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setString(1, trans.getRemittanceAccNo());
+			pst.setString(2, trans.getReceiverIfscCode());
 
-				pst.setString(1, trans.getRemittanceAccNo());
-				pst.setString(2, trans.getReceiverIfscCode());
+			try (ResultSet rs = pst.executeQuery()) {
 
-				try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
 
-					while (rs.next()) {
-
-						avlBalance = rs.getDouble("avl_balance") + trans.getTransfer_amount();
-						System.out.println("remittanceAccountConditions true");
-					}
+					avlBalance = rs.getDouble("avl_balance") + trans.getTransfer_amount();
+					System.out.println("remittanceAccountConditions true");
 				}
-
-			} catch (SQLException e) {
-
-				throw new SQLException("remittanceAccountConditions");
 			}
 
-			return avlBalance;
+		} catch (SQLException e) {
+
+			throw new SQLException("remittanceAccountConditions");
 		}
+
+		return avlBalance;
+
 	}
 
 	public static boolean updateHolderAccount(Transaction trans) throws SQLException {
@@ -114,12 +109,12 @@ public class TransactionDao {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				holderBalance = accountHolderConditions(trans);
-				remittanceBalance = remittanceAccountConditions(trans);
+				holderBalance = accountHolderConditions(trans, con);
+				remittanceBalance = remittanceAccountConditions(trans, con);
 				pst.setDouble(1, holderBalance);
 				pst.setString(2, trans.getAccountHolderAccNo());
-				updateRemittanceAccount(trans);
 				pst.executeUpdate();
+				updateRemittanceAccount(trans, con);
 
 				System.out.println("updateHolderAccount true");
 			}
@@ -134,49 +129,44 @@ public class TransactionDao {
 
 	}
 
-	public static boolean updateRemittanceAccount(Transaction trans) throws SQLException {
+	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws SQLException {
 
 		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			try (PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setDouble(1, remittanceBalance);
+			pst.setString(2, trans.getRemittanceAccNo());
+			pst.executeUpdate();
+			insertAccountHolderDetails(trans, con);
+			System.out.println("updateRemittanceAccount true");
 
-				pst.setDouble(1, remittanceBalance);
-				pst.setString(2, trans.getRemittanceAccNo());
-				pst.executeUpdate();
-				insertAccountHolderDetails(trans);
-				System.out.println("updateRemittanceAccount true");
-
-			}
 		} catch (SQLException e) {
 			throw new SQLException("updateRemittanceAccount");
 		}
 		return true;
 	}
 
-	public static boolean insertAccountHolderDetails(Transaction trans) throws SQLException {
+	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws SQLException {
 
 		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			try (PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setString(1, trans.getAccountHolderAccNo());
+			pst.setString(2, trans.getRemittanceAccNo());
+			pst.setString(3, "credited");
+			pst.setDouble(4, trans.getTransfer_amount());
+			pst.setDouble(5, holderBalance);
+			pst.setString(6, trans.getRemark());
+			System.out.println(pst);
+			pst.executeUpdate();
+			System.out.println("insertAccountHolderDetails true");
+			insertRemittanceAccountDetails(trans, con);
 
-				pst.setString(1, trans.getAccountHolderAccNo());
-				pst.setString(2, trans.getRemittanceAccNo());
-				pst.setString(3, "credited");
-				pst.setDouble(4, trans.getTransfer_amount());
-				pst.setDouble(5, holderBalance);
-				pst.setString(6, trans.getRemark());
-				System.out.println(pst);
-				pst.executeUpdate();
-				System.out.println("insertAccountHolderDetails true");
-				insertRemittanceAccountDetails(trans);
+		}
 
-			}
-
-		} catch (SQLException e) {
+		catch (SQLException e) {
 
 			throw new SQLException("insertAccountHolderDetails");
 		}
@@ -184,27 +174,25 @@ public class TransactionDao {
 		return true;
 	}
 
-	public static boolean insertRemittanceAccountDetails(Transaction trans) throws SQLException {
+	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con) throws SQLException {
 
 		String query = "INSERT INTO transaction (acc_holder,remittance,trans_status,trans_amount,avl_balance,remark ) VALUES (? , ? , ? , ? , ? , ? )";
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		try (PreparedStatement pst = con.prepareStatement(query)) {
 
-			try (PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setString(1, trans.getRemittanceAccNo());
+			pst.setString(2, trans.getAccountHolderAccNo());
+			pst.setString(3, "debited");
+			pst.setDouble(4, trans.getTransfer_amount());
+			pst.setDouble(5, remittanceBalance);
+			pst.setString(6, trans.getRemark());
+			pst.executeUpdate();
+			System.out.println("insertRemittanceAccountDetails true");
+			System.out.println("Check DataBase");
 
-				pst.setString(1, trans.getRemittanceAccNo());
-				pst.setString(2, trans.getAccountHolderAccNo());
-				pst.setString(3, "debited");
-				pst.setDouble(4, trans.getTransfer_amount());
-				pst.setDouble(5, remittanceBalance);
-				pst.setString(6, trans.getRemark());
-				pst.executeUpdate();
-				System.out.println("insertRemittanceAccountDetails true");
-				System.out.println("Check DataBase");
+		}
 
-			}
-
-		} catch (SQLException e) {
+		catch (SQLException e) {
 
 			throw new SQLException("insertRemittanceAccountDetails");
 		}
@@ -300,7 +288,7 @@ public class TransactionDao {
 
 	public static void main(String[] args) throws SQLException {
 
-		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
+		Transaction trans = new Transaction("6987654321123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
 //		isActiveAccount("1234567890123456");
 		updateHolderAccount(trans);
 

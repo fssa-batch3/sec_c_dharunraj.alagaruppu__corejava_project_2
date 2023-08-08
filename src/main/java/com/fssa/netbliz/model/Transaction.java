@@ -15,7 +15,7 @@ public class Transaction {
 		this.remittanceAccNo = remittanceAccNo;
 		this.receiverIfscCode = receiverIfscCode;
 		this.transfer_amount = transfer_amount;
-		this.remark = remark;
+		this.remark = remark; 
 	}
 
 	public Transaction() {

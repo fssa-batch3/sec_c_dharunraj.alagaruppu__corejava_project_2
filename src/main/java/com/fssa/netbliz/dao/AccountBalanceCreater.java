@@ -5,13 +5,12 @@ import java.util.Random;
 public class AccountBalanceCreater {
 	private Random random = new Random();
 	public  double randomBalance() {
-		int min = 500;
-		int max = 10000;
+		double min = 500.0;
+		double max = 20000.0; 
 
-		double randomNumber = this.random.nextInt(max - min) + min;
+		double randomNumber = this.random.nextDouble(max - min) + min;
 
-//		System.out.println("Random number between 500 and 25000: " + randomNumber);
 		return randomNumber;
 
-	}
+	} 
 }
