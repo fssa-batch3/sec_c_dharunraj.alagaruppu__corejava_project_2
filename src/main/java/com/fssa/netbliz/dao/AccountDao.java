@@ -54,9 +54,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean updateAccount(Account account) throws AccountValidatorExceptions, AccountDaoException {
-		// Validate the account using AccountValidator
-		AccountValidator.validate(account);
+	public static boolean updateAccount(Account account) throws AccountDaoException {
 
 		// SQL query to update the phone number of the account
 		final String query = "UPDATE account SET phone_number = ? WHERE acc_no = ?";
@@ -81,12 +79,7 @@ public class AccountDao {
 
 	public static boolean addAccount(Account account) throws AccountDaoException {
 		// Validate the account using AccountValidator
-		try {
-			AccountValidator.validate(account);
-		} catch (AccountValidatorExceptions e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+		
 
 		// SQL query to insert the account details into the database
 		final String query = "INSERT INTO account (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -117,7 +110,6 @@ public class AccountDao {
 
 	public static boolean exitsCheck(Account account) throws  AccountValidatorExceptions, AccountDaoException {
 		// Validate the account using AccountValidator
-		AccountValidator.validate(account);
 
 		// Retrieve a list of all inactive account numbers
 		ArrayList<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
@@ -175,7 +167,7 @@ public class AccountDao {
 
 	public static boolean removeAccountByAccountNumber(String accNo) throws  AccountValidatorExceptions , AccountDaoException {
 
-		AccountValidator.validateAccountNumber(accNo);
+//		AccountValidator.validateAccountNumber(accNo);
 
 		String query = "UPDATE account SET is_active = 0 WHERE acc_no = ?";
 
@@ -254,7 +246,7 @@ public class AccountDao {
 				try (ResultSet rs = pst.executeQuery(query)) {
 					while (rs.next()) {
 						list.add(rs.getString("acc_no"));
-					}
+					} 
 					return list;
 				}
 

@@ -17,7 +17,7 @@ public class AccountServiceLayer {
 
 	// Method to add an account to the database
 	public static boolean addAccount(Account account) throws SQLException, AccountValidatorExceptions, AccountDaoException {
-
+ 
 		// Validate the account using AccountValidator
 		if (AccountValidator.validate(account)) {
 
