@@ -12,7 +12,7 @@ import com.fssa.netbliz.model.Transaction;
 public class TransactionDao {
 
 	static double holderBalance = 0;
-	static double remittanceBalance = 0;
+	static double remittanceBalance = 0; 
 
 	public static boolean isActiveAccount(String holder) throws TransactionDaoException {
 
@@ -286,7 +286,7 @@ public class TransactionDao {
 //		return remittance;
 //	}
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException { 
 
 		Transaction trans = new Transaction("6987654321123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
 //		isActiveAccount("1234567890123456");

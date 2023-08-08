@@ -9,14 +9,15 @@ import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.serviceLayer.AccountServiceLayer;
 
-public class TestAccountServiceLayer {
+public class TestAccountServiceLayer { 
 
 	Account account = new Account();
 
 	// Creating a new valid Account object for testing.
 	@Test
-	public void testValidAddAccount() throws Exception {
-		Account account = new Account("1234527890123459", "IDIB000K132", "9361320511", 1000.0, "savings");
+	public void testValidAddAccount() throws Exception { // before commit update the new account number 
+
+		Account account = new Account("1214527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
 	} 
@@ -34,7 +35,7 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testInvalidGetAccountByNumber() throws Exception {
 		String accountNumber = "1134567091123458";
-
+ 
 		Assertions.assertTrue(AccountServiceLayer.getAccountByNumber(accountNumber));
 	}
 
@@ -48,9 +49,9 @@ public class TestAccountServiceLayer {
 
 	// Creating an Account object to check its existence.
 	@Test
-	public void testExitsCheck() throws SQLException, AccountValidatorExceptions {
+	public void testExitsCheck() throws SQLException, AccountValidatorExceptions { // before commit update the new account number 
 
-		Account account = new Account("3987654311123456", "IDIB000K132", "9361320516", 1000.0, "savings");
+		Account account = new Account("3927651311123456", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
 	}

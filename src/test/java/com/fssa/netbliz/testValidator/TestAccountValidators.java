@@ -9,21 +9,21 @@ import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
 public class TestAccountValidators {
-
-	Account account = new Account();
-
+ 
+	Account account = new Account(); 
+ 
 	/*
 	 * This method is going to validate the object is not a null.. The value is set
 	 * through the constructor of the object.. And this method is set the correct to
 	 * the attributes..
 	 * 
 	 */
-
+ 
 	@Test
 
-	public void testValidObject() throws AccountValidatorExceptions {
+	public void testValidObject() throws AccountValidatorExceptions { 
 
-		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, "savings");
+		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, "savings"); 
 
 		Assertions.assertTrue(AccountValidator.validate(account));
 	}

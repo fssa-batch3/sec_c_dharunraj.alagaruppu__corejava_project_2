@@ -7,5 +7,5 @@ public class TransactionValidatorExceptions extends Exception {
 	public TransactionValidatorExceptions(String msg) {
 
 		super(msg);
-	}
+	} 
 }

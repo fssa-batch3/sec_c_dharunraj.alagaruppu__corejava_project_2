@@ -50,7 +50,7 @@ public class Transaction {
 		return transfer_amount;
 	}
 
-	public void setTransfer_amount(double transfer_amount) {
+	public void setTransfer_amount(double transfer_amount) {   
 		this.transfer_amount = transfer_amount;
 	}
 
@@ -58,8 +58,8 @@ public class Transaction {
 		return remark;
 	}
 
-	public void setRemark(String remarks) {
-		this.remark = remarks;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

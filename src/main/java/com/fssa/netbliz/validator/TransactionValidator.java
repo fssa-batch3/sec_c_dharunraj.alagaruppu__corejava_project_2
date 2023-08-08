@@ -20,8 +20,8 @@ public class TransactionValidator {
 		AccountValidator.validateIfsc(trans.getReceiverIfscCode());
 		validateAmount(trans.getTransfer_amount());
 		validateRemark(trans.getRemark());
-		return true;
-	}
+		return true; 
+	}   
 
 	public static boolean validateAmount(double amount) throws TransactionValidatorExceptions {
 
@@ -35,7 +35,7 @@ public class TransactionValidator {
 
 	public static boolean validateRemark(String remark) throws TransactionValidatorExceptions {
 
-		if (remark.length() < 30) {
+		if (remark.length() < 30) { 
 
 			return true;
 		}
