@@ -2,6 +2,7 @@ package com.fssa.netbliz.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import com.fssa.netbliz.exception.DaoException;
 
@@ -38,6 +39,7 @@ public class ConnectionUtil {
 		} catch (Exception e) {
 			throw new DaoException("Unable to connect to the database");
 		}
+		
 		return con;
 	}
 
