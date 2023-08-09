@@ -291,7 +291,7 @@ public class TestAccountValidators {
 
 		try {
 
-			account.setCategory("SALARYACCOUNT");
+			account.setCategory("SALARY");
 			AccountValidator.validateType(account.getCategory());
 
 		} catch (Exception e) {

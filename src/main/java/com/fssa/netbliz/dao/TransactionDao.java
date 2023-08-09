@@ -213,7 +213,7 @@ public class TransactionDao {
 
 	}
 
-	public static List listTransaction(String accNo) throws SQLException {
+	public static List<Object> listTransaction(String accNo) throws SQLException {
 
 		ArrayList list = new ArrayList();
 
@@ -228,15 +228,39 @@ public class TransactionDao {
 
 				try (ResultSet rs = pst.executeQuery()) {
 
-					while(rs.next()) {
+					while (rs.next()) {
+
+						Transaction trans = new Transaction();
 						
-					list.add(rs.getString("acc_holder"));
+						trans.setAccountHolderAccNo(rs.getString("acc_holder"));
+						trans.setRemittanceAccNo(rs.getString("remittance"));
+						trans.setTransfer_amount(rs.getDouble("trans_amount"));
+						trans.setRemark(rs.getString("remark"));
 					
+//						rs.getString("trans_status"));
+//						rs.getDouble("trans_amount"));
+//					rs.getDouble("avl_balance"));
+//						rs.getTimestamp("paid_time"));
+//					rs.getTimestamp("debited_time"));
+						list.add(trans);
+
 					}
 				}
 			}
 		}
 		return list;
+	}
+
+	public static boolean printTransactions(String accNo) throws SQLException {
+
+		List transList = listTransaction(accNo);
+
+		for (Object list : transList) {
+
+			System.out.println(list);
+		}
+
+		return true;
 	}
 
 //	public static void readAccountDetails(Transaction trans) throws SQLException {
@@ -328,9 +352,9 @@ public class TransactionDao {
 
 		Transaction trans = new Transaction("6987654321123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
 //		isActiveAccount("1234567890123456");
-	//	updateHolderAccount(trans);
+		// updateHolderAccount(trans);
 
-		// listTransaction("1234567890123456");
-	
+		printTransactions("1234567890123456");
+
 	}
 }

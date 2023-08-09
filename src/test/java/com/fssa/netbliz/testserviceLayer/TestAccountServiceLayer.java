@@ -17,7 +17,7 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testValidAddAccount() throws Exception { // before commit update the new account number 
 
-		Account account = new Account("1214527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
+		Account account = new Account("1814527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
 	}  
@@ -51,7 +51,7 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testExitsCheck() throws SQLException, AccountValidatorExceptions { // before commit update the new account number 
 
-		Account account = new Account("3927651311123456", "IDIB000K132", "9361320516", 1000.0, "savings");
+		Account account = new Account("4927651311123456", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
 	}

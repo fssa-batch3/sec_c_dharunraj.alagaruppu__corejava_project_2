@@ -120,8 +120,6 @@ public class AccountDao {
 
 	// DONE
 	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions {
-		// Validate the account using AccountValidator
-		AccountValidator.validate(account);
 
 		// Retrieve a list of all inactive account numbers
 		List<String> inactiveAccountNumbers = getAllInactiveAccountNumber();

@@ -10,8 +10,7 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<sonar.projectKey>
-			fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2</sonar.projectKey>
+		<sonar.projectKey>fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2</sonar.projectKey>
 		<sonar.organization>fssa-batch3</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
