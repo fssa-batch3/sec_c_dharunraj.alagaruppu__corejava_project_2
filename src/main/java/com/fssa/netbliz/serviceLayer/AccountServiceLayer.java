@@ -1,7 +1,5 @@
 package com.fssa.netbliz.serviceLayer;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.fssa.netbliz.dao.AccountDao;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
@@ -72,7 +70,7 @@ public class AccountServiceLayer {
 	public static boolean getAllInactiveAccountNumber() throws AccountValidatorExceptions {
 
 		// Call AccountDao to retrieve a list of inactive account numbers
-		ArrayList<String> list = AccountDao.getAllInactiveAccountNumber();
+		List<String> list = AccountDao.getAllInactiveAccountNumber();
 
 		// If the list is not empty, return true (inactive accounts exist)
 		if (list.size() > ZERO) {
@@ -101,7 +99,7 @@ public class AccountServiceLayer {
 	public static boolean getAllActiveAccountNumber() throws AccountValidatorExceptions {
 
 		// Call AccountDao to retrieve a list of active account numbers
-		ArrayList<String> list = AccountDao.getAllActiveAccountNumber();
+		List<String> list = AccountDao.getAllActiveAccountNumber();
 
 		// If the list is not empty, return true (active accounts exist)
 		if (list.size() > ZERO) {

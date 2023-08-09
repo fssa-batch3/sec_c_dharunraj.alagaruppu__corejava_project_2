@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fssa.error.AccountDaoErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
@@ -123,7 +124,7 @@ public class AccountDao {
 		AccountValidator.validate(account);
 
 		// Retrieve a list of all inactive account numbers
-		ArrayList<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
+		List<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
 		// Check if the provided account number is in the list of inactive account
 		for (String inactiveAccNumber : inactiveAccountNumbers) {
 			if (inactiveAccNumber.equals(account.getAccountNumber())) {
@@ -150,11 +151,11 @@ public class AccountDao {
 		return true;
 	}
 	// DONE
-	public static ArrayList<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions {
+	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
-		ArrayList<String> list = new ArrayList<String>();
+	 List<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (Statement pst = con.createStatement()) {
@@ -216,11 +217,11 @@ public class AccountDao {
 //		System.out.println("Delete successful");
 //	}
 
-	public static ArrayList<String> getAllAccountNumber() throws AccountValidatorExceptions {
+	public static List<String> getAllAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account";
 
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (Statement pst = con.createStatement()) {
@@ -242,11 +243,11 @@ public class AccountDao {
 	}
 
 	// DONE
-	public static ArrayList<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
+	public static List<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
 
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (Statement pst = con.createStatement()) {
