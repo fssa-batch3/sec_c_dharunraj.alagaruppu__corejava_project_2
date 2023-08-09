@@ -6,15 +6,15 @@ public class Account {
 	private String accountNumber;
 	private String ifsc;
 	private String phoneNumber;
-	public String typeOfAccount;
+	private String typeOfAccount;
 	private double minimumBalance;
 	// private LocalDate dateOfjoining;
 
 	// No argument constructor
-	public Account() { 
+	public Account() {  
 		// Empty constructor used for creating an instance without setting attributes
 	}
-
+ 
 	// Constructor to initialize account attributes with provided values
 	public Account(String accountNumber, String ifsc, String phoneNumber, double minimumBalance, String typeOfAccount) {
 

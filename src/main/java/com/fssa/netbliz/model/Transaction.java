@@ -5,16 +5,16 @@ public class Transaction {
 	private String accountHolderAccNo;
 	private String remittanceAccNo;
 	private String receiverIfscCode;
-	private double transfer_amount;
+	private double transferAmount;
 	private String remark; 
 
 	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
 			double transfer_amount, String remark) { 
-
+ 
 		this.accountHolderAccNo = accountHolderAccNo;
 		this.remittanceAccNo = remittanceAccNo;
 		this.receiverIfscCode = receiverIfscCode;
-		this.transfer_amount = transfer_amount;
+		this.transferAmount = transfer_amount;
 		this.remark = remark; 
 	}
 
@@ -46,12 +46,12 @@ public class Transaction {
 		this.receiverIfscCode = receiverIfscCode;
 	}
 
-	public double getTransfer_amount() {
-		return transfer_amount;
+	public double getTransferAmount() {
+		return transferAmount;
 	}
 
-	public void setTransfer_amount(double transfer_amount) {   
-		this.transfer_amount = transfer_amount;
+	public void setTransferAmount(double transfer_amount) {   
+		this.transferAmount = transfer_amount;
 	}
 
 	public String getRemark() {
@@ -62,4 +62,11 @@ public class Transaction {
 		this.remark = remark;
 	}
 
+	@Override
+	public String toString() {
+		return "Transaction [accountHolderAccNo=" + accountHolderAccNo + ", remittanceAccNo=" + remittanceAccNo
+				+ ", receiverIfscCode=" + receiverIfscCode + ", transfer_amount=" + transferAmount + ", remark="
+				+ remark + "]";
+	}
+	
 }

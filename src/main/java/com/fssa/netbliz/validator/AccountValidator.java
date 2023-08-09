@@ -4,31 +4,32 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fssa.error.AccountValidatorErrors;
-import com.fssa.netbliz.enumType.AccountEnum;
+import com.fssa.netbliz.dao.Logger;
+import com.fssa.netbliz.enumtype.AccountEnum;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 
 public class AccountValidator {
-	
+
 	public static final int ACCOUNT_NUMBER_LENGTH = 16;
 	public static final int PHONE_NUMBER_LENGTH = 10;
-	public static final double ABOVE_MINIMUM_BALANCE_RANGE= 500.0; 
+	public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
 	public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
- 
-	public static boolean validate(Account account) throws AccountValidatorExceptions { 
- 
-		if (account == null) {    
 
-			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_OBJECT_NULL); 
+	public static boolean validate(Account account) throws AccountValidatorExceptions {
+
+		if (account == null) {
+
+			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_OBJECT_NULL);
 		}
-		
+
 		validateAccountNumber(account.getAccountNumber());
 		validateIfsc(account.getIfsc());
 		validateMinimumBalance(account.getMinimumBalance());
 		validatePhoneNumber(account.getPhoneNumber());
 		validateType(account.getCategory());
-		return true;   
-	}  
+		return true;
+	}
 
 	// validateAccountNumber validate method is check the string is null or empty or
 	// less than the 16 digit number..
@@ -50,7 +51,7 @@ public class AccountValidator {
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_LENGTH_ACCOUNTNUMBER);
 		}
 
-		String regexAccountNumber = "\\d{16}"; 
+		String regexAccountNumber = "\\d{16}";
 		Pattern pattern = Pattern.compile(regexAccountNumber); // compiles the given pattern
 		Matcher matcher = pattern.matcher(accountNumber); // matcher matches the given string with compiled pattern
 		Boolean isMatch = matcher.matches(); // give final output as true or false
@@ -83,11 +84,11 @@ public class AccountValidator {
 		Matcher matcher = pattern.matcher(ifsc); // matcher is going to match the IFSC code
 		boolean isMatch = matcher.matches(); // give is return the boolean value true or false
 		if (!isMatch) {
-			System.out.println("Invalid ifsc");
 
+			Logger.info("Invalid ifsc");
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_IFSCCODE);
 
-		} 
+		}
 		return true;
 	}
 
@@ -117,7 +118,7 @@ public class AccountValidator {
 		boolean isMatch = matcher.matches(); // give final output as true or false
 
 		if (!isMatch) {
-			System.out.println("Valid mobilenumber");
+			Logger.info("Valid mobilenumber");
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_PHONENUMBER);
 		}
 		return true;
@@ -139,7 +140,7 @@ public class AccountValidator {
 		for (AccountEnum validType : AccountEnum.values()) { // number of elements present
 																// in the object
 			if (validType.toString().equalsIgnoreCase(type)) {
-				// System.out.println("Valid account type from account validator");
+				// Logger.info("Valid account type from account validator");
 				return true;
 			}
 
@@ -153,8 +154,9 @@ public class AccountValidator {
 
 	public static boolean validateMinimumBalance(double minimumBalance) throws AccountValidatorExceptions {
 
-		if (minimumBalance >= ABOVE_MINIMUM_BALANCE_RANGE && minimumBalance <= BELOW_MINIMUM_BALANCE_RANGE) { // 500 , 25000
-			// System.out.println("Valid minimum balance");
+		if (minimumBalance >= ABOVE_MINIMUM_BALANCE_RANGE && minimumBalance <= BELOW_MINIMUM_BALANCE_RANGE) { // 500 ,
+																												// 25000
+			// Logger.info("Valid minimum balance");
 			return true;
 		}
 		throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_MINIMUMBALANCE);

@@ -13,43 +13,40 @@ import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
-public class AccountDao { 
- 
+public class AccountDao {
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
 	public static final int ZERO = 0;
+
 	// DONE
 	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions {
-		
-		
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
 
-		try (Connection con = ConnectionUtil.getConnection()) { 
+		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, accNo);
-
+ 
 				try (ResultSet rs = pst.executeQuery()) {
 
 					boolean found = false;
 
 					while (rs.next()) {
 						found = true;
-						System.out.println("id: " + rs.getInt("acc_id"));
-						System.out.println("account Number: " + rs.getString("acc_no"));
-						System.out.println("ifsc: " + rs.getString("ifsc"));
-						System.out.println("phoneNumber: " + rs.getString("phone_number"));
-						System.out.println("minBalance: " + rs.getDouble("min_balance"));
-						System.out.println("Account type: " + rs.getString("account_type"));
-						System.out.println("balance: " + rs.getDouble("avl_balance"));
-						System.out.println("Active status: " + rs.getBoolean("is_active"));
+						Logger.info("id: " + rs.getInt("acc_id"));
+						Logger.info("account Number: " + rs.getString("acc_no"));
+						Logger.info("ifsc: " + rs.getString("ifsc"));
+						Logger.info("phoneNumber: " + rs.getString("phone_number"));
+						Logger.info("minBalance: " + rs.getDouble("min_balance"));
+						Logger.info("Account type: " + rs.getString("account_type"));
+						Logger.info("balance: " + rs.getDouble("avl_balance"));
+						Logger.info("Active status: " + rs.getBoolean("is_active"));
 					}
-// EXCEPTION
 					if (!found) {
-						System.out.println("The account does not exists. Please recheck the account number");
+						Logger.info("The account does not exists. Please recheck the account number");
 					}
 				}
 
@@ -62,7 +59,7 @@ public class AccountDao {
 		return true;
 
 	}
-	// DONE
+
 	public static boolean updateAccount(Account account) throws AccountValidatorExceptions {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
@@ -79,7 +76,7 @@ public class AccountDao {
 				// Execute the update query
 				pst.executeUpdate();
 
-				System.out.println("Updated your account successfully");
+				Logger.info("Updated your account successfully");
 			}
 		} catch (SQLException e) {
 
@@ -87,7 +84,7 @@ public class AccountDao {
 		}
 		return true;
 	}
-	// DONE
+
 	public static boolean addAccount(Account account) throws AccountValidatorExceptions {
 
 		AccountBalanceCreater ac = new AccountBalanceCreater();
@@ -109,7 +106,7 @@ public class AccountDao {
 				int row = pst.executeUpdate();
 
 				// Print confirmation and return true if insertion was successful
-				System.out.println("Account Added Successfully");
+				Logger.info("Account Added Successfully");
 				return (row > ZERO);
 			}
 		} catch (SQLException e) {
@@ -117,8 +114,7 @@ public class AccountDao {
 			throw new AccountValidatorExceptions(AccountDaoErrors.ERROR_ALREADY_EXITS);
 		}
 	}
-
-	// DONE
+	
 	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions {
 
 		// Retrieve a list of all inactive account numbers
@@ -132,7 +128,7 @@ public class AccountDao {
 					try (PreparedStatement pst = con.prepareStatement(query)) {
 						pst.setString(1, account.getAccountNumber());
 						pst.executeUpdate();
-						System.out.println("Your account has been activated successfully");
+						Logger.info("Your account has been activated successfully");
 						return true;
 					}
 				}
@@ -148,12 +144,13 @@ public class AccountDao {
 		addAccount(account);
 		return true;
 	}
-	// DONE
+
+	
 	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
-	 List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (Statement pst = con.createStatement()) {
@@ -167,13 +164,13 @@ public class AccountDao {
 
 			}
 		}
-		
-		catch(SQLException e) {
+
+		catch (SQLException e) {
 			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
 		}
 
 	}
-	// DONE
+
 	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions {
 
 		AccountValidator.validateAccountNumber(accNo);
@@ -186,11 +183,10 @@ public class AccountDao {
 
 				pst.setString(1, accNo);
 				pst.executeUpdate();
-				System.out.println("Your account is removed successfully");
+				Logger.info("Your account is removed successfully");
 
 			}
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_UPDATE);
 		}
 		return true;
@@ -212,70 +208,55 @@ public class AccountDao {
 //			}
 //		}
 //
-//		System.out.println("Delete successful");
+//		Logger.info("Delete successful");
 //	}
 
-	public static List<String> getAllAccountNumber() throws AccountValidatorExceptions {
-
-		final String query = "SELECT acc_no FROM account";
-
-		List<String> list = new ArrayList<String>();
-		try (Connection con = ConnectionUtil.getConnection()) {
-
-			try (Statement pst = con.createStatement()) {
-
-				try (ResultSet rs = pst.executeQuery(query)) {
-					while (rs.next()) {
-						list.add(rs.getString("acc_no"));
-					}
-					return list;
-				}
-
-			}
-		}
-		
-		catch(SQLException e) {
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
-		}
-
-	}
-
-	// DONE
-	public static List<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
-
-		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
-
-		List<String> list = new ArrayList<String>();
-		try (Connection con = ConnectionUtil.getConnection()) {
-
-			try (Statement pst = con.createStatement()) {
-
-				try (ResultSet rs = pst.executeQuery(query)) {
-					while (rs.next()) {
-						list.add(rs.getString("acc_no"));
-					} 
-					return list;
-				}
-
-			}
-		}
-		catch(SQLException e) {
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
-		}
-
-	}
-
-//	public static void main(String[] args) throws SQLException, validatorExceptions {
+//	public static List<String> getAllAccountNumber() throws AccountValidatorExceptions {
 //
-//		Account account = new Account("1234567891123457", "IDIB000K132", "9361320511", 1000.0, "savings");
+//		final String query = "SELECT acc_no FROM account";
 //
-//		// getAccountByNumber("1234567891123456");
+//		List<String> list = new ArrayList<String>();
+//		try (Connection con = ConnectionUtil.getConnection()) {
 //
-//		// updateAccount(account);
+//			try (Statement pst = con.createStatement()) {
 //
-//		// removeAccountByAccountNumber("0987654321123456");
+//				try (ResultSet rs = pst.executeQuery(query)) {
+//					while (rs.next()) {
+//						list.add(rs.getString("acc_no"));
+//					}
+//					return list;
+//				}
 //
-//		// exitsCheck(account);
+//			}
+//		}
+//
+//		catch (SQLException e) {
+//			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+//		}
+//
+//	}
+
+//	public static List<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
+//
+//		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
+//
+//		List<String> list = new ArrayList<String>();
+//		try (Connection con = ConnectionUtil.getConnection()) {
+//
+//			try (Statement pst = con.createStatement()) {
+//
+//				try (ResultSet rs = pst.executeQuery(query)) {
+//					while (rs.next()) {
+//						list.add(rs.getString("acc_no"));
+//					}
+//					return list;
+//				}
+//
+//			}
+//		} catch (SQLException e) {
+//			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+//		}
+//
 //	}
 
 }

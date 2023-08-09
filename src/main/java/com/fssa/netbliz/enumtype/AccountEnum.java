@@ -1,4 +1,4 @@
-package com.fssa.netbliz.enumType;
+package com.fssa.netbliz.enumtype;
 
 public enum AccountEnum {
 

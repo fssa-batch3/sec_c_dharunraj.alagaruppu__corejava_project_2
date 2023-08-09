@@ -1,6 +1,6 @@
 package com.fssa.error;
 
-public interface AccountValidatorErrors {
+public final class AccountValidatorErrors {
 
 	// object is not created properly
 	public static final String INVALID_OBJECT_CREATION = "Account object is not created";
@@ -64,4 +64,9 @@ public interface AccountValidatorErrors {
 
 	// add a null account to the database
 	public static final String NULL_ADD_ACCOUNT = "Account can't be null when adding to the database";
+	
+	private AccountValidatorErrors() {
+		
+		
+	}
 }

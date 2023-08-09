@@ -18,6 +18,6 @@ public class AccountBalanceCreater {
 		double randomNumber = this.random.nextDouble(max - min) + min;
 
 		return randomNumber;
-
+ 
 	}
 }

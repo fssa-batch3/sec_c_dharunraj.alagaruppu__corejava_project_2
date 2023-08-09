@@ -1,4 +1,4 @@
-package com.fssa.netbliz.serviceLayer;
+package com.fssa.netbliz.servicelayer;
 
 import java.sql.SQLException;
 
