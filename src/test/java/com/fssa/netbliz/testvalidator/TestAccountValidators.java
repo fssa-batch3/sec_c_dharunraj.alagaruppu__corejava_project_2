@@ -3,14 +3,14 @@ package com.fssa.netbliz.testvalidator;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import com.fssa.error.AccountValidatorErrors;
+import com.fssa.netbliz.error.AccountValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
 public class TestAccountValidators {
 
-	Account account = new Account();
+	Account account = new Account(); 
 
 	/*
 	 * This method is going to validate the object is not a null.. The value is set

@@ -3,7 +3,7 @@ package com.fssa.netbliz.testvalidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.error.TransactionValidatorErrors;
+import com.fssa.netbliz.error.TransactionValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.exception.TransactionValidatorExceptions;
 import com.fssa.netbliz.model.Transaction;
@@ -59,7 +59,7 @@ class TestTransactionValidators {
 
 	@Test
 	void testNullValidate() throws TransactionValidatorExceptions {
-
+ 
 		try {
 			TransactionValidator.validate(null);
 		}

@@ -1,5 +1,5 @@
 package com.fssa.netbliz.validator;
-import com.fssa.error.TransactionValidatorErrors;
+import com.fssa.netbliz.error.TransactionValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.exception.TransactionValidatorExceptions;
 import com.fssa.netbliz.model.Transaction;
@@ -16,7 +16,7 @@ public class TransactionValidator {
 		if (trans == null) {
  
 			throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_OBJECT_NULL);
-		}
+		} 
 		AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
 		AccountValidator.validateAccountNumber(trans.getRemittanceAccNo());
 		AccountValidator.validateIfsc(trans.getReceiverIfscCode());

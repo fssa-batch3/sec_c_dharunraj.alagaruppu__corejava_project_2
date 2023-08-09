@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.error.TransactionDaoErrors;
+import com.fssa.netbliz.error.TransactionDaoErrors;
 import com.fssa.netbliz.exception.TransactionDaoException;
 import com.fssa.netbliz.model.Transaction;
 

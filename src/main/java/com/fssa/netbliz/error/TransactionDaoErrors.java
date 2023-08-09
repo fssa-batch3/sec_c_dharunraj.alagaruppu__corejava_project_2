@@ -1,4 +1,4 @@
-package com.fssa.error;
+package com.fssa.netbliz.error;
 
 public final class TransactionDaoErrors {
 

@@ -1,6 +1,6 @@
-package com.fssa.error;
+package com.fssa.netbliz.error;
 
-public interface AccountDaoErrors {
+public final class AccountDaoErrors {
 
     // account update is invalid
     public static final String INVALID_UPDATE = "Can't update the account";
@@ -12,6 +12,8 @@ public interface AccountDaoErrors {
     
     public static final String INVALID_ACCOUNT_NUMBER = "Cann't fetch data";
     
-    
+    private AccountDaoErrors(){
+    	
+    }
 
 }

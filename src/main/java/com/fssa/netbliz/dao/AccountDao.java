@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.error.AccountDaoErrors;
+import com.fssa.netbliz.error.AccountDaoErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;

@@ -3,9 +3,9 @@ package com.fssa.netbliz.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fssa.error.AccountValidatorErrors;
 import com.fssa.netbliz.dao.Logger;
 import com.fssa.netbliz.enumtype.AccountEnum;
+import com.fssa.netbliz.error.AccountValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 
