@@ -1,5 +1,6 @@
 package com.fssa.netbliz.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,15 +14,17 @@ import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
+
+
 public class AccountDao {
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
 	public static final int ZERO = 0;
-
+ 
 	// DONE
-	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions {
+	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions{
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
 
@@ -192,71 +195,5 @@ public class AccountDao {
 		return true;
 	}
 
-//	public static void deleteAccount(String accNo) throws SQLException {
-//		int rs = 0;
-//		final String query = "DELETE FROM account WHERE acc_no = ?";
-//
-//		try (Connection con = ConnectionUtil.getConnection()) {
-//			try (PreparedStatement pst = con.prepareStatement(query)) {
-//				pst.setString(1, accNo);
-//				rs = pst.executeUpdate();
-//			}
-//
-//			// Check if any rows were affected by the delete query
-//			if (rs == 0) {
-//				throw new SQLException("Can't delete the account. Account number not found.");
-//			}
-//		}
-//
-//		Logger.info("Delete successful");
-//	}
-
-//	public static List<String> getAllAccountNumber() throws AccountValidatorExceptions {
-//
-//		final String query = "SELECT acc_no FROM account";
-//
-//		List<String> list = new ArrayList<String>();
-//		try (Connection con = ConnectionUtil.getConnection()) {
-//
-//			try (Statement pst = con.createStatement()) {
-//
-//				try (ResultSet rs = pst.executeQuery(query)) {
-//					while (rs.next()) {
-//						list.add(rs.getString("acc_no"));
-//					}
-//					return list;
-//				}
-//
-//			}
-//		}
-//
-//		catch (SQLException e) {
-//			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
-//		}
-//
-//	}
-
-//	public static List<String> getAllActiveAccountNumber() throws AccountValidatorExceptions {
-//
-//		final String query = "SELECT acc_no FROM account WHERE is_active = 1";
-//
-//		List<String> list = new ArrayList<String>();
-//		try (Connection con = ConnectionUtil.getConnection()) {
-//
-//			try (Statement pst = con.createStatement()) {
-//
-//				try (ResultSet rs = pst.executeQuery(query)) {
-//					while (rs.next()) {
-//						list.add(rs.getString("acc_no"));
-//					}
-//					return list;
-//				}
-//
-//			}
-//		} catch (SQLException e) {
-//			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
-//		}
-//
-//	}
 
 }
