@@ -10,7 +10,7 @@ import com.fssa.netbliz.validator.AccountValidator;
 
 public class TestAccountValidators {
 
-	Account account = new Account(); 
+	Account account = new Account();
 
 	/*
 	 * This method is going to validate the object is not a null.. The value is set

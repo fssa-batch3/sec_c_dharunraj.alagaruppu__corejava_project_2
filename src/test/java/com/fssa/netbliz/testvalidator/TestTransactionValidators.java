@@ -59,7 +59,7 @@ class TestTransactionValidators {
 
 	@Test
 	void testNullValidate() throws TransactionValidatorExceptions {
- 
+
 		try {
 			TransactionValidator.validate(null);
 		}
