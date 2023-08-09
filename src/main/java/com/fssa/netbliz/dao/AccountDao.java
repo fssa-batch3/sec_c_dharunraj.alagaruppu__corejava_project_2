@@ -1,6 +1,5 @@
 package com.fssa.netbliz.dao;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,20 +10,23 @@ import java.util.List;
 
 import com.fssa.netbliz.error.AccountDaoErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
+import com.fssa.netbliz.exception.DaoException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
-
-
 public class AccountDao {
+	private AccountDao() {
+//		private constructor
+	}
+
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
 	public static final int ZERO = 0;
- 
+
 	// DONE
-	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions{
+	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions, DaoException {
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
 
@@ -32,7 +34,7 @@ public class AccountDao {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, accNo);
- 
+
 				try (ResultSet rs = pst.executeQuery()) {
 
 					boolean found = false;
@@ -63,7 +65,7 @@ public class AccountDao {
 
 	}
 
-	public static boolean updateAccount(Account account) throws AccountValidatorExceptions {
+	public static boolean updateAccount(Account account) throws AccountValidatorExceptions, DaoException {
 		// Validate the account using AccountValidator
 		AccountValidator.validate(account);
 
@@ -88,7 +90,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static boolean addAccount(Account account) throws AccountValidatorExceptions {
+	public static boolean addAccount(Account account) throws AccountValidatorExceptions, DaoException {
 
 		AccountBalanceCreater ac = new AccountBalanceCreater();
 		// SQL query to insert the account details into the database
@@ -117,8 +119,8 @@ public class AccountDao {
 			throw new AccountValidatorExceptions(AccountDaoErrors.ERROR_ALREADY_EXITS);
 		}
 	}
-	
-	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions {
+
+	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions, DaoException {
 
 		// Retrieve a list of all inactive account numbers
 		List<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
@@ -148,8 +150,7 @@ public class AccountDao {
 		return true;
 	}
 
-	
-	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions {
+	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions, DaoException {
 
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
@@ -174,7 +175,7 @@ public class AccountDao {
 
 	}
 
-	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions {
+	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions, DaoException {
 
 		AccountValidator.validateAccountNumber(accNo);
 
@@ -194,6 +195,5 @@ public class AccountDao {
 		}
 		return true;
 	}
-
 
 }

@@ -11,6 +11,10 @@ import com.fssa.netbliz.model.Account;
 
 public class AccountValidator {
 
+	private AccountValidator() {
+
+	}
+
 	public static final int ACCOUNT_NUMBER_LENGTH = 16;
 	public static final int PHONE_NUMBER_LENGTH = 10;
 	public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
@@ -140,7 +144,7 @@ public class AccountValidator {
 		for (AccountEnum validType : AccountEnum.values()) { // number of elements present
 																// in the object
 			if (validType.toString().equalsIgnoreCase(type)) {
-				// Logger.info("Valid account type from account validator");
+
 				return true;
 			}
 
@@ -154,9 +158,7 @@ public class AccountValidator {
 
 	public static boolean validateMinimumBalance(double minimumBalance) throws AccountValidatorExceptions {
 
-		if (minimumBalance >= ABOVE_MINIMUM_BALANCE_RANGE && minimumBalance <= BELOW_MINIMUM_BALANCE_RANGE) { // 500 ,
-																												// 25000
-			// Logger.info("Valid minimum balance");
+		if (minimumBalance >= ABOVE_MINIMUM_BALANCE_RANGE && minimumBalance <= BELOW_MINIMUM_BALANCE_RANGE) {
 			return true;
 		}
 		throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_MINIMUMBALANCE);

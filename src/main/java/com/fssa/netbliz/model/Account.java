@@ -8,7 +8,6 @@ public class Account {
 	private String phoneNumber;
 	private String typeOfAccount;
 	private double minimumBalance;
-	// private LocalDate dateOfjoining;
 
 	// No argument constructor
 	public Account() {  

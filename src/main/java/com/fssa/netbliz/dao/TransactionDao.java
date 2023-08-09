@@ -8,17 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.netbliz.error.TransactionDaoErrors;
+import com.fssa.netbliz.exception.DaoException;
 import com.fssa.netbliz.exception.TransactionDaoException;
 import com.fssa.netbliz.model.Transaction;
 
 public class TransactionDao {
+	private TransactionDao() {
+//		private constructor
+	}
 
 	public static final int INITIALIZE_ZERO = 0;
 
 	static double holderBalance = INITIALIZE_ZERO;
 	static double remittanceBalance = INITIALIZE_ZERO;
 
-	public static boolean isActiveAccount(String holder) throws TransactionDaoException {
+	public static boolean isActiveAccount(String holder) throws TransactionDaoException, DaoException {
 
 		String query = "SELECT acc_no,avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 
@@ -106,7 +110,7 @@ public class TransactionDao {
 
 	}
 
-	public static boolean updateHolderAccount(Transaction trans) throws TransactionDaoException {
+	public static boolean updateHolderAccount(Transaction trans) throws TransactionDaoException, DaoException {
 
 		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
@@ -211,7 +215,7 @@ public class TransactionDao {
 
 	}
 
-	public static List<Object> listTransaction(String accNo) throws TransactionDaoException {
+	public static List<Object> listTransaction(String accNo) throws TransactionDaoException, DaoException {
 
 		ArrayList list = new ArrayList<>();
 
@@ -247,7 +251,7 @@ public class TransactionDao {
 		return list;
 	}
 
-	public static boolean printTransactions(String accNo) throws TransactionDaoException {
+	public static boolean printTransactions(String accNo) throws TransactionDaoException, DaoException {
 
 		List transList = listTransaction(accNo);
 

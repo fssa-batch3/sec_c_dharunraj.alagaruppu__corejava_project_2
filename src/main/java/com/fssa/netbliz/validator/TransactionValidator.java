@@ -1,22 +1,27 @@
 package com.fssa.netbliz.validator;
+
 import com.fssa.netbliz.error.TransactionValidatorErrors;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
 import com.fssa.netbliz.exception.TransactionValidatorExceptions;
 import com.fssa.netbliz.model.Transaction;
 
-public class TransactionValidator { 
+public class TransactionValidator {
 
-	public static final int MINIMUM_TRNASFER_AMOUNT = 1; 
+	private TransactionValidator() {
 
-	public static final int MAX_LENGTH_REMARK = 30; 
+	}
+
+	public static final int MINIMUM_TRNASFER_AMOUNT = 1;
+
+	public static final int MAX_LENGTH_REMARK = 30;
 
 	public static boolean validate(Transaction trans)
 			throws TransactionValidatorExceptions, AccountValidatorExceptions {
 
 		if (trans == null) {
- 
+
 			throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_OBJECT_NULL);
-		} 
+		}
 		AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
 		AccountValidator.validateAccountNumber(trans.getRemittanceAccNo());
 		AccountValidator.validateIfsc(trans.getReceiverIfscCode());

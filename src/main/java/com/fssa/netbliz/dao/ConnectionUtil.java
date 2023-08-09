@@ -3,14 +3,19 @@ package com.fssa.netbliz.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import com.fssa.netbliz.exception.DaoException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
+	private ConnectionUtil() {
+//		private constructor
+	}
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DaoException {
 		Connection con = null;
 
-		String url ;
+		String url;
 		String userName;
 		String passWord;
 
@@ -18,12 +23,12 @@ public class ConnectionUtil {
 			url = System.getenv("DATABASE_HOST");
 			userName = System.getenv("DATABASE_USERNAME");
 			passWord = System.getenv("DATABASE_PASSWORD");
-		} else { 
+		} else {
 			Dotenv env = Dotenv.load();
 			url = env.get("DATABASE_HOST");
 			userName = env.get("DATABASE_USERNAME");
 			passWord = env.get("DATABASE_PASSWORD");
-			Logger.info("env success"); 
+			Logger.info("env success");
 		}
 
 		try {
@@ -31,9 +36,9 @@ public class ConnectionUtil {
 			con = DriverManager.getConnection(url, userName, passWord);
 			Logger.info("Connection success");
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to connect to the database");
+			throw new DaoException("Unable to connect to the database");
 		}
 		return con;
-	} 
+	}
 
 }
