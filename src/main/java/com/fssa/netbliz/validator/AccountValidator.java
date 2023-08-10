@@ -21,7 +21,7 @@ public class AccountValidator {
 	public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
 
 	public static boolean validate(Account account) throws AccountValidatorExceptions {
-
+ 
 		if (account == null) {
 
 			throw new AccountValidatorExceptions(AccountValidatorErrors.INVALID_OBJECT_NULL);

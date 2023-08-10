@@ -1,12 +1,10 @@
 package com.fssa.netbliz.testservicelayer;
 
 import java.sql.SQLException;
-
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
+import com.fssa.netbliz.dao.Logger;
 import com.fssa.netbliz.exception.AccountValidatorExceptions;
-import com.fssa.netbliz.exception.DaoException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.servicelayer.AccountServiceLayer;
 
@@ -21,6 +19,8 @@ public class TestAccountServiceLayer {
 		Account account = new Account("1213527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
+		
+		Logger.info("Account Added Successfully");
 	}
 
 	// Specifying the account number to retrieve.
@@ -42,18 +42,19 @@ public class TestAccountServiceLayer {
 
 	// Creating a new Account object with updated information.
 	@Test
-	public void testUpdateAccount() throws SQLException, AccountValidatorExceptions, DaoException {
+	public void testUpdateAccount() throws SQLException, AccountValidatorExceptions  {
 		Account account = new Account("1234567890123456", "IDIB000K132", "9361310511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.updateAccount(account));
+
+		Logger.info("Updated your account successfully");
 	}
 
 	// Creating an Account object to check its existence.
 	@Test
-	public void testExitsCheck() throws SQLException, AccountValidatorExceptions, DaoException { // before commit update
+	public void testExitsCheck() throws SQLException, AccountValidatorExceptions { // before commit update
 																									// the new account
 																									// number
-
 		Account account = new Account("1927251381123466", "IDIB000K132", "9361320516", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.exitsCheck(account));
@@ -61,19 +62,15 @@ public class TestAccountServiceLayer {
 
 	// Asserting that retrieving all inactive account numbers should return true.
 	@Test
-	public void testGetAllInactiveAccountNumber() throws SQLException, AccountValidatorExceptions, DaoException {
+	public void testGetAllInactiveAccountNumber() throws AccountValidatorExceptions  {
 		Assertions.assertTrue(AccountServiceLayer.getAllInactiveAccountNumber());
 	}
 
 	// Specifying the account number to remove.
 	@Test
-	public void testRemoveAccountByAccountNumber() throws Exception {
+	public void testRemoveAccountByAccountNumber() throws  AccountValidatorExceptions{
 		String accountNumber = "2345678901234561";
 		Assertions.assertTrue(AccountServiceLayer.removeAccountByAccountNumber(accountNumber));
+		Logger.info("Your account is removed successfully");
 	}
-
-//	@Test
-//	public void testGetAllActiveAccountNumber() throws SQLException, AccountValidatorExceptions {
-////		Assertions.assertTrue(AccountServiceLayer.getAllActiveAccountNumber());
-//	}
 }

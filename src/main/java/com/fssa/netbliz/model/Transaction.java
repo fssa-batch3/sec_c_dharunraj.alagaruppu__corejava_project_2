@@ -5,19 +5,19 @@ public class Transaction {
     private String accountHolderAccNo;
     private String remittanceAccNo;
     private String receiverIfscCode;
-    private double transferAmount;
+    private double transferAmount; 
     private String remark;
 
     // Constructor with parameters to initialize Transaction object
     public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
-                       double transfer_amount, String remark) {
+                       double transferAmount, String remark) {
         this.accountHolderAccNo = accountHolderAccNo;
         this.remittanceAccNo = remittanceAccNo;
         this.receiverIfscCode = receiverIfscCode;
-        this.transferAmount = transfer_amount;
+        this.transferAmount = transferAmount;
         this.remark = remark;
     }
-
+ 
     // Default constructor
     public Transaction() {
 

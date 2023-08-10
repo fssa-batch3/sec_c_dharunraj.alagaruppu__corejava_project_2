@@ -12,14 +12,14 @@ class TestTransactionServiceLayer {
 	void moneyTransaction() throws Exception {
 		// Create a test Transaction object
 		Transaction trans = new Transaction("1927251381123456", "1314527190123459", "IDIB000K132", 10, "bill pay");
-
+ 
 		// Perform the money transaction and assert true if successful
 		Assertions.assertTrue(TransactionServiceLayer.moneyTransaction(trans));
 	}
 
 	@Test
 	void printTransactions() throws Exception {
-		String accNo = "2345678901234568";
+		String accNo = "2345678901234568"; 
 
 		// Print transactions for the given account number and assert true
 		Assertions.assertTrue(TransactionServiceLayer.printTransactions(accNo));
