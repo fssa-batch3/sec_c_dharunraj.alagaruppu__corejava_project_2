@@ -13,7 +13,7 @@ public class ConnectionUtil {
 //		private constructor
 	}
 
-	public static Connection getConnection() throws DaoException {
+	public static Connection getConnection() throws SQLException {
 		Connection con = null;
 
 		String url;
@@ -37,7 +37,10 @@ public class ConnectionUtil {
 			con = DriverManager.getConnection(url, userName, passWord);
 			Logger.info("Connection success");
 		} catch (Exception e) {
-			throw new DaoException("Unable to connect to the database");
+			throw new RuntimeException("Unable to connect to the database");
+		}
+		finally {
+			con.close();
 		}
 		
 		return con;

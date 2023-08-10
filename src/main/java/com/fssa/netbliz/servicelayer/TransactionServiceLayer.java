@@ -28,13 +28,12 @@ public class TransactionServiceLayer {
 	public static List<Object> listOfTransaction(String accNo)
 			throws AccountValidatorExceptions, TransactionDaoException, DaoException {
 
+		List<Object> list = new ArrayList<>();
 		if (AccountValidator.validateAccountNumber(accNo)) {
-
-			List<Object> list = new ArrayList<>();
 
 			return TransactionDao.listTransaction(accNo);
 		}
-		return null;
+		return list;
 
 	}
 
