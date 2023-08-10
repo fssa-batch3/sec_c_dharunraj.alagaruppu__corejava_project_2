@@ -5,8 +5,7 @@
 </div>
 
 
-
-# Core Java Project Database Schema
+# Database Design - NETBLIZ
 
 This repository contains the SQL schema definition for a Core Java project's database. It includes tables for managing customer information, accounts, and transactions.
 
