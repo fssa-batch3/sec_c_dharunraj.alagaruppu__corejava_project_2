@@ -15,46 +15,40 @@ import com.fssa.netbliz.validator.TransactionValidator;
 
 public class TransactionServiceLayer {
 
-	public static boolean moneyTransaction(Transaction trans)
-			throws TransactionValidatorExceptions, AccountValidatorExceptions, TransactionDaoException, DaoException {
+    // Performs money transaction between accounts
+    public static boolean moneyTransaction(Transaction trans)
+            throws TransactionValidatorExceptions, AccountValidatorExceptions, TransactionDaoException, DaoException {
+        if (TransactionValidator.validate(trans)) {
+            return TransactionDao.updateHolderAccount(trans);
+        }
+        return false;
+    }
 
-		if (TransactionValidator.validate(trans)) {
+    // A list of transactions for a given account number
+    public static List<Object> listOfTransaction(String accNo)
+            throws AccountValidatorExceptions, TransactionDaoException, DaoException {
+        List<Object> list = new ArrayList<>();
+        if (AccountValidator.validateAccountNumber(accNo)) {
+            return TransactionDao.listTransaction(accNo);
+        }
+        return list;
+    }
 
-			return TransactionDao.updateHolderAccount(trans);
-		}
-		return false;
-	}
+    // Prints transactions for a given account number
+    public static boolean printTransactions(String accNo)
+            throws TransactionDaoException, DaoException, AccountValidatorExceptions {
+        if (AccountValidator.validateAccountNumber(accNo)) {
+            return TransactionDao.printTransactions(accNo);
+        }
+        return false;
+    }
 
-	public static List<Object> listOfTransaction(String accNo)
-			throws AccountValidatorExceptions, TransactionDaoException, DaoException {
-
-		List<Object> list = new ArrayList<>();
-		if (AccountValidator.validateAccountNumber(accNo)) {
-
-			return TransactionDao.listTransaction(accNo);
-		}
-		return list;
-
-	}
-
-	public static boolean printTransactions(String accNo)
-			throws TransactionDaoException, DaoException, AccountValidatorExceptions {
-
-		if (AccountValidator.validateAccountNumber(accNo)) {
-
-			return TransactionDao.printTransactions(accNo);
-		}
-		return false;
-	}
-
-	public static boolean isActiveAccount(String accNo) throws TransactionDaoException, DaoException {
-
-		if (TransactionDao.isActiveAccount(accNo)) {
-
-			Logger.info(accNo + " is currect active");
-			return true;
-		}
-		return false;
-	}
-
+    // Checks if an account is active
+    public static boolean isActiveAccount(String accNo) throws TransactionDaoException, DaoException {
+        if (TransactionDao.isActiveAccount(accNo)) {
+            Logger.info(accNo + " is currently active");
+            return true;
+        }
+        return false;
+    }
 }

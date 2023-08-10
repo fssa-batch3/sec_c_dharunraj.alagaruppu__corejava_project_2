@@ -17,13 +17,13 @@ import com.fssa.netbliz.validator.AccountValidator;
 public class AccountDao {
 	private AccountDao() {
 //		private constructor
-	} 
+	}
 
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
-	
+
 	public static final int ZERO = 0;
 
 	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions, DaoException {
@@ -150,50 +150,40 @@ public class AccountDao {
 		return true;
 	}
 
+	
 	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions, DaoException {
-
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
 		List<String> list = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (Statement pst = con.createStatement()) {
-
 				try (ResultSet rs = pst.executeQuery(query)) {
 					while (rs.next()) {
 						list.add(rs.getString("acc_no"));
 					}
 					return list;
 				}
-
 			}
-		}
-
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
 		}
-
 	}
 
+	// Marks an account as inactive by account number
 	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions, DaoException {
-
 		AccountValidator.validateAccountNumber(accNo);
 
 		String query = "UPDATE account SET is_active = 0 WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (PreparedStatement pst = con.prepareStatement(query)) {
-
 				pst.setString(1, accNo);
 				pst.executeUpdate();
 				Logger.info("Your account is removed successfully");
-
 			}
 		} catch (SQLException e) {
 			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_UPDATE);
 		}
 		return true;
 	}
-
 }

@@ -7,6 +7,8 @@ public final class TransactionDaoErrors {
 	
 	public static final String NON_TRANSACTION = "No list of account transaction is there";
 	
+	public static final String DATE_VALIDATOR = "Invalid date format";
+	
 	private TransactionDaoErrors() {
 		
 		

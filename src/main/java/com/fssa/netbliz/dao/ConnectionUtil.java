@@ -17,9 +17,9 @@ public class ConnectionUtil {
 		Connection con = null;
 
 		String url;
-		String userName;
+		String userName; 
 		String passWord;
-
+ 
 		if (System.getenv("CI") != null) {
 			url = System.getenv("DATABASE_HOST");
 			userName = System.getenv("DATABASE_USERNAME");
@@ -29,7 +29,6 @@ public class ConnectionUtil {
 			url = env.get("DATABASE_HOST");
 			userName = env.get("DATABASE_USERNAME");
 			passWord = env.get("DATABASE_PASSWORD");
-			Logger.info("env success");
 		}
 
 		try {
@@ -39,11 +38,10 @@ public class ConnectionUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to connect to the database");
 		}
-		finally {
-			con.close();
-		}
 		
 		return con;
 	}
+	
+	
 
 }

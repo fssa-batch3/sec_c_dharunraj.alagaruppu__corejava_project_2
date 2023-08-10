@@ -32,7 +32,7 @@ public class AccountValidator {
 		validateMinimumBalance(account.getMinimumBalance());
 		validatePhoneNumber(account.getPhoneNumber());
 		validateType(account.getCategory());
-		return true;
+		return true; 
 	}
 
 	// validateAccountNumber validate method is check the string is null or empty or

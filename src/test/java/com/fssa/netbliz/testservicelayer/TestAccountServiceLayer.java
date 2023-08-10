@@ -10,33 +10,33 @@ import com.fssa.netbliz.exception.DaoException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.servicelayer.AccountServiceLayer;
 
-public class TestAccountServiceLayer {  
- 
+public class TestAccountServiceLayer {
+
 	Account account = new Account();
 
 	// Creating a new valid Account object for testing.
 	@Test
-	public void testValidAddAccount() throws Exception { // before commit update the new account number 
+	public void testValidAddAccount() throws Exception { // before commit update the new account number
 
 		Account account = new Account("1213527190123459", "IDIB000K132", "9361320511", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountServiceLayer.addAccount(account));
-	}   
-  
+	}
+
 	// Specifying the account number to retrieve.
 	@Test
 	public void testGetAccountByNumber() throws Exception {
 
-	 	String accountNumber = "1234567890123456";
- 
+		String accountNumber = "1234567890123456";
+
 		Assertions.assertTrue(AccountServiceLayer.getAccountByNumber(accountNumber));
-	} 
+	}
 
 	// Specifying an invalid account number to test retrieval failure.
 	@Test
 	public void testInvalidGetAccountByNumber() throws Exception {
 		String accountNumber = "1134567091123458";
- 
+
 		Assertions.assertTrue(AccountServiceLayer.getAccountByNumber(accountNumber));
 	}
 
@@ -50,7 +50,9 @@ public class TestAccountServiceLayer {
 
 	// Creating an Account object to check its existence.
 	@Test
-	public void testExitsCheck() throws SQLException, AccountValidatorExceptions, DaoException { // before commit update the new account number 
+	public void testExitsCheck() throws SQLException, AccountValidatorExceptions, DaoException { // before commit update
+																									// the new account
+																									// number
 
 		Account account = new Account("1927251381123466", "IDIB000K132", "9361320516", 1000.0, "savings");
 
@@ -61,7 +63,7 @@ public class TestAccountServiceLayer {
 	@Test
 	public void testGetAllInactiveAccountNumber() throws SQLException, AccountValidatorExceptions, DaoException {
 		Assertions.assertTrue(AccountServiceLayer.getAllInactiveAccountNumber());
-	} 
+	}
 
 	// Specifying the account number to remove.
 	@Test
