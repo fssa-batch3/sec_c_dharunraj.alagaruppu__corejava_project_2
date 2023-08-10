@@ -22,11 +22,11 @@ public class TransactionDao {
 
 	public static final int INITIALIZE_ZERO = 0;
 
-	static double holderBalance = INITIALIZE_ZERO; 
+	static double holderBalance = INITIALIZE_ZERO;
 	static double remittanceBalance = INITIALIZE_ZERO;
 
 	// Checks if an account is active
-	public static boolean isActiveAccount(String holder) throws TransactionDaoException, DaoException {
+	public static boolean isActiveAccount(String holder) throws TransactionDaoException {
 		String query = "SELECT acc_no, avl_balance FROM account WHERE acc_no = ? AND is_active = true";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -89,7 +89,7 @@ public class TransactionDao {
 	}
 
 	// Updates the account holder's account
-	public static boolean updateHolderAccount(Transaction trans) throws TransactionDaoException, DaoException {
+	public static boolean updateHolderAccount(Transaction trans) throws TransactionDaoException {
 		String query = "UPDATE account SET avl_balance = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -165,7 +165,7 @@ public class TransactionDao {
 	}
 
 	// Lists transactions for a given account number
-	public static List<Object> listTransaction(String accNo) throws TransactionDaoException, DaoException {
+	public static List<Object> listTransaction(String accNo) throws TransactionDaoException {
 		ArrayList<Object> list = new ArrayList<>();
 
 		String query = "SELECT * FROM transaction WHERE acc_holder = ? OR remittance = ?";
@@ -190,11 +190,11 @@ public class TransactionDao {
 			throw new TransactionDaoException(TransactionDaoErrors.NON_TRANSACTION);
 		}
 
-		return list; 
+		return list;
 	}
 
 	// Prints transactions for a given account number
-	public static boolean printTransactions(String accNo) throws TransactionDaoException, DaoException {
+	public static boolean printTransactions(String accNo) throws TransactionDaoException {
 		List<Object> transList = listTransaction(accNo);
 
 		if (transList.isEmpty()) {
@@ -203,18 +203,6 @@ public class TransactionDao {
 
 		for (Object list : transList) {
 			Logger.info(list); // It's assumed that Logger is a valid logging mechanism
-		}
-
-		return true;
-	}
-
-	// Validates and parses user-provided date strings
-	public static boolean getDateFromUser(String stDate, String endDate) throws TransactionDaoException {
-		try {
-			LocalDate startingDate = LocalDate.parse(stDate, DateTimeFormatter.ISO_DATE);
-			LocalDate endingDate = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
-		} catch (Exception e) {
-			throw new TransactionDaoException(TransactionDaoErrors.DATE_VALIDATOR);
 		}
 
 		return true;

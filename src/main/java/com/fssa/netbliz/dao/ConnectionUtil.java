@@ -3,9 +3,6 @@ package com.fssa.netbliz.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import com.fssa.netbliz.exception.DaoException;
-
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
@@ -17,9 +14,9 @@ public class ConnectionUtil {
 		Connection con = null;
 
 		String url;
-		String userName; 
+		String userName;
 		String passWord;
- 
+
 		if (System.getenv("CI") != null) {
 			url = System.getenv("DATABASE_HOST");
 			userName = System.getenv("DATABASE_USERNAME");
@@ -38,10 +35,8 @@ public class ConnectionUtil {
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to connect to the database");
 		}
-		
+
 		return con;
 	}
-	
-	
 
 }
