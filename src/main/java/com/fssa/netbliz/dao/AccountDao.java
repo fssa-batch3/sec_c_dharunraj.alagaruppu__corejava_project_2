@@ -17,15 +17,15 @@ import com.fssa.netbliz.validator.AccountValidator;
 public class AccountDao {
 	private AccountDao() {
 //		private constructor
-	}
+	} 
 
 	/*
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */
+	
 	public static final int ZERO = 0;
 
-	// DONE
 	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions, DaoException {
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection

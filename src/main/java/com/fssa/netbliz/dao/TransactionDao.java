@@ -20,7 +20,7 @@ public class TransactionDao {
 	public static final int INITIALIZE_ZERO = 0;
 
 	static double holderBalance = INITIALIZE_ZERO;
-	static double remittanceBalance = INITIALIZE_ZERO;
+	static double remittanceBalance = INITIALIZE_ZERO; 
 
 	public static boolean isActiveAccount(String holder) throws TransactionDaoException, DaoException {
 
@@ -63,7 +63,6 @@ public class TransactionDao {
 				while (rs.next()) {
 
 					avlBalance = rs.getDouble("avl_balance") - trans.getTransferAmount();
-					Logger.info("accountHolderConditions true");
 
 				}
 			}
@@ -96,7 +95,6 @@ public class TransactionDao {
 				while (rs.next()) {
 
 					avlBalance = rs.getDouble("avl_balance") + trans.getTransferAmount();
-					Logger.info("remittanceAccountConditions true");
 				}
 			}
 
@@ -125,7 +123,6 @@ public class TransactionDao {
 				pst.executeUpdate();
 				updateRemittanceAccount(trans, con);
 
-				Logger.info("updateHolderAccount true");
 			}
 		}
 
@@ -149,7 +146,6 @@ public class TransactionDao {
 			pst.setString(2, trans.getRemittanceAccNo());
 			pst.executeUpdate();
 			insertAccountHolderDetails(trans, con);
-			Logger.info("updateRemittanceAccount true");
 
 		} catch (SQLException e) {
 
@@ -172,7 +168,6 @@ public class TransactionDao {
 			pst.setDouble(5, holderBalance);
 			pst.setString(6, trans.getRemark());
 			pst.executeUpdate();
-			Logger.info("insertAccountHolderDetails true");
 			insertRemittanceAccountDetails(trans, con);
 
 		}
@@ -200,7 +195,7 @@ public class TransactionDao {
 			pst.setDouble(5, remittanceBalance);
 			pst.setString(6, trans.getRemark());
 			pst.executeUpdate();
-			Logger.info("insertRemittanceAccountDetails true");
+
 			Logger.info("Check DataBase");
 
 		}
