@@ -3,12 +3,12 @@ package com.fssa.netbliz.testvalidator;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
-import com.fssa.netbliz.error.AccountValidatorErrors;
-import com.fssa.netbliz.exception.AccountValidatorExceptions;
+import com.fssa.netbliz.error.AccountValidatorError;
+import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.validator.AccountValidator;
 
-public class TestAccountValidators {
+public class TestAccountValidator {
 
 	Account account = new Account();
 
@@ -16,12 +16,12 @@ public class TestAccountValidators {
 	 * This method is going to validate the object is not a null.. The value is set
 	 * through the constructor of the object.. And this method is set the correct to
 	 * the attributes..
-	 *  
+	 * 
 	 */
 
-	@Test 
+	@Test
 
-	public void testValidObject() throws AccountValidatorExceptions {
+	public void testValidObject() throws AccountValidatorException {
 
 		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, "savings");
 
@@ -30,19 +30,20 @@ public class TestAccountValidators {
 
 	@Test
 
-	public void testInvalidObject() throws AccountValidatorExceptions {
+	public void testInvalidObject() throws AccountValidatorException {
 
 		try {
 
 			AccountValidator.validate(null);
 		} catch (Exception e) {
 
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_OBJECT_NULL, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_OBJECT_NULL, e.getMessage());
 		}
 
 	}
 
-	/*
+	/**
+	 * 
 	 * This method is going to validate the account number is valid.. Account number
 	 * should be 16 digits of numbers.. And is doesn't contains any other
 	 * characters..
@@ -50,7 +51,7 @@ public class TestAccountValidators {
 
 	@Test
 
-	public void testvalidAccountNumber() throws AccountValidatorExceptions {
+	public void testvalidAccountNumber() throws AccountValidatorException {
 
 		account.setAccountNumber("1234567890123456");
 
@@ -58,51 +59,51 @@ public class TestAccountValidators {
 	}
 
 	@Test
-	public void testNullAccountNumber() throws AccountValidatorExceptions {
+	public void testNullAccountNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateAccountNumber(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_ACCOUNTNUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_ACCOUNTNUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testEmptyAccountNumber() throws AccountValidatorExceptions {
+	public void testEmptyAccountNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateAccountNumber("");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_EMPTY_ACCOUNTNUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_ACCOUNTNUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testLengthAccountNumber() throws AccountValidatorExceptions {
+	public void testLengthAccountNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateAccountNumber("1234567890");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_LENGTH_ACCOUNTNUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
 
-	public void testpatternAccountNumber() throws AccountValidatorExceptions {
+	public void testpatternAccountNumber() throws AccountValidatorException {
 
 		try {
 
 			AccountValidator.validateAccountNumber("1234567jhsdih890");
 		} catch (Exception e) {
 
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_ACCOUNTNUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_ACCOUNTNUMBER, e.getMessage());
 		}
 	}
 
@@ -113,7 +114,7 @@ public class TestAccountValidators {
 
 	@Test
 
-	public void testvalidIfsc() throws AccountValidatorExceptions {
+	public void testvalidIfsc() throws AccountValidatorException {
 
 		account.setIfsc("IDIB000K132");
 
@@ -123,39 +124,39 @@ public class TestAccountValidators {
 	// This method is going to validate the IFSC Code is invalid..
 
 	@Test
-	public void testNullIfsc() throws AccountValidatorExceptions {
+	public void testNullIfsc() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateIfsc(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_NULL_IFSCCODE, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_NULL_IFSCCODE, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testEmptyIfsc() throws AccountValidatorExceptions {
+	public void testEmptyIfsc() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateIfsc("");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_EMPTY_IFSCCODE, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_IFSCCODE, e.getMessage());
 		}
 
 	}
 
 	@Test
 
-	public void testpatternIfsc() throws AccountValidatorExceptions {
+	public void testpatternIfsc() throws AccountValidatorException {
 
 		try {
 
 			AccountValidator.validateIfsc("12345678901");
 		} catch (Exception e) {
 
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_IFSCCODE, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_IFSCCODE, e.getMessage());
 		}
 	}
 
@@ -168,7 +169,7 @@ public class TestAccountValidators {
 
 	@Test
 
-	public void testvalidPhoneNumber() throws AccountValidatorExceptions {
+	public void testvalidPhoneNumber() throws AccountValidatorException {
 
 		account.setPhoneNumber("9361320511");
 
@@ -180,74 +181,74 @@ public class TestAccountValidators {
 	 */
 
 	@Test
-	public void testNullPhoneNumber() throws AccountValidatorExceptions {
+	public void testNullPhoneNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validatePhoneNumber(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_NULL_PHONENUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_NULL_PHONENUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testEmptyPhoneNumber() throws AccountValidatorExceptions {
+	public void testEmptyPhoneNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validatePhoneNumber("");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_EMPTY_PHONENUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_PHONENUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testLengthPhoneNumber() throws AccountValidatorExceptions {
+	public void testLengthPhoneNumber() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validatePhoneNumber("123457890");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_LENGTH_PHONENUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_LENGTH_PHONENUMBER, e.getMessage());
 		}
 
 	}
 
 	@Test
 
-	public void testpatternPhoneNumber() throws AccountValidatorExceptions {
+	public void testpatternPhoneNumber() throws AccountValidatorException {
 
 		try {
 
 			AccountValidator.validatePhoneNumber("12345t7890");
 		} catch (Exception e) {
 
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_PHONENUMBER, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_PHONENUMBER, e.getMessage());
 		}
 	}
 
 	@Test
-	public void testNullType() throws AccountValidatorExceptions {
+	public void testNullType() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateType(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_NULL_TYPEOFACCOUNT, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_NULL_TYPEOFACCOUNT, e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testEmptyType() throws AccountValidatorExceptions {
+	public void testEmptyType() throws AccountValidatorException {
 
 		try {
 			AccountValidator.validateType("");
 
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_EMPTY_TYPEOFACCOUNT, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_TYPEOFACCOUNT, e.getMessage());
 		}
 
 	}
@@ -258,7 +259,7 @@ public class TestAccountValidators {
 	 */
 
 	@Test
-	public void testValidMinimumBalance() throws AccountValidatorExceptions {
+	public void testValidMinimumBalance() throws AccountValidatorException {
 
 		account.setMinimumBalance(1000.0);
 		Assertions.assertTrue(AccountValidator.validateMinimumBalance(account.getMinimumBalance()));
@@ -268,18 +269,18 @@ public class TestAccountValidators {
 	// This method is check the minimum balance is invalid..
 
 	@Test
-	public void testInvalidMinimumBalance() throws AccountValidatorExceptions {
+	public void testInvalidMinimumBalance() throws AccountValidatorException {
 
 		try {
 
 			AccountValidator.validateMinimumBalance(10);
 		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_MINIMUMBALANCE, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_MINIMUMBALANCE, e.getMessage());
 		}
 	}
 
 	@Test
-	public void testValidType() throws AccountValidatorExceptions {
+	public void testValidType() throws AccountValidatorException {
 
 		account.setCategory("SAVINGS");
 		Assertions.assertTrue(AccountValidator.validateType(account.getCategory()));
@@ -287,7 +288,7 @@ public class TestAccountValidators {
 
 	@Test
 
-	public void testInvalidType() throws AccountValidatorExceptions {
+	public void testInvalidType() throws AccountValidatorException {
 
 		try {
 
@@ -296,7 +297,7 @@ public class TestAccountValidators {
 
 		} catch (Exception e) {
 
-			Assertions.assertEquals(AccountValidatorErrors.INVALID_TYPEOFACCOUNT, e.getMessage());
+			Assertions.assertEquals(AccountValidatorError.INVALID_TYPEOFACCOUNT, e.getMessage());
 		}
 	}
 }

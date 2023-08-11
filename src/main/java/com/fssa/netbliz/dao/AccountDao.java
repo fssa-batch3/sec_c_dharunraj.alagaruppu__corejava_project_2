@@ -8,10 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.netbliz.error.AccountDaoErrors;
-import com.fssa.netbliz.exception.AccountValidatorExceptions;
+import com.fssa.netbliz.error.AccountDaoError;
+import com.fssa.netbliz.exception.AccountDaoException;
+import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.model.Account;
-import com.fssa.netbliz.validator.AccountValidator;
+import com.fssa.netbliz.util.ConnectionUtil;
 
 public class AccountDao {
 	private AccountDao() {
@@ -23,9 +24,9 @@ public class AccountDao {
 	 * give the result
 	 */
 
-	public static final int ZERO = 0;
+	static final int ZERO = 0;
 
-	public static boolean getAccountByNumber(String accNo) throws AccountValidatorExceptions {
+	public static boolean getAccountByNumber(String accNo) throws AccountDaoException {
 
 		String query = "SELECT * FROM account WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
 
@@ -58,13 +59,13 @@ public class AccountDao {
 
 		} catch (SQLException e) {
 
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new AccountDaoException(AccountDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 		return true;
 
 	}
 
-	public static boolean updateAccount(Account account) throws AccountValidatorExceptions  {
+	public static boolean updateAccount(Account account) throws AccountDaoException {
 
 		// SQL query to update the phone number of the account
 		final String query = "UPDATE account SET phone_number = ? WHERE acc_no = ?";
@@ -80,12 +81,12 @@ public class AccountDao {
 			}
 		} catch (SQLException e) {
 
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_UPDATE);
+			throw new AccountDaoException(AccountDaoError.INVALID_UPDATE);
 		}
 		return true;
 	}
 
-	public static boolean addAccount(Account account) throws AccountValidatorExceptions  {
+	public static boolean addAccount(Account account) throws AccountDaoException {
 
 		AccountBalanceCreater ac = new AccountBalanceCreater();
 		// SQL query to insert the account details into the database
@@ -109,11 +110,11 @@ public class AccountDao {
 			}
 		} catch (SQLException e) {
 
-			throw new AccountValidatorExceptions(AccountDaoErrors.ERROR_ALREADY_EXITS);
+			throw new AccountDaoException(AccountDaoError.ERROR_ALREADY_EXITS);
 		}
 	}
 
-	public static boolean exitsCheck(Account account) throws AccountValidatorExceptions  {
+	public static boolean exitsCheck(Account account) throws AccountDaoException {
 
 		// Retrieve a list of all inactive account numbers
 		List<String> inactiveAccountNumbers = getAllInactiveAccountNumber();
@@ -133,7 +134,7 @@ public class AccountDao {
 
 				catch (SQLException e) {
 
-					throw new AccountValidatorExceptions(AccountDaoErrors.ERROR_ALREADY_EXITS);
+					throw new AccountDaoException(AccountDaoError.ERROR_ALREADY_EXITS);
 				}
 			}
 		}
@@ -143,7 +144,7 @@ public class AccountDao {
 		return true;
 	}
 
-	public static List<String> getAllInactiveAccountNumber() throws AccountValidatorExceptions  {
+	public static List<String> getAllInactiveAccountNumber() throws AccountDaoException {
 		final String query = "SELECT acc_no FROM account WHERE is_active = 0";
 
 		List<String> list = new ArrayList<>();
@@ -157,12 +158,12 @@ public class AccountDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new AccountDaoException(AccountDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 	}
 
 	// Marks an account as inactive by account number
-	public static boolean removeAccountByAccountNumber(String accNo) throws AccountValidatorExceptions  {
+	public static boolean removeAccountByAccountNumber(String accNo) throws AccountDaoException {
 
 		String query = "UPDATE account SET is_active = 0 WHERE acc_no = ?";
 
@@ -172,7 +173,7 @@ public class AccountDao {
 				pst.executeUpdate();
 			}
 		} catch (SQLException e) {
-			throw new AccountValidatorExceptions(AccountDaoErrors.INVALID_UPDATE);
+			throw new AccountDaoException(AccountDaoError.INVALID_UPDATE);
 		}
 		return true;
 	}

@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.fssa.netbliz.error.TransactionDaoErrors;
+
+import com.fssa.netbliz.error.TransactionDaoError;
 import com.fssa.netbliz.exception.TransactionDaoException;
 import com.fssa.netbliz.model.Transaction;
+import com.fssa.netbliz.util.ConnectionUtil;
 
 public class TransactionDao {
 
@@ -17,7 +19,10 @@ public class TransactionDao {
 	}
 
 	public static final int INITIALIZE_ZERO = 0;
+	public static final String CRIDIT_DENOTES = "credited";
+	public static final String DEBIT_DENOTES = "debited";
 
+	
 	static double holderBalance = INITIALIZE_ZERO;
 	static double remittanceBalance = INITIALIZE_ZERO;
 
@@ -35,7 +40,7 @@ public class TransactionDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 		return false;
 	}
@@ -56,7 +61,7 @@ public class TransactionDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return avlBalance;
@@ -78,7 +83,7 @@ public class TransactionDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return avlBalance;
@@ -98,7 +103,7 @@ public class TransactionDao {
 				updateRemittanceAccount(trans, con);
 			}
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -114,7 +119,7 @@ public class TransactionDao {
 			pst.executeUpdate();
 			insertAccountHolderDetails(trans, con);
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 		return true;
 	}
@@ -126,14 +131,14 @@ public class TransactionDao {
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, trans.getAccountHolderAccNo());
 			pst.setString(2, trans.getRemittanceAccNo());
-			pst.setString(3, "credited");
+			pst.setString(3, CRIDIT_DENOTES);
 			pst.setDouble(4, trans.getTransferAmount());
 			pst.setDouble(5, holderBalance);
 			pst.setString(6, trans.getRemark());
 			pst.executeUpdate();
 			insertRemittanceAccountDetails(trans, con);
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -147,14 +152,14 @@ public class TransactionDao {
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, trans.getRemittanceAccNo());
 			pst.setString(2, trans.getAccountHolderAccNo());
-			pst.setString(3, "debited");
+			pst.setString(3, DEBIT_DENOTES);
 			pst.setDouble(4, trans.getTransferAmount());
 			pst.setDouble(5, remittanceBalance);
 			pst.setString(6, trans.getRemark());
 			pst.executeUpdate();
 			Logger.info("Check DataBase"); // It's assumed that Logger is a valid logging mechanism
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.INVALID_ACCOUNT_NUMBER);
+			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -183,7 +188,7 @@ public class TransactionDao {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDaoException(TransactionDaoErrors.NON_TRANSACTION);
+			throw new TransactionDaoException(TransactionDaoError.NON_TRANSACTION);
 		}
 
 		return list;
@@ -194,7 +199,7 @@ public class TransactionDao {
 		List<Object> transList = listTransaction(accNo);
 
 		if (transList.isEmpty()) {
-			throw new TransactionDaoException(TransactionDaoErrors.NON_TRANSACTION);
+			throw new TransactionDaoException(TransactionDaoError.NON_TRANSACTION);
 		}
 
 		for (Object list : transList) {

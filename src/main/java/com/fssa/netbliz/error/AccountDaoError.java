@@ -1,9 +1,9 @@
 package com.fssa.netbliz.error;
 
-public final class AccountDaoErrors {
+public final class AccountDaoError {
 
     // account update is invalid
-    public static final String INVALID_UPDATE = "Can't update the account";
+	public static final String INVALID_UPDATE = "Can't update the account";
 
     // account already exists
     public static final String ERROR_ALREADY_EXITS = "The account is already exists";
@@ -12,7 +12,7 @@ public final class AccountDaoErrors {
     
     public static final String INVALID_ACCOUNT_NUMBER = "Cann't fetch data";
     
-    private AccountDaoErrors(){
+    private AccountDaoError(){
     	
     }
 

@@ -1,8 +1,8 @@
 package com.fssa.netbliz.validator;
 
-import com.fssa.netbliz.error.TransactionValidatorErrors;
-import com.fssa.netbliz.exception.AccountValidatorExceptions;
-import com.fssa.netbliz.exception.TransactionValidatorExceptions;
+import com.fssa.netbliz.error.TransactionValidatorError;
+import com.fssa.netbliz.exception.AccountValidatorException;
+import com.fssa.netbliz.exception.TransactionValidatorException;
 import com.fssa.netbliz.model.Transaction;
 
 public class TransactionValidator {
@@ -15,9 +15,9 @@ public class TransactionValidator {
     public static final int MAX_LENGTH_REMARK = 30;
 
     // Validates a Transaction object
-    public static boolean validate(Transaction trans) throws TransactionValidatorExceptions, AccountValidatorExceptions {
+    public static boolean validate(Transaction trans) throws TransactionValidatorException, AccountValidatorException {
         if (trans == null) {
-            throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_OBJECT_NULL);
+            throw new TransactionValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
         }
         
         AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
@@ -29,18 +29,18 @@ public class TransactionValidator {
     }
 
     // Validates the transfer amount
-    public static boolean validateAmount(double amount) throws TransactionValidatorExceptions {
+    public static boolean validateAmount(double amount) throws TransactionValidatorException {
         if (amount >= MINIMUM_TRANSFER_AMOUNT) {
             return true;
         }
-        throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_AMOUNT);
+        throw new TransactionValidatorException(TransactionValidatorError.INVALID_AMOUNT);
     }
 
     // Validates the length of the remark
-    public static boolean validateRemark(String remark) throws TransactionValidatorExceptions {
+    public static boolean validateRemark(String remark) throws TransactionValidatorException {
         if (remark.length() <= MAX_LENGTH_REMARK) {
             return true;
         }
-        throw new TransactionValidatorExceptions(TransactionValidatorErrors.INVALID_REMARK);
+        throw new TransactionValidatorException(TransactionValidatorError.INVALID_REMARK);
     }
 }

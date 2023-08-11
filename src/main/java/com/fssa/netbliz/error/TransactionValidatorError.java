@@ -1,6 +1,6 @@
 package com.fssa.netbliz.error;
 
-public final class TransactionValidatorErrors {
+public final class TransactionValidatorError {
 
 	public static final String REMARK_LENGTH_OVERLOAD = "Remark length should be below 30 charactors";
 
@@ -10,7 +10,7 @@ public final class TransactionValidatorErrors {
 
 	public static final String INVALID_REMARK = "Remark should contains below 30 characters";
 
-	private TransactionValidatorErrors() {
+	private TransactionValidatorError() {
 
 	}
 }

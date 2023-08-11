@@ -1,6 +1,6 @@
 package com.fssa.netbliz.error;
 
-public final class TransactionDaoErrors {
+public final class TransactionDaoError {
 
 	
 	public static final String INVALID_ACCOUNT_NUMBER = "Invalid account number";
@@ -9,7 +9,7 @@ public final class TransactionDaoErrors {
 	
 	public static final String DATE_VALIDATOR = "Invalid date format";
 	
-	private TransactionDaoErrors() {
+	private TransactionDaoError() {
 		
 		
 	}
