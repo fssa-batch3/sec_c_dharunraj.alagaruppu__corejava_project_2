@@ -25,7 +25,7 @@ public class AccountService {
 	public static boolean addAccount(Account account) throws  AccountDaoException, AccountValidatorException { 
 
 		// Validate the account using AccountValidator
-		if (AccountValidator.validate(account)) {
+		if (AccountValidator.validate(account)) { 
 
 			// If validation passes, call the AccountDao to add the account
 			return AccountDao.addAccount(account);
@@ -76,7 +76,7 @@ public class AccountService {
 	}
 
 	// Method to check if there are inactive accounts and return true if found
-	public static boolean getAllInactiveAccountNumber() throws AccountValidatorException, AccountDaoException {
+	public static boolean getAllInactiveAccountNumber() throws AccountDaoException {
 
 		// Call AccountDao to retrieve a list of inactive account numbers
 		List<String> list = AccountDao.getAllInactiveAccountNumber();

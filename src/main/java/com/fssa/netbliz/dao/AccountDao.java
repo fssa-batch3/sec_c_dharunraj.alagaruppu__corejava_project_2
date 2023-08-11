@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.fssa.netbliz.error.AccountDaoError;
 import com.fssa.netbliz.exception.AccountDaoException;
-import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.util.ConnectionUtil;
 
