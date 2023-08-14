@@ -58,7 +58,7 @@ public class AccountValidator {
 		String regexAccountNumber = "\\d{16}";
 		Pattern pattern = Pattern.compile(regexAccountNumber); // compiles the given pattern
 		Matcher matcher = pattern.matcher(accountNumber); // matcher matches the given string with compiled pattern
-		Boolean isMatch = matcher.matches(); // give final output as true or false
+		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (!isMatch) {
 
 			throw new AccountValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
