@@ -13,12 +13,12 @@ import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.util.ConnectionUtil;
 
-public class AccountDao {
+public class AccountDao { 
 	private AccountDao() {
 //		private constructor
 	}
 
-	/*
+	/**
 	 * This account is working for user get details by give the account and it's
 	 * give the result
 	 */

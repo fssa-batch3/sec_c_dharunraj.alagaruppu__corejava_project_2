@@ -25,7 +25,7 @@ public class AccountService {
 	public static boolean addAccount(Account account) throws  AccountDaoException, AccountValidatorException { 
 
 		// Validate the account using AccountValidator
-		if (AccountValidator.validate(account)) { 
+		if (AccountValidator.validate(account)) {  
 
 			// If validation passes, call the AccountDao to add the account
 			return AccountDao.addAccount(account);

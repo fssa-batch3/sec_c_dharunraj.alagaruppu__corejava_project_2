@@ -1,4 +1,4 @@
-package com.fssa.netbliz.testservice;
+package com.fssa.netbliz.service;
 
 import java.sql.SQLException;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class TestAccountService {
 		Assertions.assertTrue(AccountService.addAccount(account));
 		
 		Logger.info("Account Added Successfully");
-	}  
+	}   
 
 	// Specifying the account number to retrieve.
 	@Test

@@ -2,14 +2,12 @@ package com.fssa.netbliz.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.fssa.netbliz.error.AccountValidatorError;
 import com.fssa.netbliz.error.CustomerValidatorError;
 import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.exception.CustomerValidatorException;
 import com.fssa.netbliz.model.Customer;
 
-public class CustomerValidator {
+public class CustomerValidator { 
 
 	private CustomerValidator() {
 
@@ -21,7 +19,7 @@ public class CustomerValidator {
 
 	public static boolean validate(Customer customer) throws CustomerValidatorException, AccountValidatorException {
 
-		if (customer == null) {
+		if (customer == null) { 
 
 			throw new CustomerValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
@@ -105,11 +103,6 @@ public class CustomerValidator {
 			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMAIL);
 		}
 
-		else if (email.trim().length() >= LENGTH_OF_LAST_NAME) {
-
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMAIL);
-		}
-
 		String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 		Pattern pattern = Pattern.compile(regexEmail); // compiles the given pattern
 		Matcher matcher = pattern.matcher(email); // matcher matches the given string with compiled pattern
@@ -134,18 +127,13 @@ public class CustomerValidator {
 			throw new CustomerValidatorException(CustomerValidatorError.INVALID_PASSWORD);
 		}
 
-		else if (password.trim().length() >= LENGTH_OF_LAST_NAME) {
-
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_PASSWORD);
-		}
-
 		String regexStrongPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 		Pattern pattern = Pattern.compile(regexStrongPassword); // compiles the given pattern
 		Matcher matcher = pattern.matcher(password); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (isMatch != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_PASSWORD);
+			return false;
 		}
 		return true;
 

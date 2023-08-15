@@ -1,4 +1,4 @@
-package com.fssa.netbliz.testvalidator;
+package com.fssa.netbliz.validator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

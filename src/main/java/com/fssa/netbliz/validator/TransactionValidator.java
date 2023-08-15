@@ -18,7 +18,7 @@ public class TransactionValidator {
     public static boolean validate(Transaction trans) throws TransactionValidatorException, AccountValidatorException {
         if (trans == null) {
             throw new TransactionValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
-        }
+        } 
         
         AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
         AccountValidator.validateAccountNumber(trans.getRemittanceAccNo());

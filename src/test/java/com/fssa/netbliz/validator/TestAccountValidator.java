@@ -1,4 +1,4 @@
-package com.fssa.netbliz.testvalidator;
+package com.fssa.netbliz.validator;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -6,17 +6,16 @@ import org.junit.jupiter.api.Assertions;
 import com.fssa.netbliz.error.AccountValidatorError;
 import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.model.Account;
-import com.fssa.netbliz.validator.AccountValidator;
 
 public class TestAccountValidator {
 
 	Account account = new Account();
 
-	/*
+	/**
 	 * This method is going to validate the object is not a null.. The value is set
 	 * through the constructor of the object.. And this method is set the correct to
 	 * the attributes..
-	 * 
+	 *  
 	 */
 
 	@Test
@@ -40,7 +39,7 @@ public class TestAccountValidator {
 			Assertions.assertEquals(AccountValidatorError.INVALID_OBJECT_NULL, e.getMessage());
 		}
 
-	}
+	} 
 
 	/**
 	 * 
@@ -92,7 +91,7 @@ public class TestAccountValidator {
 			Assertions.assertEquals(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER, e.getMessage());
 		}
 
-	}
+	} 
 
 	@Test
 
@@ -107,7 +106,7 @@ public class TestAccountValidator {
 		}
 	}
 
-	/*
+	/***
 	 * This method is going to validate the IFSC code is valid.. It is contains
 	 * count of 11 numeric characters.. And It's value doesn't null
 	 */
@@ -160,7 +159,7 @@ public class TestAccountValidator {
 		}
 	}
 
-	/*
+	/**
 	 * This method is going to validate the phone number is valid.. This method
 	 * don't accept the empty value for user.. And It's doesn't have any other null
 	 * values..
@@ -253,7 +252,7 @@ public class TestAccountValidator {
 
 	}
 
-	/*
+	/**
 	 * This method is going to validate the Minimum balance is valid.. The minimum
 	 * balance should be greater than 500 rupee and less than 25000 rupee
 	 */
