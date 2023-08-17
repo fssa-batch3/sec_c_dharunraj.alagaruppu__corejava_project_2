@@ -40,4 +40,13 @@ public class CustomerDao {
 		return true;
 
 	}
+	
+	public static boolean deleteAccount(String email) throws CustomerDaoException{
+		
+		
+		return false;	
+		
+	} 
+	
+	
 }
