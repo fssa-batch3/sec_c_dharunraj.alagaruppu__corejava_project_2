@@ -13,7 +13,7 @@ import com.fssa.netbliz.exception.AccountDaoException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.util.ConnectionUtil;
 
-public class AccountDao { 
+public class AccountDao {
 	private AccountDao() {
 //		private constructor
 	}
@@ -64,32 +64,11 @@ public class AccountDao {
 
 	}
 
-	public static boolean updateAccount(Account account) throws AccountDaoException {
-
-		// SQL query to update the phone number of the account
-		final String query = "UPDATE account SET phone_number = ? WHERE acc_no = ?";
-
-		try (Connection con = ConnectionUtil.getConnection()) {
-			try (PreparedStatement pst = con.prepareStatement(query)) {
-				// Set the parameters for the prepared statement
-				pst.setString(1, account.getPhoneNumber());
-				pst.setString(2, account.getAccountNumber());
-
-				// Execute the update query
-				pst.executeUpdate();
-			}
-		} catch (SQLException e) {
-
-			throw new AccountDaoException(AccountDaoError.INVALID_UPDATE);
-		}
-		return true;
-	}
-
 	public static boolean addAccount(Account account) throws AccountDaoException {
 
 		AccountBalanceCreater ac = new AccountBalanceCreater();
 		// SQL query to insert the account details into the database
-		final String query = "INSERT INTO account (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		final String query = "INSERT INTO account (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance,customer_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -100,7 +79,7 @@ public class AccountDao {
 				pst.setDouble(4, account.getMinimumBalance());
 				pst.setString(5, account.getCategory());
 				pst.setDouble(6, ac.randomBalance());
-				pst.setBoolean(7, true);
+				pst.setInt(7, getPrimaryCustomerId(account));
 
 				// Execute the insert query
 				int row = pst.executeUpdate();
@@ -175,5 +154,34 @@ public class AccountDao {
 			throw new AccountDaoException(AccountDaoError.INVALID_UPDATE);
 		}
 		return true;
+	}
+
+	public static int getPrimaryCustomerId(Account account) throws AccountDaoException {
+
+		int id = 0;
+		final String query = "SELECT customer_id FROM customer WHERE phone = ? ";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+
+				pst.setString(1, account.getPhoneNumber());
+
+				try (ResultSet rs = pst.executeQuery()) {
+
+					while (rs.next()) {
+
+						id = rs.getInt("customer_id");
+
+					}
+				}
+			}
+		} catch (SQLException e) {
+
+			throw new AccountDaoException(AccountDaoError.INVALID_PHONE_NUMBER);
+		}
+
+		return id;
+
 	}
 }

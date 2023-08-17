@@ -2,8 +2,6 @@ package com.fssa.netbliz.validator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import com.fssa.netbliz.error.AccountValidatorError;
 import com.fssa.netbliz.error.CustomerValidatorError;
 import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.exception.CustomerValidatorException;

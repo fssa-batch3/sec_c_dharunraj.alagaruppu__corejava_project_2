@@ -47,20 +47,6 @@ public class AccountService {
 		return false;
 	}
 
-	// Method to update an account
-	public static boolean updateAccount(Account account) throws AccountValidatorException, AccountDaoException {
-
-		// Validate the account using AccountValidator
-		if (AccountValidator.validate(account)) {
-
-			// If validation passes, call the AccountDao to update the account
-			return AccountDao.updateAccount(account);
-		}
-
-		// If validation fails, return false
-		return false;
-	}
-
 	// Method to check if an account exists
 	public static boolean exitsCheck(Account account) throws AccountValidatorException, AccountDaoException {
 

@@ -12,6 +12,8 @@ public final class AccountDaoError {
     
     public static final String INVALID_ACCOUNT_NUMBER = "Cann't fetch data";
     
+    public static final String INVALID_PHONE_NUMBER = "This phone number have a account ";
+    
     private AccountDaoError(){
     	
     }

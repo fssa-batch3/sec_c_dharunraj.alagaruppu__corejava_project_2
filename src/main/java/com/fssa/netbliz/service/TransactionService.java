@@ -45,7 +45,7 @@ public class TransactionService {
 	public static boolean isActiveAccount(String accNo) throws TransactionDaoException {
 		if (TransactionDao.isActiveAccount(accNo)) {
 			Logger.info(accNo + " is currently active");
-			return true;
+			return true; 
 		}
 		return false;
 	}

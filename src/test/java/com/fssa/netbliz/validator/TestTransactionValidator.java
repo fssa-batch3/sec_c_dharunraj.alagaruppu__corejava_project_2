@@ -2,12 +2,10 @@ package com.fssa.netbliz.validator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import com.fssa.netbliz.error.TransactionValidatorError;
 import com.fssa.netbliz.exception.AccountValidatorException;
 import com.fssa.netbliz.exception.TransactionValidatorException;
 import com.fssa.netbliz.model.Transaction;
-import com.fssa.netbliz.validator.TransactionValidator;
 
 class TestTransactionValidator {
 

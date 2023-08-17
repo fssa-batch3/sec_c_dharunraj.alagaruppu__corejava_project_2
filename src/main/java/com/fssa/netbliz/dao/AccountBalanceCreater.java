@@ -14,7 +14,7 @@ public class AccountBalanceCreater {
 		double min = FROM_MINIMUM_BALANCE;
 		double max = UPTO_MINIMUM_BALANCE;
 
-		// Generate a random double value between min and max
+		// Generate a random double value between minimum and maximum
 		double randomValue = this.random.nextDouble() * (max - min) + min;
 
 		// Round the random value to two decimal points

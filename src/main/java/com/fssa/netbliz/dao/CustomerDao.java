@@ -28,7 +28,7 @@ public class CustomerDao {
 				pst.setString(4, customer.getPhoneNumber());
 				pst.setString(5, customer.getPassword());
 				pst.executeUpdate();
-				System.out.println("Welcome to NETBLIZ");
+
 			}
 
 		}
@@ -40,13 +40,4 @@ public class CustomerDao {
 		return true;
 
 	}
-	
-	public static boolean deleteAccount(String email) throws CustomerDaoException{
-		
-		
-		return false;	
-		
-	} 
-	
-	
 }

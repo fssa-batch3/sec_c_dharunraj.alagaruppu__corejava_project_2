@@ -35,10 +35,10 @@ public class TransactionDao {
 				pst.setString(1, holder);
 				try (ResultSet rs = pst.executeQuery()) {
 					while (rs.next()) {
-						return true;
+						return true; 
 					}
 				}
-			}
+			} 
 		} catch (SQLException e) {
 			throw new TransactionDaoException(TransactionDaoError.INVALID_ACCOUNT_NUMBER);
 		}
