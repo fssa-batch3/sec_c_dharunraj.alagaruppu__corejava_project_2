@@ -16,7 +16,7 @@ public class TestAccountService {
 	@Test
 	public void testValidAddAccount() throws Exception { // before commit update the new account number
 
-		Account account = new Account("2345678901234566", "IDIB000K132", "7402473347", 1000.0, "savings");
+		Account account = new Account("2345678901234561", "IDIB000K132", "7402473347", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountService.addAccount(account));
 		
@@ -45,7 +45,7 @@ public class TestAccountService {
 	public void testExitsCheck() throws AccountValidatorException, AccountDaoException { // before commit update
 																									// the new account
 																									// number
-		Account account = new Account("23456789012344", "IDIB000K132", "7402473347", 1000.0, "savings");
+		Account account = new Account("2345678901234452", "IDIB000K132", "7402473347", 1000.0, "savings");
 
 		Assertions.assertTrue(AccountService.exitsCheck(account));
 	}

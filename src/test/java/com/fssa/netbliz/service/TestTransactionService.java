@@ -25,7 +25,7 @@ class TestTransactionService {
 
 	@Test 
 	void isActiveAccount() throws Exception {
-		String accNo = "1234567890123454";
+		String accNo = "1234567890123456";
 
 		// Check if the account is active and assert true if active
 		Assertions.assertTrue(TransactionService.isActiveAccount(accNo));
