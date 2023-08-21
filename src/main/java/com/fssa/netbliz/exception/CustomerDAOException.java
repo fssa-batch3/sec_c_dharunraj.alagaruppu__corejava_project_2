@@ -1,10 +1,10 @@
 package com.fssa.netbliz.exception;
 
-public class CustomerDaoException extends Exception {
+public class CustomerDAOException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	public CustomerDaoException(String msg) {
+	public CustomerDAOException(String msg) {
 		
 		super(msg);
 	}

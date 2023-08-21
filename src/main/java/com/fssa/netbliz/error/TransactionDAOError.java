@@ -1,6 +1,6 @@
 package com.fssa.netbliz.error;
 
-public final class TransactionDaoError {
+public final class TransactionDAOError {
 
 	
 	public static final String INVALID_ACCOUNT_NUMBER = "Invalid account number";
@@ -9,7 +9,9 @@ public final class TransactionDaoError {
 	
 	public static final String DATE_VALIDATOR = "Invalid date format";
 	
-	private TransactionDaoError() {
+	public static final String DISMATCH_PHONE_NUMBER = "You can't share money with your account";
+	
+	private TransactionDAOError() {
 		
 		
 	}

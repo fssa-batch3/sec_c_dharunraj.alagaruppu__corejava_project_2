@@ -15,7 +15,7 @@ public class Transaction {
         this.remittanceAccNo = remittanceAccNo;
         this.receiverIfscCode = receiverIfscCode;
         this.transferAmount = transferAmount;
-        this.remark = remark;
+        this.remark = remark; 
     }
  
     // Default constructor

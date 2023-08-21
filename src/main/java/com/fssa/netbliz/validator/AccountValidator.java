@@ -13,16 +13,25 @@ public class AccountValidator {
 
 	private AccountValidator() {
 
-	} 
+	}
 
 	public static final int ACCOUNT_NUMBER_LENGTH = 16;
 	public static final int PHONE_NUMBER_LENGTH = 10;
 	public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
 	public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
 
+	/**
+	 * Validates the provided account object's data.
+	 *
+	 * @param account The account object to be validated
+	 * @return True if the account data is valid, false otherwise
+	 * @throws AccountValidatorException If any validation error occurs during the
+	 *                                   process
+	 */
+
 	public static boolean validate(Account account) throws AccountValidatorException {
- 
-		if (account == null) { 
+
+		if (account == null) {
 
 			throw new AccountValidatorException(AccountValidatorError.INVALID_OBJECT_NULL);
 		}
@@ -32,11 +41,16 @@ public class AccountValidator {
 		validateMinimumBalance(account.getMinimumBalance());
 		validatePhoneNumber(account.getPhoneNumber());
 		validateType(account.getCategory());
-		return true; 
+		return true;
 	}
 
-	// validateAccountNumber validate method is check the string is null or empty or
-	// less than the 16 digit number..
+	/**
+	 * Validates the format and length of an account number.
+	 *
+	 * @param accountNumber The account number to be validated
+	 * @return True if the account number is valid, false otherwise
+	 * @throws AccountValidatorException If the account number is invalid
+	 */
 
 	public static boolean validateAccountNumber(String accountNumber) throws AccountValidatorException {
 
@@ -67,8 +81,14 @@ public class AccountValidator {
 		return true;
 	}
 
-	// validateIfsc validate method is going to check the IFSC code is valid or
-	// not..
+	/**
+	 * Validates an IFSC code to ensure it follows the correct format.
+	 *
+	 * @param ifsc The IFSC code to be validated.
+	 * @return {@code true} if the IFSC code is valid, {@code false} otherwise.
+	 * @throws AccountValidatorException If the provided IFSC code is null, empty,
+	 *                                   or invalid.
+	 */
 
 	public static boolean validateIfsc(String ifsc) throws AccountValidatorException {
 
@@ -89,15 +109,20 @@ public class AccountValidator {
 		boolean isMatch = matcher.matches(); // give is return the boolean value true or false
 		if (!isMatch) {
 
-			Logger.info("Invalid ifsc");
 			throw new AccountValidatorException(AccountValidatorError.INVALID_IFSCCODE);
 
 		}
 		return true;
 	}
 
-	// validatePhoneNumber method is going to validate the phone number length and
-	// null or not..
+	/**
+	 * Validates a phone number to ensure it follows the correct format and length.
+	 *
+	 * @param phoneNumber The phone number to be validated.
+	 * @return {@code true} if the phone number is valid, {@code false} otherwise.
+	 * @throws AccountValidatorException If the provided phone number is null,
+	 *                                   empty, of incorrect length, or invalid.
+	 */
 
 	public static boolean validatePhoneNumber(String phoneNumber) throws AccountValidatorException {
 
@@ -129,7 +154,14 @@ public class AccountValidator {
 
 	}
 
-	// isValidType method is validate given type of the bank is given by user..
+	/**
+	 * Validates an account type to ensure it is one of the valid types.
+	 *
+	 * @param type The account type to be validated.
+	 * @return {@code true} if the account type is valid, {@code false} otherwise.
+	 * @throws AccountValidatorException If the provided account type is null,
+	 *                                   empty, not recognized, or invalid.
+	 */
 
 	public static boolean validateType(String type) throws AccountValidatorException {
 
@@ -154,7 +186,15 @@ public class AccountValidator {
 
 	}
 
-	// validateMinimumBalance method is validate if minimum balance is required..
+	/**
+	 * Validates a minimum balance to ensure it falls within an acceptable range.
+	 *
+	 * @param minimumBalance The minimum balance to be validated.
+	 * @return {@code true} if the minimum balance is valid, {@code false}
+	 *         otherwise.
+	 * @throws AccountValidatorException If the provided minimum balance is outside
+	 *                                   the acceptable range.
+	 */
 
 	public static boolean validateMinimumBalance(double minimumBalance) throws AccountValidatorException {
 

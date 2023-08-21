@@ -4,19 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.fssa.netbliz.error.CustomerDaoError;
-import com.fssa.netbliz.exception.CustomerDaoException;
+import com.fssa.netbliz.error.CustomerDAOError;
+import com.fssa.netbliz.exception.CustomerDAOException;
 import com.fssa.netbliz.model.Customer;
 import com.fssa.netbliz.util.ConnectionUtil;
 
-public class CustomerDao {
-	private CustomerDao() {
-//		private constructor
+public class CustomerDAO {
+	private CustomerDAO() {
+//		private constructor 
 	}
 
-	public static boolean addCustomer(Customer customer) throws CustomerDaoException {
+	public static boolean addCustomer(Customer customer) throws CustomerDAOException {
 
-		final String query = "INSERT INTO customer (f_name,l_name,email,phone,password) VALUES (?,?,?,?,?)";
+		final String query = "INSERT INTO customers (f_name,l_name,email,phone,password) VALUES (?,?,?,?,?)";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -35,7 +35,7 @@ public class CustomerDao {
 
 		catch (SQLException e) {
 
-			throw new CustomerDaoException(CustomerDaoError.INVALID_DATA);
+			throw new CustomerDAOException(CustomerDAOError.INVALID_DATA);
 		}
 		return true;
 

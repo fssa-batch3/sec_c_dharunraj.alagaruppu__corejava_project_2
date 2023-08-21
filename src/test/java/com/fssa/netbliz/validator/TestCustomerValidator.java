@@ -19,7 +19,7 @@ public class TestCustomerValidator {
 				"1234567890Dh@");
 
 		Assertions.assertTrue(CustomerValidator.validate(customer));
-	}
+	} 
 
 	@Test
 
@@ -51,7 +51,7 @@ public class TestCustomerValidator {
 			CustomerValidator.validateFirstName(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_FIRST_NAME, e.getMessage());
 		}
 
 	}
@@ -62,7 +62,7 @@ public class TestCustomerValidator {
 		try {
 			CustomerValidator.validateFirstName("");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_FIRST_NAME, e.getMessage());
 		}
 
 	}
@@ -87,7 +87,7 @@ public class TestCustomerValidator {
 
 			CustomerValidator.validateFirstName("qwertyuiopasdfghjklzxcvbnmqwertyuio");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_LENGTH_FIRST_NAME, e.getMessage());
 		}
 	}
 
@@ -107,7 +107,7 @@ public class TestCustomerValidator {
 			CustomerValidator.validateLastName(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_LAST_NAME, e.getMessage());
 		}
 
 	}
@@ -118,7 +118,7 @@ public class TestCustomerValidator {
 		try {
 			CustomerValidator.validateLastName("");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_LAST_NAME, e.getMessage());
 		}
 
 	}
@@ -143,7 +143,7 @@ public class TestCustomerValidator {
 
 			CustomerValidator.validateLastName("qwertyuiopasdfghjklzxcvbnmqwertyuio");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_LENGTH_LAST_NAME, e.getMessage());
 		}
 	}
 
@@ -163,7 +163,7 @@ public class TestCustomerValidator {
 			CustomerValidator.validateEmail(null);
 
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_EMAIL, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_EMAIL, e.getMessage());
 		}
 
 	}
@@ -174,7 +174,7 @@ public class TestCustomerValidator {
 		try {
 			CustomerValidator.validateEmail("");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_EMAIL, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_EMAIL ,e.getMessage());
 		}
 
 	}
@@ -187,7 +187,7 @@ public class TestCustomerValidator {
 
 			CustomerValidator.validateEmail("dharungmail");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_EMAIL, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_PATTERN_EMAIL, e.getMessage());
 		}
 	}
 
@@ -204,13 +204,13 @@ public class TestCustomerValidator {
 	public void testNullPassword() throws CustomerValidatorException {
 
 		try {
-			CustomerValidator.validatePassword(null);
+			CustomerValidator.validatePassword(null); 
 
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_PASSWORD, e.getMessage());
 		}
 
-	}
+	} 
 
 	@Test
 	public void testEmptyPassword() throws CustomerValidatorException {
@@ -218,7 +218,7 @@ public class TestCustomerValidator {
 		try {
 			CustomerValidator.validatePassword("");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_PASSWORD, e.getMessage());
 		}
 
 	}
@@ -229,7 +229,7 @@ public class TestCustomerValidator {
 
 		try {
 
-			CustomerValidator.validatePassword("dharungmail");
+			CustomerValidator.validatePassword("Dharunraj@123");
 		} catch (Exception e) {
 			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
 		}
@@ -244,7 +244,7 @@ public class TestCustomerValidator {
 			CustomerValidator.validateComparePassword(null, null);
 		} catch (Exception e) {
 
-			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_PASSWORD, e.getMessage());
 		}
 	}
 
@@ -257,7 +257,7 @@ public class TestCustomerValidator {
 			CustomerValidator.validateComparePassword("", "");
 		} catch (Exception e) {
 
-			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_PASSWORD, e.getMessage());
 		}
 	}
 
@@ -267,10 +267,10 @@ public class TestCustomerValidator {
 
 		try {
 
-			CustomerValidator.validateComparePassword("dharunraj123", "dharunraj123");
+			CustomerValidator.validateComparePassword("Dharunraj@123", "Dharunraj@124"); 
 		} catch (Exception e) {
 
-			Assertions.assertEquals(CustomerValidatorError.INVALID_PASSWORD, e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.WRONG_PASSWORD, e.getMessage());
 		}
 	}
 

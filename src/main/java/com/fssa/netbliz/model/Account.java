@@ -10,7 +10,7 @@ public class Account {
 	private double minimumBalance;
 
 	// No argument constructor
-	public Account() {   
+	public Account() {    
 		// Empty constructor used for creating an instance without setting attributes
 	}
  
@@ -23,7 +23,7 @@ public class Account {
 		this.minimumBalance = minimumBalance;
 		this.typeOfAccount = typeOfAccount;
 	}
-
+ 
 	public String getAccountNumber() {
 		return accountNumber;
 	}

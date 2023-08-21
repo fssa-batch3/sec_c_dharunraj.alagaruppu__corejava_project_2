@@ -19,7 +19,7 @@ class TestTransactionValidator {
 		Assertions.assertTrue(TransactionValidator.validateAmount(trans.getTransferAmount()));
 	}
 
-	@Test
+	@Test 
 	void testInValidAmount() throws TransactionValidatorException {
 		try {
 			// Validate an invalid transfer amount and assert the correct exception message
