@@ -45,7 +45,7 @@ This table stores information about customer accounts.
 | is_active        | BOOLEAN           | NOT NULL                                    | Indicates if the account is active.  |
 | account_type     | VARCHAR(40)       | NOT NULL                                    | Type of the account (e.g., savings, current, etc.). |
 | date_of_joining  | TIMESTAMP         | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, NOT NULL | Date of joining the bank.       |
-| customer_id      | BIGINT            | NOT NULL                                    | Foreign key referencing the customer.|
+| customer_id      | BIGINT            | NOT NULL REFERENCES Customers (customer_id) | Foreign key referencing the customer.|
 
 
 ## Transactions Table
@@ -63,5 +63,5 @@ This table stores information about transactions.
 | paid_time      | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP, NOT NULL         | Timestamp of when the transaction was initiated.  |
 | debited_time   | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP, NOT NULL         | Timestamp of when the amount was debited.         |
 | remark         | VARCHAR(30)   | NULL                                        | Additional remarks or notes about the transaction.|
-| acc_holder     | FOREIGN KEY   | REFERENCES account(acc_no)                  | Foreign key referencing the account holder's account number.|
+| acc_holder     | FOREIGN KEY   | REFERENCES accounts(acc_no)                  | Foreign key referencing the account holder's account number.|
 
