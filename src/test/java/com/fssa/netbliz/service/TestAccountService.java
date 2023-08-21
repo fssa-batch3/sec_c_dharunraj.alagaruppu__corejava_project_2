@@ -29,7 +29,7 @@ public class TestAccountService {
 																								// the new account
 																								// number
 
-		Account account = new Account("0987654321123454", "IDIB000K132", "9600678232", 5000.0, "savings");
+		Account account = new Account("8987654321123454", "IDIB000K132", "8901234567", 5000.0, "savings");
 
 		Assertions.assertTrue(AccountService.addAccount(account));
 
@@ -91,7 +91,7 @@ public class TestAccountService {
 	public void testExitsCheck() throws AccountValidatorException, AccountDAOException { // before commit update
 																							// the new account
 																							// number
-		Account account = new Account("1234567890123453", "IDIB000K132", "9361320511", 25000.0, "savings");
+		Account account = new Account("8234567890123453", "IDIB000K132", "8901234567", 25000.0, "savings");
 
 		Assertions.assertTrue(AccountService.exitsCheck(account));
 	}
