@@ -3,8 +3,7 @@ package com.fssa.netbliz.validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.fssa.netbliz.error.TransactionValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
-import com.fssa.netbliz.exception.TransactionValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Transaction;
 
 class TestTransactionValidator {
@@ -12,15 +11,15 @@ class TestTransactionValidator {
 	Transaction trans = new Transaction();
 
 	@Test
-	void testValidateAmount() throws TransactionValidatorException {
+	void testValidateAmount() throws ValidatorException {
 		trans.setTransferAmount(10.0);
 
 		// Validate a valid transfer amount and assert true
 		Assertions.assertTrue(TransactionValidator.validateAmount(trans.getTransferAmount()));
 	}
 
-	@Test 
-	void testInValidAmount() throws TransactionValidatorException {
+	@Test
+	void testInValidAmount() throws ValidatorException {
 		try {
 			// Validate an invalid transfer amount and assert the correct exception message
 			TransactionValidator.validateAmount(0);
@@ -30,7 +29,7 @@ class TestTransactionValidator {
 	}
 
 	@Test
-	void testValidateRemark() throws TransactionValidatorException {
+	void testValidateRemark() throws ValidatorException {
 		trans.setRemark("bill payment");
 
 		// Validate a valid remark and assert true
@@ -38,7 +37,7 @@ class TestTransactionValidator {
 	}
 
 	@Test
-	void testInValidRemark() throws TransactionValidatorException {
+	void testInValidRemark() throws ValidatorException {
 		try {
 			// Validate an invalid remark and assert the correct exception message
 			TransactionValidator.validateRemark(
@@ -49,7 +48,7 @@ class TestTransactionValidator {
 	}
 
 	@Test
-	void testNullValidate() throws TransactionValidatorException {
+	void testNullValidate() throws ValidatorException {
 		try {
 			// Validate null Transaction and assert the correct exception message
 			TransactionValidator.validate(null);
@@ -59,7 +58,7 @@ class TestTransactionValidator {
 	}
 
 	@Test
-	void testValidate() throws TransactionValidatorException, AccountValidatorException {
+	void testValidate() throws ValidatorException {
 		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "bill pay");
 
 		// Validate a valid Transaction and assert true

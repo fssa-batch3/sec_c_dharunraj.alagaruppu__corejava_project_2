@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.netbliz.error.TransactionDAOError;
-import com.fssa.netbliz.exception.TransactionDAOException;
+import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.model.Transaction;
 import com.fssa.netbliz.util.ConnectionUtil;
+import com.fssa.netbliz.util.Logger;
 
 public class TransactionDAO {
 
@@ -23,9 +24,9 @@ public class TransactionDAO {
 	public static final String DEBIT_DENOTES = "debited";
 
 	static double holderBalance = INITIALIZE_ZERO;
-	static double remittanceBalance = INITIALIZE_ZERO;
+	static double remittanceBalance = INITIALIZE_ZERO; 
 
-	public static String phoneNumberCheck(Connection con, String accountNumber) throws TransactionDAOException {
+	public static String phoneNumberCheck(Connection con, String accountNumber) throws DAOException {
 
 		final String query = "SELECT phone_number FROM accounts WHERE acc_no = ?";
 
@@ -44,7 +45,7 @@ public class TransactionDAO {
 			}
 		} catch (SQLException e) {
 
-			throw new TransactionDAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
+			throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
 		}
 
 		return null;
@@ -60,11 +61,11 @@ public class TransactionDAO {
 	 * @param con   The Connection object for database access.
 	 * @return The updated available balance of the account holder after the
 	 *         transaction.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static double accountHolderConditions(Transaction trans, Connection con) throws TransactionDAOException {
+	public static double accountHolderConditions(Transaction trans, Connection con) throws DAOException {
 
 		String query = "SELECT avl_balance FROM accounts WHERE acc_no = ? AND is_active = true AND avl_balance >= ?";
 
@@ -80,7 +81,7 @@ public class TransactionDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return avlBalance;
@@ -96,11 +97,11 @@ public class TransactionDAO {
 	 * @param con   The Connection object for database access.
 	 * @return The updated available balance of the remittance account after the
 	 *         transaction.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static double remittanceAccountConditions(Transaction trans, Connection con) throws TransactionDAOException {
+	public static double remittanceAccountConditions(Transaction trans, Connection con) throws DAOException {
 		String query = "SELECT avl_balance FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = true";
 
 		double avlBalance = INITIALIZE_ZERO;
@@ -117,7 +118,7 @@ public class TransactionDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return avlBalance;
@@ -130,11 +131,11 @@ public class TransactionDAO {
 	 *
 	 * @param trans The Transaction object containing transaction details.
 	 * @return True if the update is successful, otherwise false.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static boolean updateHolderAccount(Transaction trans) throws TransactionDAOException {
+	public static boolean updateHolderAccount(Transaction trans) throws DAOException {
 		String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -157,14 +158,14 @@ public class TransactionDAO {
 					}
 					else {
 						
-						throw new TransactionDAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
+						throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
 					}
 
 				}
 
 			}
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -177,11 +178,11 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the update is successful, otherwise false.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws TransactionDAOException {
+	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws DAOException {
 		String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -191,7 +192,7 @@ public class TransactionDAO {
 			insertAccountHolderDetails(trans, con);
 
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 		return true;
 	}
@@ -203,11 +204,11 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the insertion is successful, otherwise false.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws TransactionDAOException {
+	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws DAOException {
 		String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -220,7 +221,7 @@ public class TransactionDAO {
 			pst.executeUpdate();
 			insertRemittanceAccountDetails(trans, con);
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -233,12 +234,12 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the insertion is successful, otherwise false.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
 	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con)
-			throws TransactionDAOException {
+			throws DAOException {
 		String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -251,7 +252,7 @@ public class TransactionDAO {
 			pst.executeUpdate();
 			Logger.info("Check DataBase"); // It's assumed that Logger is a valid logging mechanism
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
 		return true;
@@ -264,12 +265,12 @@ public class TransactionDAO {
 	 *
 	 * @param accNo The account number for which transactions are to be retrieved.
 	 * @return A list of Transaction objects representing the transactions.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static List<Object> listTransaction(String accNo) throws TransactionDAOException {
-		ArrayList<Object> list = new ArrayList<>();
+	public static List<Object> listTransaction(String accNo) throws DAOException {
+		List<Object> list = new ArrayList<>();
 
 		String query = "SELECT * FROM transactions WHERE acc_holder = ? OR remittance = ?";
 
@@ -290,7 +291,7 @@ public class TransactionDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new TransactionDAOException(TransactionDAOError.NON_TRANSACTION);
+			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
 
 		return list;
@@ -301,15 +302,15 @@ public class TransactionDAO {
 	 *
 	 * @param accNo The account number for which transactions are to be printed.
 	 * @return True if the printing is successful, otherwise false.
-	 * @throws TransactionDAOException If there are issues with the transaction data
+	 * @throws DAOException If there are issues with the transaction data
 	 *                                 access.
 	 */
 
-	public static boolean printTransactions(String accNo) throws TransactionDAOException {
+	public static boolean printTransactions(String accNo) throws DAOException {
 		List<Object> transList = listTransaction(accNo);
 
 		if (transList.isEmpty()) {
-			throw new TransactionDAOException(TransactionDAOError.NON_TRANSACTION);
+			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
 
 		for (Object list : transList) {

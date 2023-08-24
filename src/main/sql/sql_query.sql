@@ -1,51 +1,44 @@
 -- Create 'customers' table
 CREATE TABLE IF NOT EXISTS customers (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    f_name VARCHAR(30) NOT NULL,
-    l_name VARCHAR(30) NOT NULL,
-    email VARCHAR(30) NOT NULL UNIQUE,
-    phone VARCHAR(10) NOT NULL,
-    pass VARCHAR(30) NOT NULL
+customer_id BIGINT AUTO_INCREMENT PRIMARY KEY ,
+f_name VARCHAR(30) NOT NULL,
+l_name VARCHAR(30) NOT NULL,
+email  VARCHAR(50) NOT NULL ,
+phone BIGINT NOT NULL UNIQUE,
+password VARCHAR(30) NOT NULL,
+ is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- Select all records from 'customers' table
-SELECT * FROM customers;
-
--- Create 'account' table
-CREATE TABLE IF NOT EXISTS account (
-    acc_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    acc_no VARCHAR(16) NOT NULL UNIQUE,
+CREATE TABLE IF NOT EXISTS accounts (
+	acc_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+	acc_no VARCHAR(16) NOT NULL UNIQUE ,
     ifsc VARCHAR(11) NOT NULL,
-    phone_number VARCHAR(11) NOT NULL,
+    avl_balance DOUBLE NOT NULL,
+    phone_number BIGINT NOT NULL,
     min_balance DOUBLE NOT NULL,
-    date_of_joining TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     account_type VARCHAR(40) NOT NULL,
-    avl_balance DOUBLE NOT NULL,
-    is_active BOOLEAN NOT NULL
-);
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    date_of_joining TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    customer_id BIGINT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
+    );
 
--- Select all records from 'account' table
-SELECT * FROM account;
+CREATE TABLE IF NOT EXISTS transactions (
 
--- Describe the structure of 'account' table
-DESCRIBE account;
-
--- Create 'transaction' table
-CREATE TABLE IF NOT EXISTS transaction (
-    trans_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    acc_holder VARCHAR(16) NOT NULL,
-    remittance VARCHAR(16) NOT NULL,
-    trans_status VARCHAR(10) NOT NULL,
-    trans_amount DOUBLE NOT NULL,
-    avl_balance DOUBLE NOT NULL,
-    paid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    debited_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    remarks VARCHAR(30) NULL,
-    FOREIGN KEY (acc_holder) REFERENCES account(acc_no)
+trans_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+acc_holder VARCHAR(16) NOT NULL,
+remittance VARCHAR(16) NOT NULL,
+trans_status VARCHAR(10) NOT NULL,
+trans_amount DOUBLE NOT NULL,
+avl_balance DOUBLE NOT NULL,
+paid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+debited_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+remark VARCHAR(50) NULL,
+FOREIGN KEY (acc_holder) REFERENCES accounts (acc_no)
 );
 
 -- Select all records from 'transaction' table
-SELECT * FROM transaction;
+SELECT * FROM transactions;
 
 DESCRIBE transaction;
 
@@ -81,4 +74,4 @@ String query = "INSERT INTO transaction (acc_holder, remittance, trans_status, t
 
 
 -- Rename 'transactions' table to 'transaction'
-ALTER TABLE transactions RENAME TO transaction;
+ALTER TABLE transaction RENAME TO transactions;

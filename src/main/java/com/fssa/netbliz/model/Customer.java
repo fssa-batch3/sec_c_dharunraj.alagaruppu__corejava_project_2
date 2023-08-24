@@ -2,8 +2,8 @@ package com.fssa.netbliz.model;
 
 public class Customer {
 
-	private String fName;
-	private String lName;
+	private String firstName;
+	private String lastName;
 	private String phoneNumber;
 	private String email;
 	private String password;
@@ -14,29 +14,29 @@ public class Customer {
 			// Empty constructor used for creating an instance without setting attributes
 		}
 
-	public Customer(String fName, String lName, String phoneNumber, String email, String password, String confirmPassword) {
-		this.fName = fName;
-		this.lName = lName;
+	public Customer(String firstName, String lastName, String phoneNumber, String email, String password, String confirmPassword) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 	}
 
-	public String getfName() {
-		return fName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setfName(String fName) {
-		this.fName = fName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getlName() {
-		return lName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setlName(String lName) {
-		this.lName = lName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPhoneNumber() {
@@ -63,11 +63,11 @@ public class Customer {
 		this.password = password;
 	}
 
-	public String getconfirmPassword() {
+	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
-	public void setconfirmPassword(String confirmPassword) {
+	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
 	

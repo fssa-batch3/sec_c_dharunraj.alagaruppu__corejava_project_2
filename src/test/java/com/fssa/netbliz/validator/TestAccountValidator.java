@@ -3,8 +3,9 @@ package com.fssa.netbliz.validator;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
+import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.error.AccountValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Account;
 
 /**
@@ -20,12 +21,12 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a valid Account object.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testValidObject() throws AccountValidatorException {
+	public void testValidObject() throws ValidatorException {
 
-		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, "savings");
+		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, AccountEnum.SAVINGS);
 
 		Assertions.assertTrue(AccountValidator.validate(account));
 	}
@@ -35,10 +36,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating an invalid (null) Account object.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testInvalidObject() throws AccountValidatorException {
+	public void testInvalidObject() throws ValidatorException {
 
 		try {
 
@@ -55,10 +56,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a valid account number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testvalidAccountNumber() throws AccountValidatorException {
+	public void testvalidAccountNumber() throws ValidatorException {
 
 		account.setAccountNumber("1234567890123456");
 
@@ -68,10 +69,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a null account number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullAccountNumber() throws AccountValidatorException {
+	public void testNullAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber(null);
 		} catch (Exception e) {
@@ -82,10 +83,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating an empty account number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testEmptyAccountNumber() throws AccountValidatorException {
+	public void testEmptyAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("");
 		} catch (Exception e) {
@@ -96,10 +97,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating the length of an account number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testLengthAccountNumber() throws AccountValidatorException {
+	public void testLengthAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("1234567890");
 		} catch (Exception e) {
@@ -110,10 +111,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating the pattern of an account number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testPatternAccountNumber() throws AccountValidatorException {
+	public void testPatternAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("1234567jhsdih890");
 		} catch (Exception e) {
@@ -124,10 +125,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a valid IFSC code.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidIfsc() throws AccountValidatorException {
+	public void testValidIfsc() throws ValidatorException {
 		account.setIfsc("IDIB000K132");
 		Assertions.assertTrue(AccountValidator.validateIfsc(account.getIfsc()));
 	}
@@ -135,10 +136,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a null IFSC code.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullIfsc() throws AccountValidatorException {
+	public void testNullIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc(null);
 		} catch (Exception e) {
@@ -149,10 +150,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating an empty IFSC code.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testEmptyIfsc() throws AccountValidatorException {
+	public void testEmptyIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc("");
 		} catch (Exception e) {
@@ -163,10 +164,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating the pattern of an IFSC code.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testPatternIfsc() throws AccountValidatorException {
+	public void testPatternIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc("12345678901");
 		} catch (Exception e) {
@@ -177,10 +178,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a valid phone number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidPhoneNumber() throws AccountValidatorException {
+	public void testValidPhoneNumber() throws ValidatorException {
 		account.setPhoneNumber("9361320511");
 		Assertions.assertTrue(AccountValidator.validatePhoneNumber(account.getPhoneNumber()));
 	}
@@ -188,10 +189,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating a null phone number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullPhoneNumber() throws AccountValidatorException {
+	public void testNullPhoneNumber() throws ValidatorException {
 		try {
 			AccountValidator.validatePhoneNumber(null);
 		} catch (Exception e) {
@@ -202,10 +203,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating an empty phone number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testEmptyPhoneNumber() throws AccountValidatorException {
+	public void testEmptyPhoneNumber() throws ValidatorException {
 		try {
 			AccountValidator.validatePhoneNumber("");
 		} catch (Exception e) {
@@ -216,10 +217,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating the length of a phone number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testLengthPhoneNumber() throws AccountValidatorException {
+	public void testLengthPhoneNumber() throws ValidatorException {
 		try {
 			AccountValidator.validatePhoneNumber("123457890");
 		} catch (Exception e) {
@@ -230,10 +231,10 @@ public class TestAccountValidator {
 	/**
 	 * Test case for validating the pattern of a phone number.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testPatternPhoneNumber() throws AccountValidatorException {
+	public void testPatternPhoneNumber() throws ValidatorException {
 		try {
 			AccountValidator.validatePhoneNumber("12345t7890");
 		} catch (Exception e) {
@@ -242,12 +243,37 @@ public class TestAccountValidator {
 	}
 
 	/**
-	 * Test case for validating a null account type.
+	 * Test case for validating a valid minimum balance.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullType() throws AccountValidatorException {
+	public void testValidMinimumBalance() throws ValidatorException {
+		account.setMinimumBalance(1000.0);
+		Assertions.assertTrue(AccountValidator.validateMinimumBalance(account.getMinimumBalance()));
+	}
+
+	/**
+	 * Test case for validating an invalid minimum balance.
+	 *
+	 * @throws ValidatorException If an exception occurs during validation.
+	 */
+	@Test
+	public void testInvalidMinimumBalance() throws ValidatorException {
+		try {
+			AccountValidator.validateMinimumBalance(10);
+		} catch (Exception e) {
+			Assertions.assertEquals(AccountValidatorError.INVALID_MINIMUMBALANCE, e.getMessage());
+		}
+	} 
+	
+	/**
+	 * Test case for validating a null account type.
+	 *
+	 * @throws ValidatorException If an exception occurs during validation.
+	 */
+	@Test
+	public void testNullType() throws ValidatorException {
 		try {
 			AccountValidator.validateType(null);
 		} catch (Exception e) {
@@ -256,68 +282,13 @@ public class TestAccountValidator {
 	}
 
 	/**
-	 * Test case for validating an empty account type.
-	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testEmptyType() throws AccountValidatorException {
-		try {
-			AccountValidator.validateType("");
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_TYPEOFACCOUNT, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test case for validating a valid minimum balance.
-	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testValidMinimumBalance() throws AccountValidatorException {
-		account.setMinimumBalance(1000.0);
-		Assertions.assertTrue(AccountValidator.validateMinimumBalance(account.getMinimumBalance()));
-	}
-
-	/**
-	 * Test case for validating an invalid minimum balance.
-	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testInvalidMinimumBalance() throws AccountValidatorException {
-		try {
-			AccountValidator.validateMinimumBalance(10);
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_MINIMUMBALANCE, e.getMessage());
-		}
-	}
-
-	/**
 	 * Test case for validating a valid account type.
 	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
+	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidType() throws AccountValidatorException {
-		account.setCategory("SAVINGS");
+	public void testValidType() throws ValidatorException {
+		account.setCategory(AccountEnum.CURRENT);
 		Assertions.assertTrue(AccountValidator.validateType(account.getCategory()));
 	}
-
-	/**
-	 * Test case for validating an invalid account type.
-	 *
-	 * @throws AccountValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testInvalidType() throws AccountValidatorException {
-		try {
-			account.setCategory("SALARY");
-			AccountValidator.validateType(account.getCategory());
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_TYPEOFACCOUNT, e.getMessage());
-		}
-	}
-
 }

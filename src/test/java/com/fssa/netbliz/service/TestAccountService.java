@@ -2,39 +2,14 @@ package com.fssa.netbliz.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import com.fssa.netbliz.dao.Logger;
-import com.fssa.netbliz.exception.AccountDAOException;
-import com.fssa.netbliz.exception.AccountValidatorException;
-import com.fssa.netbliz.exception.TransactionDAOException;
+import com.fssa.netbliz.enums.AccountEnum;
+import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.model.Account;
+import com.fssa.netbliz.util.Logger;
 
 public class TestAccountService {
 
-	Account account = new Account();
-
-	@Test
-	/**
-	 * This method tests the addition of a valid Account object to the system. It
-	 * creates a new Account instance with the provided details and asserts that the
-	 * addition process is successful.
-	 *
-	 * @throws AccountDAOException       If there's an issue with the Account DAO
-	 *                                   operations.
-	 * @throws AccountValidatorException If there's a validation error with the
-	 *                                   Account details.
-	 */ 
-
-	public void testValidAddAccount() throws AccountDAOException, AccountValidatorException { // before commit update
-																								// the new account
-																								// number
-
-		Account account = new Account("8987654321123454", "IDIB000K132", "8901234567", 5000.0, "savings");
-
-		Assertions.assertTrue(AccountService.addAccount(account));
-
-		Logger.info("Account Added Successfully");
-	}
+	Account account = new Account(); 
 
 	@Test
 
@@ -49,11 +24,18 @@ public class TestAccountService {
 	 *                                   Account details.
 	 */
 
-	public void testGetAccountByNumber() throws AccountDAOException, AccountValidatorException {
+	public void testGetAccountByNumber() throws ServiceException {
 
 		String accountNumber = "1234567890123456";
 
-		Assertions.assertTrue(AccountService.getAccountByNumber(accountNumber));
+		try {
+			Assertions.assertTrue(AccountService.getAccountByNumber(accountNumber));
+			
+			
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Test
@@ -69,31 +51,15 @@ public class TestAccountService {
 	 *                                   Account details.
 	 */
 
-	public void testInvalidGetAccountByNumber() throws AccountDAOException, AccountValidatorException {
+	public void testInvalidGetAccountByNumber() throws ServiceException {
 		String accountNumber = "1134567091123458";
 
-		Assertions.assertTrue(AccountService.getAccountByNumber(accountNumber));
-	}
+		try {
+			Assertions.assertTrue(AccountService.getAccountByNumber(accountNumber));
+		} catch (ServiceException e) {
 
-	@Test
-
-	/**
-	 * This method tests the existence check of an Account object in the system. It
-	 * creates an Account instance with the provided details and asserts that the
-	 * existence check process is successful.
-	 *
-	 * @throws AccountValidatorException If there's a validation error with the
-	 *                                   Account details.
-	 * @throws AccountDAOException       If there's an issue with the Account DAO
-	 *                                   operations.
-	 */
-
-	public void testExitsCheck() throws AccountValidatorException, AccountDAOException { // before commit update
-																							// the new account
-																							// number
-		Account account = new Account("8234567890123453", "IDIB000K132", "8901234567", 25000.0, "savings");
-
-		Assertions.assertTrue(AccountService.exitsCheck(account));
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	@Test
@@ -109,9 +75,40 @@ public class TestAccountService {
 	 *                                   operations.
 	 */
 
-	public void testGetAllInactiveAccountNumber() throws AccountValidatorException, AccountDAOException {
-		Assertions.assertTrue(AccountService.getAllInactiveAccountNumber());
+	public void testGetAllInactiveAccountNumber() throws ServiceException {
+		try {
+			Assertions.assertTrue(AccountService.getAllInactiveAccountNumber());
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
 	}
+
+	@Test
+
+	/**
+	 * This method tests the existence check of an Account object in the system. It
+	 * creates an Account instance with the provided details and asserts that the
+	 * existence check process is successful.
+	 *
+	 * @throws AccountValidatorException If there's a validation error with the
+	 *                                   Account details.
+	 * @throws AccountDAOException       If there's an issue with the Account DAO
+	 *                                   operations.
+	 */
+
+	public void testAddAccount() throws ServiceException { // before commit update
+															// the new account
+															// number
+		Account account = new Account("0987654321123454", "IDIB000K132", "7402473346", 5000.0, AccountEnum.SAVINGS);
+
+		try {
+			Assertions.assertTrue(AccountService.exitsCheck(account));
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
+	} 
 
 	@Test
 
@@ -125,9 +122,14 @@ public class TestAccountService {
 	 *                                   operations.
 	 */
 
-	public void testRemoveAccountByAccountNumber() throws AccountValidatorException, AccountDAOException {
-		String accountNumber = "8234567890123456";
-		Assertions.assertTrue(AccountService.removeAccountByAccountNumber(accountNumber));
+	public void testRemoveAccountByAccountNumber() throws ServiceException {
+		String accountNumber = "1234567890123452";
+		try {
+			Assertions.assertTrue(AccountService.removeAccountByAccountNumber(accountNumber));
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
 		Logger.info("Your account is removed successfully");
 	}
 
@@ -145,10 +147,29 @@ public class TestAccountService {
 	 *                                   DAO operations.
 	 */
 
-	void isActiveAccount() throws AccountDAOException, AccountValidatorException, TransactionDAOException {
+	void isActiveAccount() throws ServiceException {
 		String accNo = "1234567890123456";
 
 		// Check if the account is active and assert true if active
-		Assertions.assertTrue(AccountService.isActiveAccount(accNo));
-	}
+		try {
+			Assertions.assertTrue(AccountService.isActiveAccount(accNo));
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
+	} 
+
+	@Test
+
+	public void testReactivateAccount() throws ServiceException {
+
+		Account account = new Account("1234567890123451", "IDIB000K132", "9361320511", 25000.0, AccountEnum.SAVINGS);
+
+		try {
+			Assertions.assertTrue(AccountService.exitsCheck(account));
+		} catch (ServiceException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
+	} 
 }

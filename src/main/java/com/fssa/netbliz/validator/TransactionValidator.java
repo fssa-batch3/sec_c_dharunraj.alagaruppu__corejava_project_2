@@ -1,8 +1,7 @@
 package com.fssa.netbliz.validator;
 
 import com.fssa.netbliz.error.TransactionValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
-import com.fssa.netbliz.exception.TransactionValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Transaction;
 
 public class TransactionValidator {
@@ -29,9 +28,9 @@ public class TransactionValidator {
 	 *                                       validation process.
 	 */
 
-	public static boolean validate(Transaction trans) throws TransactionValidatorException, AccountValidatorException {
+	public static boolean validate(Transaction trans) throws ValidatorException {
 		if (trans == null) {
-			throw new TransactionValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
+			throw new ValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
 		}
 
 		AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());
@@ -51,11 +50,11 @@ public class TransactionValidator {
 	 * @throws TransactionValidatorException If the amount is invalid.
 	 */
 
-	public static boolean validateAmount(double amount) throws TransactionValidatorException {
+	public static boolean validateAmount(double amount) throws ValidatorException {
 		if (amount >= MINIMUM_TRANSFER_AMOUNT) {
 			return true;
 		}
-		throw new TransactionValidatorException(TransactionValidatorError.INVALID_AMOUNT);
+		throw new ValidatorException(TransactionValidatorError.INVALID_AMOUNT);
 	}
 
 	/**
@@ -68,10 +67,10 @@ public class TransactionValidator {
 	 * @throws TransactionValidatorException If the remark is invalid.
 	 */
 
-	public static boolean validateRemark(String remark) throws TransactionValidatorException {
+	public static boolean validateRemark(String remark) throws ValidatorException {
 		if (remark.length() <= MAX_LENGTH_REMARK) {
 			return true;
 		}
-		throw new TransactionValidatorException(TransactionValidatorError.INVALID_REMARK);
+		throw new ValidatorException(TransactionValidatorError.INVALID_REMARK);
 	}
 }

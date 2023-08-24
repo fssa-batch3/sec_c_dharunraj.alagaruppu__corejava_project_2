@@ -2,9 +2,9 @@ package com.fssa.netbliz.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.fssa.netbliz.error.CustomerValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
-import com.fssa.netbliz.exception.CustomerValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Customer;
 
 public class CustomerValidator {
@@ -28,17 +28,17 @@ public class CustomerValidator {
 	 *                                    during the process
 	 */
 
-	public static boolean validate(Customer customer) throws CustomerValidatorException, AccountValidatorException {
+	public static boolean validate(Customer customer) throws  ValidatorException {
 
 		if (customer == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.NULL_OBJECT);
+			throw new ValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
 
-		validateFirstName(customer.getfName());
-		validateLastName(customer.getlName());
+		validateFirstName(customer.getFirstName());
+		validateLastName(customer.getLastName());
 		validateEmail(customer.getEmail());
-		validateComparePassword(customer.getPassword(), customer.getconfirmPassword());
+		validateComparePassword(customer.getPassword(), customer.getConfirmPassword());
 		AccountValidator.validatePhoneNumber(customer.getPhoneNumber());
 
 		return true;
@@ -53,30 +53,30 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the first name is invalid
 	 */
 
-	public static boolean validateFirstName(String fName) throws CustomerValidatorException {
+	public static boolean validateFirstName(String firstName) throws ValidatorException {
 
-		if (fName == null) {
+		if (firstName == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NULL_FIRST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_FIRST_NAME);
 		}
 
-		else if ("".equals(fName.trim())) {
+		else if ("".equals(firstName.trim())) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMPTY_FIRST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_FIRST_NAME);
 		}
 
-		else if (fName.trim().length() >= LENGTH_OF_FIRST_NAME) {
+		else if (firstName.trim().length() >= LENGTH_OF_FIRST_NAME) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_LENGTH_FIRST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_LENGTH_FIRST_NAME);
 		}
 
 		String regexFirstName = "^[A-Za-z\\s]+$";
 		Pattern pattern = Pattern.compile(regexFirstName); // compiles the given pattern
-		Matcher matcher = pattern.matcher(fName); // matcher matches the given string with compiled pattern
+		Matcher matcher = pattern.matcher(firstName); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (isMatch != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NAME);
 		}
 		return true;
 
@@ -90,30 +90,30 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the last name is invalid
 	 */
 
-	public static boolean validateLastName(String lName) throws CustomerValidatorException {
+	public static boolean validateLastName(String lastName) throws ValidatorException {
 
-		if (lName == null) {
+		if (lastName == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NULL_LAST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_LAST_NAME);
 		}
 
-		else if ("".equals(lName.trim())) {
+		else if ("".equals(lastName.trim())) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMPTY_LAST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_LAST_NAME);
 		}
 
-		else if (lName.trim().length() >= LENGTH_OF_LAST_NAME) {
+		else if (lastName.trim().length() >= LENGTH_OF_LAST_NAME) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_LENGTH_LAST_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_LENGTH_LAST_NAME);
 		}
 
 		String regexFirstName = "^[A-Za-z\\s]+$";
 		Pattern pattern = Pattern.compile(regexFirstName); // compiles the given pattern
-		Matcher matcher = pattern.matcher(lName); // matcher matches the given string with compiled pattern
+		Matcher matcher = pattern.matcher(lastName); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (isMatch != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NAME);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NAME);
 		}
 		return true;
 
@@ -127,15 +127,15 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the email address is invalid
 	 */
 
-	public static boolean validateEmail(String email) throws CustomerValidatorException {
+	public static boolean validateEmail(String email) throws ValidatorException {
 
 		if (email == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NULL_EMAIL);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_EMAIL);
 		}
 
 		else if ("".equals(email.trim())) {
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMPTY_EMAIL);
+			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_EMAIL);
 		}
 
 		String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -144,7 +144,7 @@ public class CustomerValidator {
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (isMatch != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
+			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
 		}
 		return true;
 
@@ -158,16 +158,16 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the password is invalid
 	 */
 
-	public static boolean validatePassword(String password) throws CustomerValidatorException {
+	public static boolean validatePassword(String password) throws ValidatorException {
 
 		if (password == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NULL_PASSWORD);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_PASSWORD);
 		}
 
 		else if ("".equals(password.trim())) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
+			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
 		}
 
 		String regexStrongPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
@@ -176,7 +176,7 @@ public class CustomerValidator {
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (isMatch != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_PATTERN_PASSWORD);
+			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_PASSWORD);
 		}
 		return true;
 
@@ -193,16 +193,16 @@ public class CustomerValidator {
 	 *                                    invalid
 	 */
 
-	public static boolean validateComparePassword(String pass, String confirm) throws CustomerValidatorException {
+	public static boolean validateComparePassword(String pass, String confirm) throws ValidatorException {
 
 		if (pass == null || confirm == null) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_NULL_PASSWORD);
+			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_PASSWORD);
 		}
 
 		else if ("".equals(pass.trim()) || "".equals(confirm.trim())) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
+			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
 		}
 
 		boolean password = validatePassword(pass);
@@ -210,7 +210,7 @@ public class CustomerValidator {
 
 		if (password != true || confirmPassword != true) {
 
-			throw new CustomerValidatorException(CustomerValidatorError.WRONG_PASSWORD); 
+			throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD); 
 		}
 
 		return true;

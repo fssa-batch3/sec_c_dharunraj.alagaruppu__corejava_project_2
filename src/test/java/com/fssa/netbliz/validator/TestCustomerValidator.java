@@ -3,8 +3,7 @@ package com.fssa.netbliz.validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.fssa.netbliz.error.CustomerValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
-import com.fssa.netbliz.exception.CustomerValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Customer;
 
 public class TestCustomerValidator {
@@ -13,17 +12,17 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidate() throws CustomerValidatorException, AccountValidatorException {
+	public void testValidate() throws ValidatorException {
 
-		Customer customer = new Customer("Dharunraj", "Alagaruppu", "9361320511", "dharun@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Aravind", "Ram", "9080668509", "aravind@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		Assertions.assertTrue(CustomerValidator.validate(customer));
-	} 
+	}
 
 	@Test
 
-	public void testInvalidObject() throws CustomerValidatorException {
+	public void testInvalidObject() throws ValidatorException {
 
 		try {
 
@@ -37,15 +36,15 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidFirstName() throws CustomerValidatorException {
+	public void testValidFirstName() throws ValidatorException {
 
-		customer.setfName("Dharunraj");
+		customer.setFirstName("Dharunraj");
 
-		Assertions.assertTrue(CustomerValidator.validateFirstName(customer.getfName()));
+		Assertions.assertTrue(CustomerValidator.validateFirstName(customer.getFirstName()));
 	}
 
 	@Test
-	public void testNullFirstName() throws CustomerValidatorException {
+	public void testNullFirstName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateFirstName(null);
@@ -57,7 +56,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyFirstName() throws CustomerValidatorException {
+	public void testEmptyFirstName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateFirstName("");
@@ -69,7 +68,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternFirstName() throws CustomerValidatorException {
+	public void testpatternFirstName() throws ValidatorException {
 
 		try {
 
@@ -81,7 +80,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testLengthOfFirstName() throws CustomerValidatorException {
+	public void testLengthOfFirstName() throws ValidatorException {
 
 		try {
 
@@ -93,15 +92,15 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidLastName() throws CustomerValidatorException {
+	public void testValidLastName() throws ValidatorException {
 
-		customer.setlName("Alagaruppu");
+		customer.setLastName("Alagaruppu");
 
-		Assertions.assertTrue(CustomerValidator.validateLastName(customer.getlName()));
+		Assertions.assertTrue(CustomerValidator.validateLastName(customer.getLastName()));
 	}
 
 	@Test
-	public void testNullLastName() throws CustomerValidatorException {
+	public void testNullLastName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateLastName(null);
@@ -113,7 +112,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyLastName() throws CustomerValidatorException {
+	public void testEmptyLastName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateLastName("");
@@ -125,7 +124,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternLastName() throws CustomerValidatorException {
+	public void testpatternLastName() throws ValidatorException {
 
 		try {
 
@@ -137,7 +136,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testLengthOfLastName() throws CustomerValidatorException {
+	public void testLengthOfLastName() throws ValidatorException {
 
 		try {
 
@@ -149,7 +148,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidEmail() throws CustomerValidatorException {
+	public void testValidEmail() throws ValidatorException {
 
 		customer.setEmail("dharun@gmail.com");
 
@@ -157,7 +156,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullEmail() throws CustomerValidatorException {
+	public void testNullEmail() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateEmail(null);
@@ -169,19 +168,19 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyEmail() throws CustomerValidatorException {
+	public void testEmptyEmail() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateEmail("");
 		} catch (Exception e) {
-			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_EMAIL ,e.getMessage());
+			Assertions.assertEquals(CustomerValidatorError.INVALID_EMPTY_EMAIL, e.getMessage());
 		}
 
 	}
 
 	@Test
 
-	public void testpatternEmail() throws CustomerValidatorException {
+	public void testpatternEmail() throws ValidatorException {
 
 		try {
 
@@ -193,7 +192,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidPassword() throws CustomerValidatorException {
+	public void testValidPassword() throws ValidatorException {
 
 		customer.setPassword("1234567890Dh@");
 
@@ -201,19 +200,19 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullPassword() throws CustomerValidatorException {
+	public void testNullPassword() throws ValidatorException {
 
 		try {
-			CustomerValidator.validatePassword(null); 
+			CustomerValidator.validatePassword(null);
 
 		} catch (Exception e) {
 			Assertions.assertEquals(CustomerValidatorError.INVALID_NULL_PASSWORD, e.getMessage());
 		}
 
-	} 
+	}
 
 	@Test
-	public void testEmptyPassword() throws CustomerValidatorException {
+	public void testEmptyPassword() throws ValidatorException {
 
 		try {
 			CustomerValidator.validatePassword("");
@@ -225,7 +224,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternPassword() throws CustomerValidatorException {
+	public void testpatternPassword() throws ValidatorException {
 
 		try {
 
@@ -237,7 +236,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testNullComparePassword() throws CustomerValidatorException {
+	public void testNullComparePassword() throws ValidatorException {
 
 		try {
 
@@ -250,7 +249,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testEmptyComparePassword() throws CustomerValidatorException {
+	public void testEmptyComparePassword() throws ValidatorException {
 
 		try {
 
@@ -263,11 +262,11 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testInvalidComparePassword() throws CustomerValidatorException {
+	public void testInvalidComparePassword() throws ValidatorException {
 
 		try {
 
-			CustomerValidator.validateComparePassword("Dharunraj@123", "Dharunraj@124"); 
+			CustomerValidator.validateComparePassword("Dharunraj@123", "Dharunraj@124");
 		} catch (Exception e) {
 
 			Assertions.assertEquals(CustomerValidatorError.WRONG_PASSWORD, e.getMessage());

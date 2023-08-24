@@ -3,11 +3,11 @@ package com.fssa.netbliz.validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fssa.netbliz.dao.Logger;
 import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.error.AccountValidatorError;
-import com.fssa.netbliz.exception.AccountValidatorException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Account;
+import com.fssa.netbliz.util.Logger;
 
 public class AccountValidator {
 
@@ -29,11 +29,11 @@ public class AccountValidator {
 	 *                                   process
 	 */
 
-	public static boolean validate(Account account) throws AccountValidatorException {
+	public static boolean validate(Account account) throws ValidatorException {
 
 		if (account == null) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_OBJECT_NULL);
+			throw new ValidatorException(AccountValidatorError.INVALID_OBJECT_NULL);
 		}
 
 		validateAccountNumber(account.getAccountNumber());
@@ -41,7 +41,7 @@ public class AccountValidator {
 		validateMinimumBalance(account.getMinimumBalance());
 		validatePhoneNumber(account.getPhoneNumber());
 		validateType(account.getCategory());
-		return true;
+		return true; 
 	}
 
 	/**
@@ -52,21 +52,21 @@ public class AccountValidator {
 	 * @throws AccountValidatorException If the account number is invalid
 	 */
 
-	public static boolean validateAccountNumber(String accountNumber) throws AccountValidatorException {
+	public static boolean validateAccountNumber(String accountNumber) throws ValidatorException {
 
 		if (accountNumber == null) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
 		}
 
 		else if ("".equals(accountNumber.trim())) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_EMPTY_ACCOUNTNUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_ACCOUNTNUMBER);
 		}
 
 		else if (accountNumber.trim().length() != ACCOUNT_NUMBER_LENGTH) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER);
 		}
 
 		String regexAccountNumber = "\\d{16}";
@@ -75,7 +75,7 @@ public class AccountValidator {
 		boolean isMatch = matcher.matches(); // give final output as true or false
 		if (!isMatch) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
 		}
 
 		return true;
@@ -90,16 +90,16 @@ public class AccountValidator {
 	 *                                   or invalid.
 	 */
 
-	public static boolean validateIfsc(String ifsc) throws AccountValidatorException {
+	public static boolean validateIfsc(String ifsc) throws ValidatorException {
 
 		if (ifsc == null) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_NULL_IFSCCODE);
+			throw new ValidatorException(AccountValidatorError.INVALID_NULL_IFSCCODE);
 		}
 
 		else if ("".equals(ifsc.trim())) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_EMPTY_IFSCCODE);
+			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_IFSCCODE);
 		}
 
 		String regexIfscCode = "^[A-Za-z]{4}0[A-Za-z0-9]{6}$";
@@ -109,7 +109,7 @@ public class AccountValidator {
 		boolean isMatch = matcher.matches(); // give is return the boolean value true or false
 		if (!isMatch) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_IFSCCODE);
+			throw new ValidatorException(AccountValidatorError.INVALID_IFSCCODE);
 
 		}
 		return true;
@@ -124,21 +124,21 @@ public class AccountValidator {
 	 *                                   empty, of incorrect length, or invalid.
 	 */
 
-	public static boolean validatePhoneNumber(String phoneNumber) throws AccountValidatorException {
+	public static boolean validatePhoneNumber(String phoneNumber) throws ValidatorException {
 
 		if (phoneNumber == null) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_NULL_PHONENUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_NULL_PHONENUMBER);
 		}
 
-		else if ("".equals(phoneNumber)) {
+		else if ("".equals(phoneNumber.trim())) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_EMPTY_PHONENUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_PHONENUMBER);
 		}
 
 		else if (phoneNumber.trim().length() != PHONE_NUMBER_LENGTH) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_LENGTH_PHONENUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_LENGTH_PHONENUMBER);
 		}
 
 		String regexPhoneNumber = "^[0-9]{10}$"; // This the phone number regex pattern
@@ -148,7 +148,7 @@ public class AccountValidator {
 
 		if (!isMatch) {
 			Logger.info("Valid mobilenumber");
-			throw new AccountValidatorException(AccountValidatorError.INVALID_PHONENUMBER);
+			throw new ValidatorException(AccountValidatorError.INVALID_PHONENUMBER);
 		}
 		return true;
 
@@ -163,26 +163,23 @@ public class AccountValidator {
 	 *                                   empty, not recognized, or invalid.
 	 */
 
-	public static boolean validateType(String type) throws AccountValidatorException {
+	public static boolean validateType(AccountEnum type) throws ValidatorException {
 
 		if (type == null) {
 
-			throw new AccountValidatorException(AccountValidatorError.INVALID_NULL_TYPEOFACCOUNT);
-		} else if ("".equals(type)) {
-
-			throw new AccountValidatorException(AccountValidatorError.INVALID_EMPTY_TYPEOFACCOUNT);
+			throw new ValidatorException(AccountValidatorError.INVALID_NULL_TYPEOFACCOUNT);
 		}
 
 		for (AccountEnum validType : AccountEnum.values()) { // number of elements present
 																// in the object
-			if (validType.toString().equalsIgnoreCase(type)) {
+			if (validType.equals(type)) { 
 
-				return true;
+				return true; 
 			}
 
 		}
 
-		throw new AccountValidatorException(AccountValidatorError.INVALID_TYPEOFACCOUNT);
+		throw new ValidatorException(AccountValidatorError.INVALID_TYPEOFACCOUNT);
 
 	}
 
@@ -196,12 +193,12 @@ public class AccountValidator {
 	 *                                   the acceptable range.
 	 */
 
-	public static boolean validateMinimumBalance(double minimumBalance) throws AccountValidatorException {
+	public static boolean validateMinimumBalance(double minimumBalance) throws ValidatorException {
 
 		if (minimumBalance >= ABOVE_MINIMUM_BALANCE_RANGE && minimumBalance <= BELOW_MINIMUM_BALANCE_RANGE) {
 			return true;
 		}
-		throw new AccountValidatorException(AccountValidatorError.INVALID_MINIMUMBALANCE);
+		throw new ValidatorException(AccountValidatorError.INVALID_MINIMUMBALANCE);
 	}
 
 }

@@ -1,12 +1,14 @@
 package com.fssa.netbliz.model;
 
+import com.fssa.netbliz.enums.AccountEnum;
+
 public class Account {
 
 	// These are the attribute for the account class
 	private String accountNumber;
 	private String ifsc;
 	private String phoneNumber;
-	private String typeOfAccount;
+	private AccountEnum typeOfAccount;
 	private double minimumBalance;
 
 	// No argument constructor
@@ -15,7 +17,7 @@ public class Account {
 	}
  
 	// Constructor to initialize account attributes with provided values
-	public Account(String accountNumber, String ifsc, String phoneNumber, double minimumBalance, String typeOfAccount) {
+	public Account(String accountNumber, String ifsc, String phoneNumber, double minimumBalance, AccountEnum  typeOfAccount) {
 
 		this.accountNumber = accountNumber;
 		this.ifsc = ifsc;
@@ -56,12 +58,13 @@ public class Account {
 		this.minimumBalance = minimumBalance;
 	}
 
-	public String getCategory() {
+	public AccountEnum getCategory() {
 		return typeOfAccount;
 	}
 
-	public void setCategory(String typeOfAccount) {
+	public void setCategory(AccountEnum typeOfAccount) {
 		this.typeOfAccount = typeOfAccount;
 	}
+
 
 }
