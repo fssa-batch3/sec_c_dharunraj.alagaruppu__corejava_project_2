@@ -47,7 +47,7 @@ public class Account {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber; 
 	}
 
 	public double getMinimumBalance() {
@@ -64,6 +64,12 @@ public class Account {
 
 	public void setCategory(AccountEnum typeOfAccount) {
 		this.typeOfAccount = typeOfAccount;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [accountNumber=" + accountNumber + ", ifsc=" + ifsc + ", phoneNumber=" + phoneNumber
+				+ ", typeOfAccount=" + typeOfAccount + ", minimumBalance=" + minimumBalance + "]";
 	}
 
 

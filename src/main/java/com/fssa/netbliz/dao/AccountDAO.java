@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.error.AccountDAOError;
 import com.fssa.netbliz.error.TransactionDAOError;
 import com.fssa.netbliz.exception.DAOException;
@@ -27,59 +28,11 @@ public class AccountDAO {
 
 	static final int ZERO = 0;
 
-	/**
-	 * Retrieves account details using the provided account number.
-	 *
-	 * @param accNo The account number to search for
-	 * @return True if the account with the given account number is found, false
-	 *         otherwise
-	 * @throws DAOException If a database error occurs during the operation
-	 */
-
-	public static boolean getAccountByNumber(String accNo) throws DAOException {
-
-		String query = "SELECT * FROM accounts WHERE acc_no = ?"; // Use parameterized query to prevent SQL injection
-
-		try (Connection con = ConnectionUtil.getConnection()) {
-
-			try (PreparedStatement pst = con.prepareStatement(query)) {
-				pst.setString(1, accNo);
-
-				try (ResultSet rs = pst.executeQuery()) {
-
-					boolean found = false;
-
-					while (rs.next()) {
-						found = true;
-						Logger.info("id: " + rs.getInt("acc_id"));
-						Logger.info("account Number: " + rs.getString("acc_no"));
-						Logger.info("ifsc: " + rs.getString("ifsc"));
-						Logger.info("phoneNumber: " + rs.getString("phone_number"));
-						Logger.info("minBalance: " + rs.getDouble("min_balance"));
-						Logger.info("Account type: " + rs.getString("account_type"));
-						Logger.info("balance: " + rs.getDouble("avl_balance"));
-						Logger.info("Active status: " + rs.getBoolean("is_active"));
-					}
-					if (!found) {
-						Logger.info("The account does not exists. Please recheck the account number");
-					}
-				}
-
-			}
-
-		} catch (SQLException e) {
-
-			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
-		}
-		return true;
-
-	}
-
-	public static List<Account> getAccount(String accNo) throws DAOException {
+	public static List<Account> getAccountByNumber(String accNo) throws DAOException {
 
 		List<Account> list = new ArrayList<>();
 
-		String query = "SELECT acc_no,ifsc,phone_number,min_balance FROM accounts WHERE acc_no = ?";
+		String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type FROM accounts WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -95,6 +48,9 @@ public class AccountDAO {
 						account.setIfsc(rs.getString("ifsc"));
 						account.setPhoneNumber(rs.getString("phone_number"));
 						account.setMinimumBalance(rs.getDouble("min_balance"));
+						String type = rs.getString("account_type");
+						AccountEnum enumType = AccountEnum.valueOf(type);
+						account.setCategory(enumType);
 						list.add(account);
 						return list;
 					}
@@ -110,9 +66,6 @@ public class AccountDAO {
 		return null;
 
 	}
-	
-	
-	
 
 	/**
 	 * Adds a new account to the database.

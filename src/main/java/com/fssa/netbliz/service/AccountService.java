@@ -24,48 +24,15 @@ public class AccountService {
 	}
 
 	public static final int ZERO = 0;
-
-//	// Method to add an account to the database
-//	public static boolean addAccount(Account account) throws ServiceException {
-//
-//		// Validate the account using AccountValidator
-//		if (AccountValidator.validate(account)) {
-//
-//			// If validation passes, call the AccountDao to add the account
-//			return AccountDAO.addAccount(account);
-//		}
-//		// If validation fails, return false
-//		return false;
-//	}
-
-	// Method to retrieve an account by account number
-	public static boolean getAccountByNumber(String accountNumber) throws ServiceException {
-
-		// Validate the account number using AccountValidator
-		try {
-			if (AccountValidator.validateAccountNumber(accountNumber)) {
-
-				return AccountDAO.getAccountByNumber(accountNumber);
-
-			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-
-		// If validation fails, return false
-		return false;
-	}
-
+	
 	public static List<Account> getAccount(String accountNumber) throws ServiceException {
 
-		try {
+		try { 
 
 			if (AccountValidator.validateAccountNumber(accountNumber)) {
 
 				try {
-					return AccountDAO.getAccount(accountNumber);
+					return AccountDAO.getAccountByNumber(accountNumber);
 				} catch (DAOException e) {
 
 					throw new ServiceException(e.getMessage()); 

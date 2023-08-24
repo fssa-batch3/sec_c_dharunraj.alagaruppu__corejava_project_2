@@ -18,7 +18,7 @@ class TestTransactionService {
 
 	void moneyTransaction() throws Exception {
 
-		Transaction trans = new Transaction("1234567890123455", "0987654321123456", "IDIB000K132", 20, "bill pay");
+		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 20, "bill pay");
 
 		Assertions.assertTrue(TransactionService.moneyTransaction(trans));
 	}
@@ -33,7 +33,7 @@ class TestTransactionService {
 	 */
 
 	void printTransactions() throws Exception {
-		String accNo = "1234567890123456";
+		String accNo = "1234567890123455";
 
 		Assertions.assertTrue(TransactionService.printTransactions(accNo));
 	}
@@ -48,7 +48,7 @@ class TestTransactionService {
 	 */
 
 	void listOfTransaction() throws Exception {
-		String accNo = "1234567890123456";
+		String accNo = "1234567890123455";
 
 		Assertions.assertNotNull(TransactionService.listOfTransaction(accNo));
 	}
