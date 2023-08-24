@@ -100,7 +100,7 @@ public class TestAccountService {
 	public void testAddAccount() throws ServiceException { // before commit update
 															// the new account
 															// number
-		Account account = new Account("0987654321123454", "IDIB000K132", "7402473346", 5000.0, AccountEnum.SAVINGS);
+		Account account = new Account("0987654321123451", "IDIB000K132", "7402473346", 5000.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(AccountService.exitsCheck(account));
@@ -163,7 +163,7 @@ public class TestAccountService {
 
 	public void testReactivateAccount() throws ServiceException {
 
-		Account account = new Account("1234567890123451", "IDIB000K132", "9361320511", 25000.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123452", "IDIB000K132", "9361320511", 25000.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(AccountService.exitsCheck(account));

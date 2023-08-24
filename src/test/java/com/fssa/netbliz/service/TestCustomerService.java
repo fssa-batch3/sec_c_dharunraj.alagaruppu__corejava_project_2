@@ -11,7 +11,7 @@ public class TestCustomerService {
 	@Test
 	public void testValidCustomer() throws DAOException, ValidatorException {
 
-		Customer customer = new Customer("Mathan", "Raj", "7402473346", "mathan@gmail.com", "740247Dh@3347",
+		Customer customer = new Customer("Joel", "Raj", "7402473345", "joelraj@gmail.com", "740247Dh@3347",
 				"740247Dh@3347");
 
 		Assertions.assertTrue(CustomerService.addCustomer(customer));
