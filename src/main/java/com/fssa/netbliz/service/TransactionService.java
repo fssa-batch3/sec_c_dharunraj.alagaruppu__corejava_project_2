@@ -16,7 +16,7 @@ public class TransactionService {
 		if (TransactionValidator.validate(trans)) {
 			return TransactionDAO.updateHolderAccount(trans);
 		}
-		return false;
+		return false; 
 	}
 
 	public static List<Object> listOfTransaction(String accNo) throws ValidatorException, DAOException {

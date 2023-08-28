@@ -21,7 +21,7 @@ class TestTransactionService {
 		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 20, "bill pay");
 
 		Assertions.assertTrue(TransactionService.moneyTransaction(trans));
-	}
+	} 
 
 	@Test
 
