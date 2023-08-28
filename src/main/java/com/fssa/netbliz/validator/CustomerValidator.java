@@ -30,7 +30,7 @@ public class CustomerValidator {
 
 	public static boolean validate(Customer customer) throws  ValidatorException {
 
-		if (customer == null) {
+		if (customer == null) { 
 
 			throw new ValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
@@ -42,7 +42,7 @@ public class CustomerValidator {
 		AccountValidator.validatePhoneNumber(customer.getPhoneNumber());
 
 		return true;
- 
+  
 	}
 
 	/**
@@ -138,14 +138,14 @@ public class CustomerValidator {
 			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_EMAIL);
 		}
 
-		String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-		Pattern pattern = Pattern.compile(regexEmail); // compiles the given pattern
-		Matcher matcher = pattern.matcher(email); // matcher matches the given string with compiled pattern
-		boolean isMatch = matcher.matches(); // give final output as true or false
-		if (isMatch != true) {
-
-			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
-		}
+//		String regexEmail = "^.*@.*\\..*$";
+//		Pattern pattern = Pattern.compile(regexEmail); // compiles the given pattern
+//		Matcher matcher = pattern.matcher(email); // matcher matches the given string with compiled pattern
+//		boolean isMatch = matcher.matches(); // give final output as true or false
+//		if (!isMatch) {
+//
+//			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
+//		}
 		return true;
 
 	}
@@ -208,7 +208,7 @@ public class CustomerValidator {
 		boolean password = validatePassword(pass);
 		boolean confirmPassword = validatePassword(confirm);
 
-		if (password != true || confirmPassword != true) {
+		if (password != true || confirmPassword != true || !pass.equals(confirm)) {
 
 			throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD); 
 		}

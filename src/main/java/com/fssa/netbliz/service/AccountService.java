@@ -19,7 +19,7 @@ import com.fssa.netbliz.validator.AccountValidator;
  */
 
 public class AccountService {
-	private AccountService() {
+	public AccountService() {
 //		private constructor
 	}
 
@@ -40,8 +40,8 @@ public class AccountService {
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(e.getMessage());
-		}
-		return null;
+		} 
+		return null; 
 
 	}
 
@@ -59,7 +59,7 @@ public class AccountService {
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
-		}
+		} 
 
 		// If validation fails, return false
 		return false;
@@ -83,7 +83,7 @@ public class AccountService {
 	}
 
 	// Method to remove an account by account number
-	public static boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException {
+	public static boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException { 
 
 		// Validate the account number using AccountValidator
 		try {

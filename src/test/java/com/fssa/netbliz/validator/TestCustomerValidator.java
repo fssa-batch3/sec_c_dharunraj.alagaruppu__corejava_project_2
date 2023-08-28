@@ -11,10 +11,10 @@ public class TestCustomerValidator {
 	Customer customer = new Customer();
 
 	@Test
-
+ 
 	public void testValidate() throws ValidatorException {
 
-		Customer customer = new Customer("Aravind", "Ram", "9080668509", "aravind@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Ar", "R", 9080668509l, "aravind@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		Assertions.assertTrue(CustomerValidator.validate(customer));
@@ -57,7 +57,7 @@ public class TestCustomerValidator {
 
 	@Test
 	public void testEmptyFirstName() throws ValidatorException {
-
+ 
 		try {
 			CustomerValidator.validateFirstName("");
 		} catch (Exception e) {

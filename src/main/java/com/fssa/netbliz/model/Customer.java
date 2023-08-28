@@ -4,7 +4,7 @@ public class Customer {
 
 	private String firstName;
 	private String lastName;
-	private String phoneNumber;
+	private long phoneNumber;
 	private String email;
 	private String password;
 	private String confirmPassword;
@@ -14,13 +14,13 @@ public class Customer {
 			// Empty constructor used for creating an instance without setting attributes
 		}
 
-	public Customer(String firstName, String lastName, String phoneNumber, String email, String password, String confirmPassword) {
+	public Customer(String firstName, String lastName, long phoneNumber, String email, String password, String confirmPassword) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
-		this.confirmPassword = confirmPassword;
+		this.confirmPassword = confirmPassword; 
 	}
 
 	public String getFirstName() {
@@ -39,11 +39,11 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public String getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
  
@@ -70,5 +70,13 @@ public class Customer {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	@Override
+	public String toString() {
+		return "Customer [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
+				+ ", email=" + email + ", password=" + password + ", confirmPassword=" + confirmPassword + "]";
+	}
+	
+	
 	
 }

@@ -16,7 +16,7 @@ public class AccountValidator {
 	}
 
 	public static final int ACCOUNT_NUMBER_LENGTH = 16;
-	public static final int PHONE_NUMBER_LENGTH = 10;
+//	public static final int PHONE_NUMBER_LENGTH = 10;
 	public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
 	public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
 
@@ -27,7 +27,7 @@ public class AccountValidator {
 	 * @return True if the account data is valid, false otherwise
 	 * @throws AccountValidatorException If any validation error occurs during the
 	 *                                   process
-	 */
+	 */ 
 
 	public static boolean validate(Account account) throws ValidatorException {
 
@@ -54,12 +54,12 @@ public class AccountValidator {
 
 	public static boolean validateAccountNumber(String accountNumber) throws ValidatorException {
 
-		if (accountNumber == null) {
+		if (accountNumber == null) { 
 
 			throw new ValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
 		}
 
-		else if ("".equals(accountNumber.trim())) {
+		else if ("".equals(accountNumber.trim())) { 
 
 			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_ACCOUNTNUMBER);
 		}
@@ -124,26 +124,13 @@ public class AccountValidator {
 	 *                                   empty, of incorrect length, or invalid.
 	 */
 
-	public static boolean validatePhoneNumber(String phoneNumber) throws ValidatorException {
+	public static boolean validatePhoneNumber(long phoneNumber) throws ValidatorException {
 
-		if (phoneNumber == null) {
-
-			throw new ValidatorException(AccountValidatorError.INVALID_NULL_PHONENUMBER);
-		}
-
-		else if ("".equals(phoneNumber.trim())) {
-
-			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_PHONENUMBER);
-		}
-
-		else if (phoneNumber.trim().length() != PHONE_NUMBER_LENGTH) {
-
-			throw new ValidatorException(AccountValidatorError.INVALID_LENGTH_PHONENUMBER);
-		}
-
+		String num = Long.toString(phoneNumber);
+				
 		String regexPhoneNumber = "^[0-9]{10}$"; // This the phone number regex pattern
 		Pattern pattern = Pattern.compile(regexPhoneNumber); // this regex is validate if the string is valid or not
-		Matcher matcher = pattern.matcher(phoneNumber); // matcher matches the given string with compiled pattern
+		Matcher matcher = pattern.matcher(num); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
 
 		if (!isMatch) {

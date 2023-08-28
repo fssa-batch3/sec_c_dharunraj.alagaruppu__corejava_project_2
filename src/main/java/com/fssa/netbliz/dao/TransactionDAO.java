@@ -26,6 +26,15 @@ public class TransactionDAO {
 	static double holderBalance = INITIALIZE_ZERO;
 	static double remittanceBalance = INITIALIZE_ZERO; 
 
+	/**
+	 * Retrieves the phone number associated with the given account number from the database.
+	 *
+	 * @param con The database connection.
+	 * @param accountNumber The account number for which to retrieve the associated phone number.
+	 * @return The phone number associated with the account number, or {@code null} if not found.
+	 * @throws DAOException If there is an issue with the database operation while retrieving the phone number.
+	 */
+	
 	public static String phoneNumberCheck(Connection con, String accountNumber) throws DAOException {
 
 		final String query = "SELECT phone_number FROM accounts WHERE acc_no = ?";

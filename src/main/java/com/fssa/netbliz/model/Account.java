@@ -7,17 +7,17 @@ public class Account {
 	// These are the attribute for the account class
 	private String accountNumber;
 	private String ifsc;
-	private String phoneNumber;
+	private long phoneNumber;
 	private AccountEnum typeOfAccount;
 	private double minimumBalance;
 
 	// No argument constructor
-	public Account() {    
+	public Account() {     
 		// Empty constructor used for creating an instance without setting attributes
 	}
  
 	// Constructor to initialize account attributes with provided values
-	public Account(String accountNumber, String ifsc, String phoneNumber, double minimumBalance, AccountEnum  typeOfAccount) {
+	public Account(String accountNumber, String ifsc, long phoneNumber, double minimumBalance, AccountEnum  typeOfAccount) {
 
 		this.accountNumber = accountNumber;
 		this.ifsc = ifsc;
@@ -42,11 +42,11 @@ public class Account {
 		this.ifsc = ifsc;
 	}
 
-	public String getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber; 
 	}
 
@@ -71,6 +71,6 @@ public class Account {
 		return "Account [accountNumber=" + accountNumber + ", ifsc=" + ifsc + ", phoneNumber=" + phoneNumber
 				+ ", typeOfAccount=" + typeOfAccount + ", minimumBalance=" + minimumBalance + "]";
 	}
-
+ 
 
 }

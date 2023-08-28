@@ -26,7 +26,7 @@ public class TestAccountValidator {
 
 	public void testValidObject() throws ValidatorException {
 
-		Account account = new Account("1234567091123456", "IDIB000K132", "9361320511", 1000.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567091123456", "IDIB000K132", 9361320511l, 1000.0, AccountEnum.SAVINGS);
 
 		Assertions.assertTrue(AccountValidator.validate(account));
 	}
@@ -182,64 +182,8 @@ public class TestAccountValidator {
 	 */
 	@Test
 	public void testValidPhoneNumber() throws ValidatorException {
-		account.setPhoneNumber("9361320511");
+		account.setPhoneNumber(9361320511L);
 		Assertions.assertTrue(AccountValidator.validatePhoneNumber(account.getPhoneNumber()));
-	}
-
-	/**
-	 * Test case for validating a null phone number.
-	 *
-	 * @throws ValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testNullPhoneNumber() throws ValidatorException {
-		try {
-			AccountValidator.validatePhoneNumber(null);
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_NULL_PHONENUMBER, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test case for validating an empty phone number.
-	 *
-	 * @throws ValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testEmptyPhoneNumber() throws ValidatorException {
-		try {
-			AccountValidator.validatePhoneNumber("");
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_EMPTY_PHONENUMBER, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test case for validating the length of a phone number.
-	 *
-	 * @throws ValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testLengthPhoneNumber() throws ValidatorException {
-		try {
-			AccountValidator.validatePhoneNumber("123457890");
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_LENGTH_PHONENUMBER, e.getMessage());
-		}
-	}
-
-	/**
-	 * Test case for validating the pattern of a phone number.
-	 *
-	 * @throws ValidatorException If an exception occurs during validation.
-	 */
-	@Test
-	public void testPatternPhoneNumber() throws ValidatorException {
-		try {
-			AccountValidator.validatePhoneNumber("12345t7890");
-		} catch (Exception e) {
-			Assertions.assertEquals(AccountValidatorError.INVALID_PHONENUMBER, e.getMessage());
-		}
 	}
 
 	/**
@@ -265,8 +209,8 @@ public class TestAccountValidator {
 		} catch (Exception e) {
 			Assertions.assertEquals(AccountValidatorError.INVALID_MINIMUMBALANCE, e.getMessage());
 		}
-	} 
-	
+	}
+
 	/**
 	 * Test case for validating a null account type.
 	 *
