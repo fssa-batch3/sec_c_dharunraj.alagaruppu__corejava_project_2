@@ -12,7 +12,7 @@ public class TestCustomerService {
 
 	@Test
 
-	/**
+	/** 
 	 * Test case for validating the addition of a valid customer using the
 	 * CustomerService's `addCustomer` method. It verifies whether a valid customer
 	 * can be added successfully to the system.
@@ -25,8 +25,8 @@ public class TestCustomerService {
 
 	public void testValidCustomer() throws DAOException, ValidatorException {
 
-		Customer customer = new Customer("Joel", "Prem", 7402473347l, "joel@gmail.com", "740247Dh@3347",
-				"740247Dh@3347"); 
+		Customer customer = new Customer("Joel", "Premkumar", 7402473346l, "joel@gmail.com", "740247Dh@3347",
+				"740247Dh@3347");  
 
 		try {
 			Assertions.assertTrue(CustomerService.addCustomer(customer));
@@ -34,7 +34,7 @@ public class TestCustomerService {
 			e.printStackTrace();
 		}
 	}
-
+ 
 	@Test
 
 	/**

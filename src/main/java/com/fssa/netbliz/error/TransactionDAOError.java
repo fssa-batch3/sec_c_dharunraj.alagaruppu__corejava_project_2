@@ -11,6 +11,8 @@ public final class TransactionDAOError {
 	
 	public static final String DISMATCH_PHONE_NUMBER = "You can't share money with your account";
 	
+	public static final String UN_AVAILABLE_ACCOUNT = "Your account is not available";  // isAvailableAccount
+	
 	private TransactionDAOError() {
 		
 		

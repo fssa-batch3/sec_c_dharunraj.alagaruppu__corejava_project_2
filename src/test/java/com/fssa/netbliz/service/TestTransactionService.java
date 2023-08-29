@@ -16,9 +16,9 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void moneyTransaction() throws Exception {
+	void moneyTransaction() throws Exception { 
 
-		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 20, "bill pay");
+		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "case pack");
 
 		Assertions.assertTrue(TransactionService.moneyTransaction(trans));
 	} 

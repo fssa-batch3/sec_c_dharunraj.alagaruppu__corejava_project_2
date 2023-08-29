@@ -4,6 +4,9 @@ import com.fssa.netbliz.enums.AccountEnum;
 
 public class Account {
 
+	public static final int ZERO = 0;
+
+	public static final double CONSTANT_AVL_BALANCE = 20000.0;
 	// These are the attribute for the account class
 	private String accountNumber;
 	private String ifsc;
@@ -12,12 +15,13 @@ public class Account {
 	private double minimumBalance;
 
 	// No argument constructor
-	public Account() {     
+	public Account() {
 		// Empty constructor used for creating an instance without setting attributes
 	}
- 
+
 	// Constructor to initialize account attributes with provided values
-	public Account(String accountNumber, String ifsc, long phoneNumber, double minimumBalance, AccountEnum  typeOfAccount) {
+	public Account(String accountNumber, String ifsc, long phoneNumber, double minimumBalance,
+			AccountEnum typeOfAccount) {
 
 		this.accountNumber = accountNumber;
 		this.ifsc = ifsc;
@@ -25,7 +29,7 @@ public class Account {
 		this.minimumBalance = minimumBalance;
 		this.typeOfAccount = typeOfAccount;
 	}
- 
+
 	public String getAccountNumber() {
 		return accountNumber;
 	}
@@ -47,7 +51,7 @@ public class Account {
 	}
 
 	public void setPhoneNumber(long phoneNumber) {
-		this.phoneNumber = phoneNumber; 
+		this.phoneNumber = phoneNumber;
 	}
 
 	public double getMinimumBalance() {
@@ -71,6 +75,5 @@ public class Account {
 		return "Account [accountNumber=" + accountNumber + ", ifsc=" + ifsc + ", phoneNumber=" + phoneNumber
 				+ ", typeOfAccount=" + typeOfAccount + ", minimumBalance=" + minimumBalance + "]";
 	}
- 
 
 }
