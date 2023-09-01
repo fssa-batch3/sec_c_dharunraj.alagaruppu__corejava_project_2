@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.error.CustomerDAOError;
+import com.fssa.netbliz.error.TransactionDAOError;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.model.Customer;
 import com.fssa.netbliz.util.ConnectionUtil;
@@ -85,10 +89,9 @@ public class CustomerDAO {
 						System.out.println(rs.getString("password"));
 
 						if (rs.getString("email").equals(email.trim())
-								&& rs.getString("password").equals(password.trim())) {
+								&& rs.getString("password").equals(password.trim()) && rs.getLong("phone") == phone)
 
 							return true;
-						}
 					}
 				}
 			}
@@ -100,5 +103,89 @@ public class CustomerDAO {
 		}
 
 		return false;
+	}
+
+	public static boolean isAvailableAccount(long phone) throws DAOException {
+
+		final String query = "SELECT phone FROM customers WHERE phone = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+
+				pst.setLong(1, phone);
+
+				try (ResultSet rs = pst.executeQuery()) {
+
+					if (rs.next()) {
+
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+
+			throw new DAOException(TransactionDAOError.UN_AVAILABLE_ACCOUNT);
+		}
+
+		return false;
+	}
+
+	public static boolean isActiveAccount(long phone) throws DAOException {
+		final String query = "SELECT email,password FROM customers WHERE phone = ? AND is_active = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setLong(1, phone);
+				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+		}
+		return false;
+	}
+
+	public static List<Customer> getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
+
+		List<Customer> customerList = new ArrayList<>();
+
+		final String query = "SELECT customer_id,first_name,last_name,phone,email,password,is_active FROM customers WHERE phone = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+
+				pst.setLong(1, phone);
+				System.out.println(pst);
+				try (ResultSet rs = pst.executeQuery()) {
+
+					if (rs.next()) {
+
+						Customer customer = new Customer();
+						customer.setFirstName(rs.getString("first_name"));
+						customer.setLastName(rs.getString("last_name"));
+						customer.setPhoneNumber(rs.getLong("phone"));
+						customer.setEmail(rs.getString("email"));
+						customer.setPassword(rs.getString("password"));
+						customerList.add(customer);
+						return customerList;
+					}
+				}
+			}
+		}
+
+		catch (SQLException e) {
+
+			throw new DAOException(CustomerDAOError.INVALID_DATA);
+		}
+
+		return null;
+
 	}
 }

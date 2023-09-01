@@ -15,9 +15,9 @@ public class Account {
 	private double minimumBalance;
 
 	// No argument constructor
-	public Account() {
+	public Account() { 
 		// Empty constructor used for creating an instance without setting attributes
-	}
+	} 
 
 	// Constructor to initialize account attributes with provided values
 	public Account(String accountNumber, String ifsc, long phoneNumber, double minimumBalance,

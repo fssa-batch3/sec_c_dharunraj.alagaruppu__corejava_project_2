@@ -7,7 +7,6 @@ import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Account;
-import com.fssa.netbliz.util.Logger;
 import com.fssa.netbliz.validator.AccountValidator;
 
 /**
@@ -21,13 +20,14 @@ import com.fssa.netbliz.validator.AccountValidator;
 public class AccountService {
 	public AccountService() {
 //		private constructor
-	}
+	} 
 
-	public static boolean addAccount(Account account) throws ServiceException {
+	public boolean addAccount(Account account) throws ServiceException {
 
 		// Validate the account using AccountValidator
 		try {
-			if (AccountValidator.validate(account) && !isAvailableAccount(account.getAccountNumber())) {
+
+			if (AccountValidator.validate(account)) {
 
 				// If validation passes, call the AccountDao to check account existence
 				return AccountDAO.addAccount(account);
@@ -41,80 +41,8 @@ public class AccountService {
 		return false;
 	}
 
-	public static boolean isAvailableAccount(String accNo) throws ServiceException {
-
-		try {
-			if (AccountValidator.validateAccountNumber(accNo)) {
-
-				return AccountDAO.isAvailableAccount(accNo);
-			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-		return false;
-	}
-
-	// Method to check if an account exists
-	public static boolean exitsCheck(Account account) throws ServiceException {
-
-		// Validate the account using AccountValidator
-		try {
-			if (AccountValidator.validate(account) && !isActiveAccount(account.getAccountNumber())
-					&& isAvailableAccount(account.getAccountNumber())) { 
-
-				// If validation passes, call the AccountDao to check account existence
-				return AccountDAO.existsCheck(account);
-			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-
-		// If validation fails, return false
-		return false;
-	}
-
-	// Checks if an account is active
-	public static boolean isActiveAccount(String accNo) throws ServiceException {
-		try {
-			if (AccountValidator.validateAccountNumber(accNo)) {
-				return AccountDAO.isActiveAccount(accNo);
-			}
-
-		} catch (ValidatorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-		return false;
-	}
-
-	public static List<Account> getAccountByNumber(String accountNumber) throws ServiceException {
-
-		try { 
-
-			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
-					&& isAvailableAccount(accountNumber)) { 
-
-				return AccountDAO.getAccountByNumber(accountNumber);
-
-			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
-
-			throw new ServiceException(e.getMessage());
-		}
-		return null;
-
-	}
-
 	// Method to remove an account by account number
-	public static boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException {
+	public boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException {
 
 		// Validate the account number using AccountValidator
 		try {
@@ -132,5 +60,74 @@ public class AccountService {
 
 		// If validation fails, return false
 		return false;
+	}
+
+	public List<Account> getAccountByPhoneNumber(long phone) throws ServiceException {
+
+		try {
+
+			if (AccountValidator.validatePhoneNumber(phone)) { 
+
+				return AccountDAO.getAccountByPhoneNumber(phone);
+
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (DAOException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
+		return null;
+	}
+
+	public boolean isAvailableAccount(String accNo) throws ServiceException {
+
+		try {
+			if (AccountValidator.validateAccountNumber(accNo)) {
+
+				return AccountDAO.isAvailableAccount(accNo);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		return false;
+	}
+
+	// Checks if an account is active
+	public boolean isActiveAccount(String accNo) throws ServiceException {
+		try {
+			if (AccountValidator.validateAccountNumber(accNo)) {
+				return AccountDAO.isActiveAccount(accNo);
+			}
+
+		} catch (ValidatorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		return false;
+	}
+
+	public List<Account> getAccountByNumber(String accountNumber) throws ServiceException {
+
+		try {
+
+			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
+					&& isAvailableAccount(accountNumber)) {
+
+				return AccountDAO.getAccountByNumber(accountNumber);
+
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(e.getMessage());
+		} catch (DAOException e) {
+
+			throw new ServiceException(e.getMessage());
+		}
+		return null;
+
 	}
 }

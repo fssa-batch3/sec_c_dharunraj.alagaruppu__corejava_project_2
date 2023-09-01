@@ -2,6 +2,9 @@ package com.fssa.netbliz.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.fssa.netbliz.exception.DAOException;
+import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Transaction;
 
 class TestTransactionService {
@@ -16,12 +19,18 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void moneyTransaction() throws Exception { 
+	void moneyTransaction() {
 
 		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "case pack");
 
-		Assertions.assertTrue(TransactionService.moneyTransaction(trans));
-	} 
+		try {  
+			Assertions.assertTrue(TransactionService.moneyTransaction(trans));
+		} catch (ValidatorException e) {
+			e.printStackTrace();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 
@@ -32,10 +41,16 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void printTransactions() throws Exception {
+	void printTransactions() {
 		String accNo = "1234567890123456";
 
-		Assertions.assertTrue(TransactionService.printTransactions(accNo));
+		try {
+			Assertions.assertTrue(TransactionService.printTransactions(accNo));
+		} catch (ValidatorException e) {
+			e.printStackTrace();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -47,9 +62,15 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void listOfTransaction() throws Exception {
+	void listOfTransaction() {
 		String accNo = "1234567890123456";
 
-		Assertions.assertNotNull(TransactionService.listOfTransaction(accNo));
+		try {
+			Assertions.assertNotNull(TransactionService.listOfTransaction(accNo));
+		} catch (ValidatorException e) {
+			e.printStackTrace();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 }

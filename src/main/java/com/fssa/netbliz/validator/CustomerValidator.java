@@ -55,7 +55,7 @@ public class CustomerValidator {
 
 	public static boolean validateFirstName(String firstName) throws ValidatorException {
 
-		if (firstName == null) {
+		if (firstName == null) { 
 
 			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_FIRST_NAME);
 		}

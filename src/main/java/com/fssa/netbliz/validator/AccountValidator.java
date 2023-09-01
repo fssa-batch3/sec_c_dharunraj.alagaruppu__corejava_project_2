@@ -31,7 +31,7 @@ public class AccountValidator {
 
 	public static boolean validate(Account account) throws ValidatorException {
 
-		if (account == null) {
+		if (account == null) { 
 
 			throw new ValidatorException(AccountValidatorError.INVALID_OBJECT_NULL);
 		}
@@ -162,7 +162,7 @@ public class AccountValidator {
 			if (validType.equals(type)) { 
 
 				return true; 
-			}
+			} 
 
 		}
 

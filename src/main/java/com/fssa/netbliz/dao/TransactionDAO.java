@@ -24,17 +24,21 @@ public class TransactionDAO {
 	public static final String DEBIT_DENOTES = "debited";
 
 	static double holderBalance = INITIALIZE_ZERO;
-	static double remittanceBalance = INITIALIZE_ZERO; 
+	static double remittanceBalance = INITIALIZE_ZERO;
 
 	/**
-	 * Retrieves the phone number associated with the given account number from the database.
+	 * Retrieves the phone number associated with the given account number from the
+	 * database.
 	 *
-	 * @param con The database connection.
-	 * @param accountNumber The account number for which to retrieve the associated phone number.
-	 * @return The phone number associated with the account number, or {@code null} if not found.
-	 * @throws DAOException If there is an issue with the database operation while retrieving the phone number.
+	 * @param con           The database connection.
+	 * @param accountNumber The account number for which to retrieve the associated
+	 *                      phone number.
+	 * @return The phone number associated with the account number, or {@code null}
+	 *         if not found.
+	 * @throws DAOException If there is an issue with the database operation while
+	 *                      retrieving the phone number.
 	 */
-	
+
 	public static String phoneNumberCheck(Connection con, String accountNumber) throws DAOException {
 
 		final String query = "SELECT phone_number FROM accounts WHERE acc_no = ?";
@@ -46,7 +50,7 @@ public class TransactionDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
-					
+
 					return rs.getString("phone_number");
 
 				}
@@ -57,7 +61,7 @@ public class TransactionDAO {
 			throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
 		}
 
-		return null; 
+		return null;
 	}
 
 	/**
@@ -70,8 +74,7 @@ public class TransactionDAO {
 	 * @param con   The Connection object for database access.
 	 * @return The updated available balance of the account holder after the
 	 *         transaction.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static double accountHolderConditions(Transaction trans, Connection con) throws DAOException {
@@ -92,7 +95,7 @@ public class TransactionDAO {
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
-
+ 
 		return avlBalance;
 	}
 
@@ -106,8 +109,7 @@ public class TransactionDAO {
 	 * @param con   The Connection object for database access.
 	 * @return The updated available balance of the remittance account after the
 	 *         transaction.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static double remittanceAccountConditions(Transaction trans, Connection con) throws DAOException {
@@ -140,8 +142,7 @@ public class TransactionDAO {
 	 *
 	 * @param trans The Transaction object containing transaction details.
 	 * @return True if the update is successful, otherwise false.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static boolean updateHolderAccount(Transaction trans) throws DAOException {
@@ -151,7 +152,7 @@ public class TransactionDAO {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
 				if (!trans.getAccountHolderAccNo().equals(trans.getRemittanceAccNo())) {
-				
+
 					String senderPhoneNumber = phoneNumberCheck(con, trans.getAccountHolderAccNo());
 					System.out.println(senderPhoneNumber);
 					String receiverPhoneNumber = phoneNumberCheck(con, trans.getRemittanceAccNo());
@@ -164,9 +165,8 @@ public class TransactionDAO {
 						pst.setString(2, trans.getAccountHolderAccNo());
 						updateRemittanceAccount(trans, con);
 						pst.executeUpdate();
-					}
-					else {
-						
+					} else {
+
 						throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
 					}
 
@@ -187,8 +187,7 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the update is successful, otherwise false.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static boolean updateRemittanceAccount(Transaction trans, Connection con) throws DAOException {
@@ -213,8 +212,7 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the insertion is successful, otherwise false.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws DAOException {
@@ -243,12 +241,10 @@ public class TransactionDAO {
 	 * @param trans The Transaction object containing transaction details.
 	 * @param con   The Connection object for database access.
 	 * @return True if the insertion is successful, otherwise false.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con)
-			throws DAOException {
+	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con) throws DAOException {
 		String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -274,14 +270,13 @@ public class TransactionDAO {
 	 *
 	 * @param accNo The account number for which transactions are to be retrieved.
 	 * @return A list of Transaction objects representing the transactions.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static List<Object> listTransaction(String accNo) throws DAOException {
-		List<Object> list = new ArrayList<>();
+	public static List<Transaction> listTransaction(String accNo) throws DAOException {
+		List<Transaction> list = new ArrayList<>();
 
-		String query = "SELECT * FROM transactions WHERE acc_holder = ? OR remittance = ?";
+		String query = "SELECT acc_holder,remittance,trans_status,trans_amount,avl_balance,paid_time,debited_time,remark FROM transactions WHERE acc_holder = ? OR remittance = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -294,9 +289,13 @@ public class TransactionDAO {
 						trans.setAccountHolderAccNo(rs.getString("acc_holder"));
 						trans.setRemittanceAccNo(rs.getString("remittance"));
 						trans.setTransferAmount(rs.getDouble("trans_amount"));
+						trans.setTransStatus(rs.getString("trans_status"));
+						trans.setAvlAmount(rs.getDouble("avl_balance"));
+						trans.setPaidDateTime(rs.getString("paid_time"));
+						trans.setDebitedDateTime(rs.getString("debited_time"));
 						trans.setRemark(rs.getString("remark"));
 						list.add(trans);
-					}
+					} 
 				}
 			}
 		} catch (SQLException e) {
@@ -311,12 +310,11 @@ public class TransactionDAO {
 	 *
 	 * @param accNo The account number for which transactions are to be printed.
 	 * @return True if the printing is successful, otherwise false.
-	 * @throws DAOException If there are issues with the transaction data
-	 *                                 access.
+	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
 	public static boolean printTransactions(String accNo) throws DAOException {
-		List<Object> transList = listTransaction(accNo);
+		List<Transaction> transList = listTransaction(accNo);
 
 		if (transList.isEmpty()) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
@@ -328,5 +326,5 @@ public class TransactionDAO {
 
 		return true;
 	}
-	
+
 }

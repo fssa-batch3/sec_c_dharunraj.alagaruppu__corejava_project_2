@@ -25,7 +25,7 @@ public class TestAccountValidator {
 	 */
 
 	public void testValidObject() throws ValidatorException {
-
+ 
 		Account account = new Account("1234567091123456", "IDIB000K132", 9361320511l, 1000.0, AccountEnum.SAVINGS);
 
 		Assertions.assertTrue(AccountValidator.validate(account));

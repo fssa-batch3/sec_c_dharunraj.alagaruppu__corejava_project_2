@@ -16,15 +16,15 @@ public class TransactionService {
 		if (TransactionValidator.validate(trans)) {
 			return TransactionDAO.updateHolderAccount(trans);
 		}
-		return false; 
+		return false;
 	}
 
-	public static List<Object> listOfTransaction(String accNo) throws ValidatorException, DAOException {
+	public static List<Transaction> listOfTransaction(String accNo) throws ValidatorException, DAOException {
 		List<Object> list = new ArrayList<>();
 		if (AccountValidator.validateAccountNumber(accNo)) {
-			return TransactionDAO.listTransaction(accNo);
+			return TransactionDAO.listTransaction(accNo);  
 		}
-		return list;
+		return null;
 	}
 
 	public static boolean printTransactions(String accNo) throws ValidatorException, DAOException {
