@@ -10,7 +10,7 @@ import com.fssa.netbliz.model.Transaction;
 import com.fssa.netbliz.validator.AccountValidator;
 import com.fssa.netbliz.validator.TransactionValidator;
 
-public class TransactionService {
+public class TransactionService { 
 
 	public static boolean moneyTransaction(Transaction trans) throws ValidatorException, DAOException {
 		if (TransactionValidator.validate(trans)) {

@@ -43,7 +43,7 @@ public class CustomerDAO {
 				pst.setString(3, customer.getEmail());
 				pst.setLong(4, customer.getPhoneNumber());
 				pst.setString(5, customer.getPassword());
-				pst.executeUpdate();
+				pst.executeUpdate(); 
 			}
 
 		}

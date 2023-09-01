@@ -18,7 +18,7 @@ public class TestAccountService {
 
 	AccountService accountService = new AccountService();  
  
-	/**
+	/** 
 	 * This method tests the addition of a new account using the provided account
 	 * details.
 	 *
@@ -30,7 +30,7 @@ public class TestAccountService {
 	// Valid test case
 	public void testAddAccount() { // before commit update the new account number
 
-		Account account = new Account("0987654321012341", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("0967654121012341", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -59,7 +59,7 @@ public class TestAccountService {
 			e.printStackTrace();
 		}
 
-	} 
+	}  
 
 	/**
 	 * This method tests the occurrence of a validation error during the addition of
@@ -105,7 +105,7 @@ public class TestAccountService {
 	@Test
 	// Valid test case
 	public void testRemoveAccountByAccountNumber() {
-		String accountNumber = "1234567890123455";
+		String accountNumber = "0997994321023452";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -157,7 +157,7 @@ public class TestAccountService {
 	// Valid test case
 	public void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("0997654321023452", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("0997904321023452", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));

@@ -90,7 +90,7 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the last name is invalid
 	 */
 
-	public static boolean validateLastName(String lastName) throws ValidatorException {
+	public static boolean validateLastName(String lastName) throws ValidatorException { 
 
 		if (lastName == null) {
 

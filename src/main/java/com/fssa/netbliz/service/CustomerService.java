@@ -14,23 +14,17 @@ import com.fssa.netbliz.validator.CustomerValidator;
 
 public class CustomerService {
 
-	public boolean addCustomer(Customer customer) throws ServerException {
+	public boolean addCustomer(Customer customer) throws ServiceException {
 
 		try {
 			if (CustomerValidator.validate(customer) && !isAvailableAccount(customer.getPhoneNumber())) {
 
-				return CustomerDAO.addCustomer(customer); 
+				return CustomerDAO.addCustomer(customer);
 			}
 
-		} catch (ValidatorException e) {
-
+		} catch (ValidatorException | DAOException e) {
 			e.printStackTrace();
-		} catch (ServiceException e) {
-
-			e.printStackTrace();
-		} catch (DAOException e) {
-
-			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
 		return false;
 	}
@@ -93,7 +87,7 @@ public class CustomerService {
 		return false;
 	}
 
-	public List<Customer> getCustomerByPhoneNumber(long phone) throws ServerException {
+	public List<Customer> getCustomerByPhoneNumber(long phone) throws ServiceException {
 
 		try {
 			if (AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone) && isAvailableAccount(phone)) {

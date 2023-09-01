@@ -1,10 +1,9 @@
 package com.fssa.netbliz.service;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.rmi.ServerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.fssa.netbliz.exception.DAOException;
+import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Customer;
 
@@ -23,39 +22,38 @@ public class TestCustomerService {
 	 *                            data during the test.
 	 */
 	@Test
-	public void testValidAddCustomer() { 
+	public void testValidAddCustomer() {
 
-		Customer customer = new Customer("Joel", "Premkumar", 7402473346l, "joel@gmail.com", "740247Dh@3347",
-				"740247Dh@3347");
+		Customer customer = new Customer("hema", "murali", 7402473344l, "hema@gmail.com", "1234567890Dh@",
+				"1234567890Dh@"); 
 
 		try {
 			Assertions.assertTrue(customerServive.addCustomer(customer));
-		} catch (ServerException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Test
 
-	public void testInvalidAddCustomer(){
+	public void testInvalidAddCustomer() {
 
 		Customer customer = new Customer("Joel", "Premkumar", 7902413346l, "zoho@gmail.com", "740247Dh@3347",
 				"740247Dh@3347");
 
 		try {
 			Assertions.assertFalse(customerServive.addCustomer(customer));
-		} catch (ServerException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 
 	@Test
-	public void testValidationErrorAddCustomer() {
+	public void testValidationErrorAddCustomer() { 
 
-		Customer customer = new Customer("Joel", "", 790247334l, "vishalgmail.com", "74024747",
-				"740247Dh@3347");
+		Customer customer = new Customer("Joel", "", 790247334l, "vishalgmail.com", "74024747", "740247Dh@3347");
 
-		assertThrows(ValidatorException.class, () -> customerServive.addCustomer(customer));
+		Assertions.assertThrows(ServiceException.class, () -> customerServive.addCustomer(customer));
 
 	}
 
@@ -70,7 +68,7 @@ public class TestCustomerService {
 	 *                            data during the test.
 	 */
 	@Test
-	public void testValidLogInCustomer(){
+	public void testValidLogInCustomer() {
 
 		long phone = 9361320511l;
 		String email = "dharun1@gmail.com";
