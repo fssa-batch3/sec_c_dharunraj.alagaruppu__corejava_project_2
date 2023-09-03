@@ -15,7 +15,9 @@ public class CustomerValidator {
 
 	public static final int LENGTH_OF_FIRST_NAME = 30;
 
-	public static final int LENGTH_OF_LAST_NAME = 30; 
+	public static final int LENGTH_OF_LAST_NAME = 30;
+
+	private static final int MIN_CUSTOMER_ID = 1;
 
 	/**
 	 * Validates the provided customer object's data.
@@ -28,9 +30,9 @@ public class CustomerValidator {
 	 *                                    during the process
 	 */
 
-	public static boolean validate(Customer customer) throws  ValidatorException {
+	public static boolean validate(Customer customer) throws ValidatorException {
 
-		if (customer == null) { 
+		if (customer == null) {
 
 			throw new ValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
@@ -42,7 +44,7 @@ public class CustomerValidator {
 		AccountValidator.validatePhoneNumber(customer.getPhoneNumber());
 
 		return true;
-  
+
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class CustomerValidator {
 
 	public static boolean validateFirstName(String firstName) throws ValidatorException {
 
-		if (firstName == null) { 
+		if (firstName == null) {
 
 			throw new ValidatorException(CustomerValidatorError.INVALID_NULL_FIRST_NAME);
 		}
@@ -74,7 +76,7 @@ public class CustomerValidator {
 		Pattern pattern = Pattern.compile(regexFirstName); // compiles the given pattern
 		Matcher matcher = pattern.matcher(firstName); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
-		if (isMatch != true) {
+		if (!isMatch) {
 
 			throw new ValidatorException(CustomerValidatorError.INVALID_NAME);
 		}
@@ -90,7 +92,7 @@ public class CustomerValidator {
 	 * @throws CustomerValidatorException If the last name is invalid
 	 */
 
-	public static boolean validateLastName(String lastName) throws ValidatorException { 
+	public static boolean validateLastName(String lastName) throws ValidatorException {
 
 		if (lastName == null) {
 
@@ -111,7 +113,7 @@ public class CustomerValidator {
 		Pattern pattern = Pattern.compile(regexFirstName); // compiles the given pattern
 		Matcher matcher = pattern.matcher(lastName); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
-		if (isMatch != true) {
+		if (!isMatch) {
 
 			throw new ValidatorException(CustomerValidatorError.INVALID_NAME);
 		}
@@ -137,15 +139,6 @@ public class CustomerValidator {
 		else if ("".equals(email.trim())) {
 			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_EMAIL);
 		}
-
-//		String regexEmail = "^.*@.*\\..*$";
-//		Pattern pattern = Pattern.compile(regexEmail); // compiles the given pattern
-//		Matcher matcher = pattern.matcher(email); // matcher matches the given string with compiled pattern
-//		boolean isMatch = matcher.matches(); // give final output as true or false
-//		if (!isMatch) {
-//
-//			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
-//		}
 		return true;
 
 	}
@@ -174,7 +167,7 @@ public class CustomerValidator {
 		Pattern pattern = Pattern.compile(regexStrongPassword); // compiles the given pattern
 		Matcher matcher = pattern.matcher(password); // matcher matches the given string with compiled pattern
 		boolean isMatch = matcher.matches(); // give final output as true or false
-		if (isMatch != true) {
+		if (!isMatch) {
 
 			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_PASSWORD);
 		}
@@ -208,13 +201,20 @@ public class CustomerValidator {
 		boolean password = validatePassword(pass);
 		boolean confirmPassword = validatePassword(confirm);
 
-		if (password != true || confirmPassword != true || !pass.equals(confirm)) {
+		if (!password|| !confirmPassword || !pass.equals(confirm)) {
 
-			throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD); 
+			throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD);
 		}
 
 		return true;
 
+	}
+
+	public static boolean validateCustomerId(int customerId) throws ValidatorException {
+		if (customerId >= MIN_CUSTOMER_ID) {
+			return true;
+		}
+		throw new ValidatorException(CustomerValidatorError.INVALID_CUSTOMER_ID);
 	}
 
 }

@@ -1,6 +1,15 @@
 package com.fssa.netbliz.model;
 
+import java.time.LocalDateTime;
+
 public class Transaction {
+
+	public static final int INITIALIZE_ZERO = 0;
+	public static final String CRIDIT_DENOTES = "credited";
+	public static final String DEBIT_DENOTES = "debited";
+
+	public static double holderBalance = INITIALIZE_ZERO;
+	public static double remittanceBalance = INITIALIZE_ZERO;
 
 	private String accountHolderAccNo;
 	private String remittanceAccNo;
@@ -9,8 +18,9 @@ public class Transaction {
 	private String remark;
 	private String transStatus;
 	private double avlAmount;
-	private String paidDateTime;
-	private String debitedDateTime;
+	private LocalDateTime paidDateTime;
+	private LocalDateTime debitedDateTime;
+	private int customerId;
 
 	// Constructor with parameters to initialize Transaction object
 	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
@@ -23,9 +33,8 @@ public class Transaction {
 	}
 
 	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
-			double transferAmount, String remark, String transStatus, double avlAmount, String paidDateTime,
-			String debitedDateTime) {
-		super();
+			double transferAmount, String remark, String transStatus, double avlAmount, LocalDateTime paidDateTime,
+			LocalDateTime debitedDateTime, int customerId) {
 		this.accountHolderAccNo = accountHolderAccNo;
 		this.remittanceAccNo = remittanceAccNo;
 		this.receiverIfscCode = receiverIfscCode;
@@ -35,6 +44,7 @@ public class Transaction {
 		this.avlAmount = avlAmount;
 		this.paidDateTime = paidDateTime;
 		this.debitedDateTime = debitedDateTime;
+		this.customerId = customerId;
 	}
 
 	// Default constructor
@@ -42,7 +52,7 @@ public class Transaction {
 
 	}
 
-	public String getAccountHolderAccNo() {
+	public String getAccountHolderAccNo() { 
 		return accountHolderAccNo;
 	}
 
@@ -98,29 +108,36 @@ public class Transaction {
 		this.avlAmount = avlAmount;
 	}
 
-	public String getPaidDateTime() {
+	public LocalDateTime getPaidDateTime() {
 		return paidDateTime;
 	}
 
-	public void setPaidDateTime(String paidDateTime) {
+	public void setPaidDateTime(LocalDateTime paidDateTime) {
 		this.paidDateTime = paidDateTime;
 	}
 
-	public String getDebitedDateTime() {
+	public LocalDateTime getDebitedDateTime() {
 		return debitedDateTime;
 	}
 
-	public void setDebitedDateTime(String debitedDateTime) {
+	public void setDebitedDateTime(LocalDateTime debitedDateTime) {
 		this.debitedDateTime = debitedDateTime;
 	}
 
-	// Override toString() method to provide a string representation of the
-	// Transaction object
-	@Override 
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	@Override
 	public String toString() {
 		return "Transaction [accountHolderAccNo=" + accountHolderAccNo + ", remittanceAccNo=" + remittanceAccNo
-				+ ", receiverIfscCode=" + receiverIfscCode + ", transfer_amount=" + transferAmount + ", remark="
-				+ remark + "]";
+				+ ", receiverIfscCode=" + receiverIfscCode + ", transferAmount=" + transferAmount + ", remark=" + remark
+				+ ", transStatus=" + transStatus + ", avlAmount=" + avlAmount + ", paidDateTime=" + paidDateTime
+				+ ", debitedDateTime=" + debitedDateTime + ", customerId=" + customerId + "]";
 	}
 
 }

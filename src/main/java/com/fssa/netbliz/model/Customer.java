@@ -2,25 +2,40 @@ package com.fssa.netbliz.model;
 
 public class Customer {
 
+	private int customerId;
 	private String firstName;
 	private String lastName;
 	private long phoneNumber;
 	private String email;
 	private String password;
 	private String confirmPassword;
-	
-	// No argument constructor
-		public Customer(){   
-			// Empty constructor used for creating an instance without setting attributes
-		}
+	private boolean isActive;
 
-	public Customer(String firstName, String lastName, long phoneNumber, String email, String password, String confirmPassword) {
+	// No argument constructor
+	public Customer() {
+		// Empty constructor used for creating an instance without setting attributes
+	}
+
+	public Customer(String firstName, String lastName, long phoneNumber, String email, String password,
+			String confirmPassword) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
-		this.confirmPassword = confirmPassword; 
+		this.confirmPassword = confirmPassword;
+	}
+
+	public Customer(int customerId, String firstName, String lastName, long phoneNumber, String email, String password,
+			String confirmPassword, boolean isActive) {
+		this.customerId = customerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+		this.isActive = isActive;
 	}
 
 	public String getFirstName() {
@@ -46,7 +61,7 @@ public class Customer {
 	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
- 
+
 	public String getEmail() {
 		return email;
 	}
@@ -71,12 +86,27 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
-		return "Customer [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", email=" + email + ", password=" + password + ", confirmPassword=" + confirmPassword + "]";
+		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", password=" + password + ", confirmPassword="
+				+ confirmPassword + ", isActive=" + isActive + "]";
 	}
-	
-	
-	
+
 }

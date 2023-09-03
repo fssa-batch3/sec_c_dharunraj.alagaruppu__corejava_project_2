@@ -11,18 +11,19 @@ public class ConnectionUtil {
 
 	public static Connection getConnection() throws SQLException {
 		Connection con = null;
-
+ 
 		String url;
 		String userName;
 		String passWord;
-
+//
 //		url = "jdbc:mysql://localhost:3306/netbliz";
 //		userName = "root";
-//		passWord = "root";  
+//		passWord = "root"; 
 
 		url = System.getenv("DATABASE_HOST");
 		userName = System.getenv("DATABASE_USERNAME");
 		passWord = System.getenv("DATABASE_PASSWORD");
+		
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

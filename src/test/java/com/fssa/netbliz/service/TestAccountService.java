@@ -16,9 +16,9 @@ public class TestAccountService {
 
 	Account account = new Account();
 
-	AccountService accountService = new AccountService();  
- 
-	/** 
+	AccountService accountService = new AccountService();
+
+	/**
 	 * This method tests the addition of a new account using the provided account
 	 * details.
 	 *
@@ -28,9 +28,9 @@ public class TestAccountService {
 
 	@Test
 	// Valid test case
-	public void testAddAccount() { // before commit update the new account number
+	public void testAddAccount() {  // before commit update the new account number
 
-		Account account = new Account("0967654121012341", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123789", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -56,10 +56,10 @@ public class TestAccountService {
 			Assertions.assertFalse(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
 
-	}  
+	}
 
 	/**
 	 * This method tests the occurrence of a validation error during the addition of
@@ -87,7 +87,7 @@ public class TestAccountService {
 
 	@Test
 	public void testDAOErrorAddAccount() {
-		Account account = new Account("09876564321123451", "IDIB000K132", 9360067834l, 500.0, AccountEnum.SAVINGS);
+		Account account = new Account("09876564321123456", "IDIB000K132", 9360067834l, 500.0, AccountEnum.SAVINGS);
 
 		assertThrows(ServiceException.class, () -> accountService.addAccount(account));
 
@@ -105,7 +105,7 @@ public class TestAccountService {
 	@Test
 	// Valid test case
 	public void testRemoveAccountByAccountNumber() {
-		String accountNumber = "0997994321023452";
+		String accountNumber = "1234567890123453";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -127,13 +127,13 @@ public class TestAccountService {
 	@Test
 	public void testInvalidRemoveAccountByAccountNumber() {
 
-		String accountNumber = "0987654321123451";
+		String accountNumber = "1234567890123455";
 
 		try {
 			Assertions.assertFalse(accountService.removeAccountByAccountNumber(accountNumber));
 		} catch (ServiceException e) {
 
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class TestAccountService {
 	// Valid test case
 	public void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("0997904321023452", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("0987654320023456", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -170,8 +170,8 @@ public class TestAccountService {
 	@Test
 	// Valid test case
 	public void testGetAccountByPhoneNumber() {
- 
-		long phoneNumber = 9361320511l; 
+
+		long phoneNumber = 9361320511l;
 		try {
 
 			List<Account> list = (accountService.getAccountByPhoneNumber(phoneNumber));
@@ -236,7 +236,7 @@ public class TestAccountService {
 		try {
 			Assertions.assertNull(accountService.getAccountByNumber(accountNumber));
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
 	}
 
@@ -255,12 +255,12 @@ public class TestAccountService {
 	// Valid test case
 	void isActiveAccount() {
 		String accNo = "1234567890123456";
-
+ 
 		try {
 			Assertions.assertTrue(accountService.isActiveAccount(accNo));
 		} catch (ServiceException e) {
 
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
 	}
 
@@ -274,13 +274,13 @@ public class TestAccountService {
 	@Test
 	public void invalidIsActive() {
 
-		String accNo = "123456789009876";
+		String accNo = "1234567890098763";
 
 		try {
 			Assertions.assertFalse(accountService.isActiveAccount(accNo));
 		} catch (ServiceException e) {
 
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
 
 	}
@@ -294,16 +294,11 @@ public class TestAccountService {
 	 */
 
 	@Test
-	public void validationErrorIsActive() {
+	public void validationErrorIsActive() { 
 
-		String accNo = "123456909876";
-
-		try {
-			Assertions.assertFalse(accountService.isActiveAccount(accNo));
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-
+		String accNo = "12345690987"; 
+	
+		Assertions.assertThrows(ServiceException.class, () -> accountService.isActiveAccount(accNo));
 	}
 
 }

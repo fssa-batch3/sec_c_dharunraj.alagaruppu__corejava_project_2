@@ -28,7 +28,7 @@ public class TransactionValidator {
 	 *                                       validation process.
 	 */
 
-	public static boolean validate(Transaction trans) throws ValidatorException {
+	public static boolean validate(Transaction trans) throws ValidatorException { 
 		if (trans == null) {
 			throw new ValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
 		}

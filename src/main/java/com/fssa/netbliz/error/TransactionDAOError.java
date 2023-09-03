@@ -13,6 +13,8 @@ public final class TransactionDAOError {
 	
 	public static final String UN_AVAILABLE_ACCOUNT = "Your account is not available";  // isAvailableAccount
 	
+	public static final String WRONG_ACCOUNT_NUMBER = "You can't transfer money with your account";
+	
 	private TransactionDAOError() {
 		
 		

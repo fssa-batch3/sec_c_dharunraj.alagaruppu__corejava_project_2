@@ -13,6 +13,7 @@ import com.fssa.netbliz.error.TransactionDAOError;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.model.Customer;
 import com.fssa.netbliz.util.ConnectionUtil;
+import com.fssa.netbliz.util.Logger;
 
 public class CustomerDAO {
 	private CustomerDAO() {
@@ -43,7 +44,7 @@ public class CustomerDAO {
 				pst.setString(3, customer.getEmail());
 				pst.setLong(4, customer.getPhoneNumber());
 				pst.setString(5, customer.getPassword());
-				pst.executeUpdate(); 
+				pst.executeUpdate();
 			}
 
 		}
@@ -84,9 +85,6 @@ public class CustomerDAO {
 				try (ResultSet rs = pst.executeQuery()) {
 
 					if (rs.next()) {
-						System.out.println(rs.getLong("phone"));
-						System.out.println(rs.getString("email"));
-						System.out.println(rs.getString("password"));
 
 						if (rs.getString("email").equals(email.trim())
 								&& rs.getString("password").equals(password.trim()) && rs.getLong("phone") == phone)
@@ -151,6 +149,11 @@ public class CustomerDAO {
 		return false;
 	}
 
+	public static void main(String[] args) throws DAOException {
+
+		System.out.println(getCustomerDetailsByPhoneNumber(9361320511l));
+	}
+
 	public static List<Customer> getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
 
 		List<Customer> customerList = new ArrayList<>();
@@ -173,6 +176,8 @@ public class CustomerDAO {
 						customer.setPhoneNumber(rs.getLong("phone"));
 						customer.setEmail(rs.getString("email"));
 						customer.setPassword(rs.getString("password"));
+						customer.setActive(rs.getBoolean("is_active"));
+						customer.setCustomerId(rs.getInt("customer_id"));
 						customerList.add(customer);
 						return customerList;
 					}

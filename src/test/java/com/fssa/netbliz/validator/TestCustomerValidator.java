@@ -6,23 +6,22 @@ import com.fssa.netbliz.error.CustomerValidatorError;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Customer;
 
-public class TestCustomerValidator {
+ class TestCustomerValidator {
 
 	Customer customer = new Customer();
 
 	@Test
- 
-	public void testValidate() throws ValidatorException {
 
-		Customer customer = new Customer("Ar", "R", 9080668509l, "aravind@gmail.com", "1234567890Dh@",
-				"1234567890Dh@");
+	 void testValidate() throws ValidatorException {
+
+		Customer customer = new Customer("Aravind", "Ram", 9080668509l, "aravind@gmail.com", "1234567890Dh@", "1234567890Dh@");
 
 		Assertions.assertTrue(CustomerValidator.validate(customer));
-	}
+	} 
 
 	@Test
 
-	public void testInvalidObject() throws ValidatorException {
+	 void testInvalidObject() throws ValidatorException {
 
 		try {
 
@@ -36,7 +35,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidFirstName() throws ValidatorException {
+	 void testValidFirstName() throws ValidatorException {
 
 		customer.setFirstName("Dharunraj");
 
@@ -44,7 +43,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullFirstName() throws ValidatorException {
+	 void testNullFirstName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateFirstName(null);
@@ -56,8 +55,8 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyFirstName() throws ValidatorException {
- 
+	 void testEmptyFirstName() throws ValidatorException {
+
 		try {
 			CustomerValidator.validateFirstName("");
 		} catch (Exception e) {
@@ -68,7 +67,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternFirstName() throws ValidatorException {
+	 void testpatternFirstName() throws ValidatorException {
 
 		try {
 
@@ -80,7 +79,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testLengthOfFirstName() throws ValidatorException {
+	 void testLengthOfFirstName() throws ValidatorException {
 
 		try {
 
@@ -92,7 +91,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidLastName() throws ValidatorException {
+	 void testValidLastName() throws ValidatorException {
 
 		customer.setLastName("Alagaruppu");
 
@@ -100,7 +99,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullLastName() throws ValidatorException {
+	 void testNullLastName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateLastName(null);
@@ -112,7 +111,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyLastName() throws ValidatorException {
+	 void testEmptyLastName() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateLastName("");
@@ -124,7 +123,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternLastName() throws ValidatorException {
+	 void testpatternLastName() throws ValidatorException {
 
 		try {
 
@@ -136,7 +135,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testLengthOfLastName() throws ValidatorException {
+	 void testLengthOfLastName() throws ValidatorException {
 
 		try {
 
@@ -148,7 +147,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidEmail() throws ValidatorException {
+	 void testValidEmail() throws ValidatorException {
 
 		customer.setEmail("dharun@gmail.com");
 
@@ -156,7 +155,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullEmail() throws ValidatorException {
+	 void testNullEmail() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateEmail(null);
@@ -168,7 +167,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyEmail() throws ValidatorException {
+	 void testEmptyEmail() throws ValidatorException {
 
 		try {
 			CustomerValidator.validateEmail("");
@@ -180,7 +179,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternEmail() throws ValidatorException {
+	 void testpatternEmail() throws ValidatorException {
 
 		try {
 
@@ -192,7 +191,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testValidPassword() throws ValidatorException {
+	 void testValidPassword() throws ValidatorException {
 
 		customer.setPassword("1234567890Dh@");
 
@@ -200,7 +199,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testNullPassword() throws ValidatorException {
+	 void testNullPassword() throws ValidatorException {
 
 		try {
 			CustomerValidator.validatePassword(null);
@@ -212,7 +211,7 @@ public class TestCustomerValidator {
 	}
 
 	@Test
-	public void testEmptyPassword() throws ValidatorException {
+	 void testEmptyPassword() throws ValidatorException {
 
 		try {
 			CustomerValidator.validatePassword("");
@@ -224,7 +223,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testpatternPassword() throws ValidatorException {
+	 void testpatternPassword() throws ValidatorException {
 
 		try {
 
@@ -236,7 +235,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testNullComparePassword() throws ValidatorException {
+	 void testNullComparePassword() throws ValidatorException {
 
 		try {
 
@@ -249,7 +248,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testEmptyComparePassword() throws ValidatorException {
+	 void testEmptyComparePassword() throws ValidatorException {
 
 		try {
 
@@ -262,7 +261,7 @@ public class TestCustomerValidator {
 
 	@Test
 
-	public void testInvalidComparePassword() throws ValidatorException {
+	 void testInvalidComparePassword() throws ValidatorException {
 
 		try {
 
@@ -270,6 +269,27 @@ public class TestCustomerValidator {
 		} catch (Exception e) {
 
 			Assertions.assertEquals(CustomerValidatorError.WRONG_PASSWORD, e.getMessage());
+		}
+	}
+
+	@Test
+	 void testValidCustomerId() {
+
+		try {
+			Assertions.assertTrue(CustomerValidator.validateCustomerId(123));
+		} catch (ValidatorException e) {
+			Assertions.fail("Validation of valid customer ID should not throw an exception.");
+		}
+	}
+
+	@Test
+	 void testInvalidCustomerId() {
+
+		try {
+			Assertions.assertFalse(CustomerValidator.validateCustomerId(-1));
+			Assertions.fail("Validation of invalid customer ID should throw a ValidatorException.");
+		} catch (ValidatorException e) {
+			Assertions.assertEquals(CustomerValidatorError.INVALID_CUSTOMER_ID, e.getMessage());
 		}
 	}
 

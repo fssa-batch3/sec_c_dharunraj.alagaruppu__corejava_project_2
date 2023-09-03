@@ -1,5 +1,5 @@
 package com.fssa.netbliz.service;
-import java.rmi.ServerException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.fssa.netbliz.exception.DAOException;
@@ -21,35 +21,35 @@ public class TestCustomerService {
 	 * @throws ValidatorException If there is an issue with validating the customer
 	 *                            data during the test.
 	 */
-	@Test
-	public void testValidAddCustomer() {
+	@Test 
+	public void testValidAddCustomer() {  
 
-		Customer customer = new Customer("hema", "murali", 7402473344l, "hema@gmail.com", "1234567890Dh@",
-				"1234567890Dh@"); 
+		Customer customer = new Customer("bala", "kumar", 7402473342l, "bala@gmail.com", "1234567890Dh@",
+				"1234567890Dh@");
 
 		try {
 			Assertions.assertTrue(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+			Assertions.fail(e);
+		} 
 	}
 
 	@Test
 
 	public void testInvalidAddCustomer() {
 
-		Customer customer = new Customer("Joel", "Premkumar", 7902413346l, "zoho@gmail.com", "740247Dh@3347",
+		Customer customer = new Customer("Joel", "Premkumar", 7402473347l, "zoho@gmail.com", "740247Dh@3347",
 				"740247Dh@3347");
 
 		try {
 			Assertions.assertFalse(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			Assertions.fail(e);
 		}
-	} 
+	}
 
 	@Test
-	public void testValidationErrorAddCustomer() { 
+	public void testValidationErrorAddCustomer() {
 
 		Customer customer = new Customer("Joel", "", 790247334l, "vishalgmail.com", "74024747", "740247Dh@3347");
 
@@ -75,11 +75,9 @@ public class TestCustomerService {
 		String password = "1234567890Dh@";
 
 		try {
-
 			Assertions.assertTrue(customerServive.logInCustomer(phone, email, password));
-		} catch (ServerException e) {
-
-			e.printStackTrace();
+		} catch (ServiceException e) {
+			e.getMessage();
 		}
 	}
 
@@ -93,8 +91,8 @@ public class TestCustomerService {
 
 		try {
 			Assertions.assertFalse(customerServive.logInCustomer(phone, email, password));
-		} catch (ServerException e) {
-			e.printStackTrace();
+		} catch (ServiceException e) {
+			e.getMessage();
 		}
 	}
 }

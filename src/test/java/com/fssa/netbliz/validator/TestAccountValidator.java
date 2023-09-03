@@ -12,11 +12,11 @@ import com.fssa.netbliz.model.Account;
  * A class containing test cases for the AccountValidator class.
  */
 
-public class TestAccountValidator {
+ class TestAccountValidator {
 
 	Account account = new Account();
 
-	@Test
+	@Test 
 
 	/**
 	 * Test case for validating a valid Account object.
@@ -24,7 +24,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testValidObject() throws ValidatorException {
+	 void testValidObject() throws ValidatorException {
  
 		Account account = new Account("1234567091123456", "IDIB000K132", 9361320511l, 1000.0, AccountEnum.SAVINGS);
 
@@ -39,7 +39,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testInvalidObject() throws ValidatorException {
+	 void testInvalidObject() throws ValidatorException {
 
 		try {
 
@@ -59,7 +59,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 
-	public void testvalidAccountNumber() throws ValidatorException {
+	 void testvalidAccountNumber() throws ValidatorException {
 
 		account.setAccountNumber("1234567890123456");
 
@@ -72,7 +72,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullAccountNumber() throws ValidatorException {
+	 void testNullAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber(null);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testEmptyAccountNumber() throws ValidatorException {
+	 void testEmptyAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("");
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testLengthAccountNumber() throws ValidatorException {
+	 void testLengthAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("1234567890");
 		} catch (Exception e) {
@@ -114,7 +114,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testPatternAccountNumber() throws ValidatorException {
+	 void testPatternAccountNumber() throws ValidatorException {
 		try {
 			AccountValidator.validateAccountNumber("1234567jhsdih890");
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidIfsc() throws ValidatorException {
+	 void testValidIfsc() throws ValidatorException {
 		account.setIfsc("IDIB000K132");
 		Assertions.assertTrue(AccountValidator.validateIfsc(account.getIfsc()));
 	}
@@ -139,7 +139,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullIfsc() throws ValidatorException {
+	 void testNullIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc(null);
 		} catch (Exception e) {
@@ -153,7 +153,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testEmptyIfsc() throws ValidatorException {
+	 void testEmptyIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc("");
 		} catch (Exception e) {
@@ -167,7 +167,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testPatternIfsc() throws ValidatorException {
+	 void testPatternIfsc() throws ValidatorException {
 		try {
 			AccountValidator.validateIfsc("12345678901");
 		} catch (Exception e) {
@@ -181,7 +181,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidPhoneNumber() throws ValidatorException {
+	 void testValidPhoneNumber() throws ValidatorException {
 		account.setPhoneNumber(9361320511L);
 		Assertions.assertTrue(AccountValidator.validatePhoneNumber(account.getPhoneNumber()));
 	}
@@ -192,7 +192,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidMinimumBalance() throws ValidatorException {
+	 void testValidMinimumBalance() throws ValidatorException {
 		account.setMinimumBalance(1000.0);
 		Assertions.assertTrue(AccountValidator.validateMinimumBalance(account.getMinimumBalance()));
 	}
@@ -203,7 +203,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testInvalidMinimumBalance() throws ValidatorException {
+	 void testInvalidMinimumBalance() throws ValidatorException {
 		try {
 			AccountValidator.validateMinimumBalance(10);
 		} catch (Exception e) {
@@ -217,7 +217,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testNullType() throws ValidatorException {
+	 void testNullType() throws ValidatorException {
 		try {
 			AccountValidator.validateType(null);
 		} catch (Exception e) {
@@ -231,7 +231,7 @@ public class TestAccountValidator {
 	 * @throws ValidatorException If an exception occurs during validation.
 	 */
 	@Test
-	public void testValidType() throws ValidatorException {
+	 void testValidType() throws ValidatorException {
 		account.setCategory(AccountEnum.CURRENT);
 		Assertions.assertTrue(AccountValidator.validateType(account.getCategory()));
 	}

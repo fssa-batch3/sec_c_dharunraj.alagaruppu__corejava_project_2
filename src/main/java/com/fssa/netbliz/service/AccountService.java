@@ -20,7 +20,7 @@ import com.fssa.netbliz.validator.AccountValidator;
 public class AccountService {
 	public AccountService() {
 //		private constructor
-	} 
+	}
 
 	public boolean addAccount(Account account) throws ServiceException {
 
@@ -33,8 +33,10 @@ public class AccountService {
 				return AccountDAO.addAccount(account);
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
 		// If validation fails, return false
@@ -53,8 +55,10 @@ public class AccountService {
 				return AccountDAO.removeAccountByAccountNumber(accountNumber);
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
 
@@ -66,15 +70,16 @@ public class AccountService {
 
 		try {
 
-			if (AccountValidator.validatePhoneNumber(phone)) { 
+			if (AccountValidator.validatePhoneNumber(phone)) {
 
 				return AccountDAO.getAccountByPhoneNumber(phone);
 
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
-
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
 		return null;
@@ -88,8 +93,10 @@ public class AccountService {
 				return AccountDAO.isAvailableAccount(accNo);
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
 		return false;
@@ -97,17 +104,18 @@ public class AccountService {
 
 	// Checks if an account is active
 	public boolean isActiveAccount(String accNo) throws ServiceException {
-		try {
-			if (AccountValidator.validateAccountNumber(accNo)) {
-				return AccountDAO.isActiveAccount(accNo);
+		
+			try {
+				if (AccountValidator.validateAccountNumber(accNo)) {
+					return AccountDAO.isActiveAccount(accNo);
+				} 
+			} catch (ValidatorException e) {
+				e.getMessage();
+				throw new ServiceException(e.getMessage());
+			} catch (DAOException e) {
+				e.getMessage();
+				throw new ServiceException(e.getMessage());
 			}
-
-		} catch (ValidatorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
 		return false;
 	}
 
@@ -122,9 +130,10 @@ public class AccountService {
 
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
-
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
 		return null;

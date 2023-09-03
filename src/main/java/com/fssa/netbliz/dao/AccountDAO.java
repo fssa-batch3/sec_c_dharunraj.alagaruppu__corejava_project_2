@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class AccountDAO {
 	 * @return True if the account is successfully added, false otherwise
 	 * @throws DAOException If a database error occurs during the operation
 	 */
-
-	public static boolean addAccount(Account account) throws DAOException { 
+ 
+	public static boolean addAccount(Account account) throws DAOException {
 
 		try {
 			if (AccountValidator.validate(account) && !isActiveAccount(account.getAccountNumber())
@@ -58,7 +59,7 @@ public class AccountDAO {
 						pst.setDouble(4, account.getMinimumBalance());
 						pst.setString(5, account.getCategory().toString());
 						pst.setDouble(6, Account.CONSTANT_AVL_BALANCE);
-						pst.setInt(7, getPrimaryCustomerId(account));
+						pst.setInt(7, getPrimaryCustomerId(account.getPhoneNumber()));
 
 						// Execute the insert query
 						int row = pst.executeUpdate();
@@ -119,16 +120,16 @@ public class AccountDAO {
 	 * @throws DAOException If a database error occurs during the operation
 	 */
 
-	public static int getPrimaryCustomerId(Account account) throws DAOException {
+	public static int getPrimaryCustomerId(long phone) throws DAOException {
 
-		int id = 0; // initialize the id number
+		int id = Account.ZERO; // initialize the id number
 		final String query = "SELECT customer_id FROM customers WHERE phone = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				pst.setLong(1, account.getPhoneNumber());
+				pst.setLong(1, phone);
 
 				try (ResultSet rs = pst.executeQuery()) {
 
@@ -177,7 +178,7 @@ public class AccountDAO {
 
 		List<Account> list = new ArrayList<>();
 
-		final String query = "SELECT acc_no,ifsc,account_type FROM accounts WHERE phone_number = ? AND is_active = ?";
+		final String query = "SELECT acc_no,ifsc,account_type,min_balance,customer_id,is_active,avl_balance,date_of_joining,phone_number FROM accounts WHERE phone_number = ? AND is_active = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -185,17 +186,23 @@ public class AccountDAO {
 				pst.setLong(1, phone);
 				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
 
-
 				try (ResultSet rs = pst.executeQuery()) {
 
 					while (rs.next()) {
-						
+
 						Account account = new Account();
 						account.setAccountNumber(rs.getString("acc_no"));
 						account.setIfsc(rs.getString("ifsc"));
+						account.setMinimumBalance(rs.getDouble("min_balance"));
+						account.setAvailableBalance(rs.getDouble("avl_balance"));
+						Timestamp time = rs.getTimestamp("date_of_joining");
+						account.setDateOfJoining(time.toLocalDateTime());
+						account.setPhoneNumber(rs.getLong("phone_number"));
 						String type = rs.getString("account_type");
+						account.setActive(rs.getBoolean("is_active"));
 						AccountEnum enumType = AccountEnum.valueOf(type);
 						account.setCategory(enumType);
+						account.setCustomerId(rs.getInt("customer_id"));
 						list.add(account);
 
 					}
@@ -206,9 +213,10 @@ public class AccountDAO {
 
 		} catch (SQLException e) {
 
-			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER); // Handle SQLException by throwing a
-																			// DAOException with an appropriate error
-																			// code
+			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER + e.getMessage()); // Handle SQLException by
+																								// throwing a
+			// DAOException with an appropriate error
+			// code
 		}
 		return list; // Return null or an empty list if no matching accounts are found
 
@@ -291,7 +299,7 @@ public class AccountDAO {
 
 		List<Account> list = new ArrayList<>();
 
-		final String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type FROM accounts WHERE acc_no = ? ";
+		final String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -310,6 +318,7 @@ public class AccountDAO {
 						String type = rs.getString("account_type");
 						AccountEnum enumType = AccountEnum.valueOf(type);
 						account.setCategory(enumType);
+						account.setActive(rs.getBoolean("is_active"));
 						list.add(account);
 						return list;
 					}

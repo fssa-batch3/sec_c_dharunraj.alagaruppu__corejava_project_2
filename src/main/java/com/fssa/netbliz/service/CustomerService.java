@@ -1,6 +1,5 @@
 package com.fssa.netbliz.service;
 
-import java.rmi.ServerException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,10 +21,21 @@ public class CustomerService {
 				return CustomerDAO.addCustomer(customer);
 			}
 
-		} catch (ValidatorException | DAOException e) {
-			e.printStackTrace();
+		} catch (ValidatorException e) {
+
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
+
+		} catch (ServiceException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
+
+		catch (DAOException e) {
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
+		}
+
 		return false;
 	}
 
@@ -36,11 +46,13 @@ public class CustomerService {
 			}
 
 		} catch (ValidatorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
+
 		return false;
 	}
 
@@ -52,14 +64,20 @@ public class CustomerService {
 				return CustomerDAO.isAvailableAccount(phone);
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
+
+		}
+
+		catch (DAOException e) {
+			e.getMessage();
 			throw new ServiceException(e.getMessage());
 		}
+
 		return false;
 	}
 
-	public boolean logInCustomer(long phone, String email, String password) throws ServerException {
+	public boolean logInCustomer(long phone, String email, String password) throws ServiceException {
 
 		try {
 			if (CustomerValidator.validateEmail(email) && CustomerValidator.validatePassword(password)
@@ -70,18 +88,21 @@ public class CustomerService {
 
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
 
-			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		}
 
 		catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 		} catch (DAOException e) {
+			e.getMessage();
 
-			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 		}
 
 		return false;
@@ -96,18 +117,18 @@ public class CustomerService {
 
 			}
 		} catch (ValidatorException e) {
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 
-			e.printStackTrace();
+		} catch (ServiceException e) {
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 		}
 
-		catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DAOException e) {
-
-			e.printStackTrace();
+		catch (DAOException e) {
+			e.getMessage();
+			throw new ServiceException(e.getMessage());
 		}
-
 		return null;
 	}
 }

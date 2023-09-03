@@ -5,7 +5,7 @@ public class CustomerValidatorError {
 	// object cannot be empty, i.e., it must have some content or value.
 	public static final String NULL_OBJECT = "Object can't be empty";
 
-	//  name should only contain characters, not special characters or numbers.
+	// name should only contain characters, not special characters or numbers.
 	public static final String INVALID_NAME = "Name should contain only characters";
 
 	// password provided is not strong
@@ -44,11 +44,13 @@ public class CustomerValidatorError {
 	// password cannot be empty.
 	public static final String INVALID_EMPTY_PASSWORD = "Password can't be empty";
 
-	// password should follow a pattern including at least 1 number and 1 special character.
+	// password should follow a pattern including at least 1 number and 1 special
+	// character.
 	public static final String INVALID_PATTERN_PASSWORD = "Password should have 1 number and 1 special character length of the password above 8 ";
 
 	// password and confirm password provided do not match.
 	public static final String WRONG_PASSWORD = "Both password and confirm password is mismatched";
 
+	public static final String INVALID_CUSTOMER_ID = "Invalid customer ID.";
 
 }
