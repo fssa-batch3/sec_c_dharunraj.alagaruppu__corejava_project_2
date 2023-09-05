@@ -18,7 +18,7 @@ public class ConnectionUtil {
 //
 //		url = "jdbc:mysql://localhost:3306/netbliz";
 //		userName = "root";
-//		passWord = "root"; 
+//		passWord = "root";
 
 		url = System.getenv("DATABASE_HOST");
 		userName = System.getenv("DATABASE_USERNAME");
