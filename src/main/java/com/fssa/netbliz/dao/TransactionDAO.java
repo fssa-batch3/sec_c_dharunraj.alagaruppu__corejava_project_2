@@ -119,7 +119,6 @@ public class TransactionDAO {
 			pst.setString(1, trans.getRemittanceAccNo());
 			pst.setString(2, trans.getReceiverIfscCode());
 			pst.setBoolean(3, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
-			System.out.println(pst);
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
@@ -286,7 +285,6 @@ public class TransactionDAO {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setInt(1, id);
-				System.out.println(pst);
 
 				try (ResultSet rs = pst.executeQuery()) {
 					while (rs.next()) {

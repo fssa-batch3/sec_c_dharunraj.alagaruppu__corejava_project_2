@@ -13,7 +13,6 @@ public class CustomerValidator {
 		// Private constructor to prevent instantiation
 	}
 
-	
 	public static final int LENGTH_OF_FIRST_NAME = 30;
 
 	public static final int LENGTH_OF_LAST_NAME = 30;
@@ -158,11 +157,12 @@ public class CustomerValidator {
 		boolean password = validatePassword(pass);
 		boolean confirmPassword = validatePassword(confirm);
 
-		if (!password || !confirmPassword || !pass.equals(confirm)) {
-			throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD);
+		if (password && confirmPassword && pass.equals(confirm)) {
+
+			return true;
 		}
 
-		return true;
+		throw new ValidatorException(CustomerValidatorError.WRONG_PASSWORD);
 	}
 
 	/**

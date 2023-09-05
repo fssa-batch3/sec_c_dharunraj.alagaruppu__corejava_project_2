@@ -80,8 +80,8 @@ public class Transaction {
 		return transferAmount;
 	}
 
-	public void setTransferAmount(double transfer_amount) {
-		this.transferAmount = transfer_amount;
+	public void setTransferAmount(double transferAmount) {
+		this.transferAmount = transferAmount;
 	}
 
 	public String getRemark() {

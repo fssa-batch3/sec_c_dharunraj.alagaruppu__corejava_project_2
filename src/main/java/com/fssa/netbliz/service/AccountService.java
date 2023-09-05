@@ -1,7 +1,9 @@
 package com.fssa.netbliz.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.dao.AccountDAO;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
@@ -35,9 +37,9 @@ public class AccountService {
 				return AccountDAO.addAccount(account);
 			}
 		} catch (ValidatorException e) {
-			throw new ServiceException("Validation error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
-			throw new ServiceException("DAO error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 		return false;
 	}
@@ -56,9 +58,9 @@ public class AccountService {
 				return AccountDAO.removeAccountByAccountNumber(accountNumber);
 			}
 		} catch (ValidatorException e) {
-			throw new ServiceException("Validation error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
-			throw new ServiceException("DAO error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 		return false;
 	}
@@ -72,16 +74,18 @@ public class AccountService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public List<Account> getAccountByPhoneNumber(long phone) throws ServiceException {
+		List<Account> accountDetails = new ArrayList<>();
 		try {
 			if (AccountValidator.validatePhoneNumber(phone)) {
-				return AccountDAO.getAccountByPhoneNumber(phone);
+
+				accountDetails = AccountDAO.getAccountByPhoneNumber(phone);
 			}
 		} catch (ValidatorException e) {
-			throw new ServiceException("Validation error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
-			throw new ServiceException("DAO error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return null;
+		return accountDetails;
 	}
 
 	/**
@@ -97,9 +101,9 @@ public class AccountService {
 				return AccountDAO.isAvailableAccount(accNo);
 			}
 		} catch (ValidatorException e) {
-			throw new ServiceException("Validation error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
-			throw new ServiceException("DAO error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 		return false;
 	}
@@ -112,16 +116,16 @@ public class AccountService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean isActiveAccount(String accNo) throws ServiceException {
-	    try {
-	        if (AccountValidator.validateAccountNumber(accNo)) {
-	            return AccountDAO.isActiveAccount(accNo);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
-	    return false;
+		try {
+			if (AccountValidator.validateAccountNumber(accNo)) {
+				return AccountDAO.isActiveAccount(accNo);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return false;
 	}
 
 	/**
@@ -134,17 +138,20 @@ public class AccountService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public List<Account> getAccountByNumber(String accountNumber) throws ServiceException {
+
+		List<Account> details = new ArrayList<>();
 		try {
 			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
 					&& isAvailableAccount(accountNumber)) {
-				return AccountDAO.getAccountByNumber(accountNumber);
+				details = AccountDAO.getAccountByNumber(accountNumber);
+
 			}
 		} catch (ValidatorException e) {
-			throw new ServiceException("Validation error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
-			throw new ServiceException("DAO error: " + e.getMessage());
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return null;
+		return details;
 	}
 
 }

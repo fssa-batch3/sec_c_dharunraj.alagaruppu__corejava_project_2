@@ -30,22 +30,22 @@ public class CustomerDAO {
 	 *                      adding the customer.
 	 */
 	public static boolean addCustomer(Customer customer) throws DAOException {
-	    final String query = "INSERT INTO customers (first_name,last_name,email,phone,password) VALUES (?,?,?,?,?)";
+		final String query = "INSERT INTO customers (first_name,last_name,email,phone,password) VALUES (?,?,?,?,?)";
 
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setString(1, customer.getFirstName());
-	            pst.setString(2, customer.getLastName());
-	            pst.setString(3, customer.getEmail());
-	            pst.setLong(4, customer.getPhoneNumber());
-	            pst.setString(5, customer.getPassword());
-	            pst.executeUpdate();
-	        }
-	    } catch (SQLException e) {
-	        throw new DAOException(CustomerDAOError.INVALID_DATA);
-	    }
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setString(1, customer.getFirstName());
+				pst.setString(2, customer.getLastName());
+				pst.setString(3, customer.getEmail());
+				pst.setLong(4, customer.getPhoneNumber());
+				pst.setString(5, customer.getPassword());
+				pst.executeUpdate();
+			}
+		} catch (SQLException e) {
+			throw new DAOException(CustomerDAOError.INVALID_DATA);
+		}
 
-	    return true;
+		return true;
 	}
 
 	/**
@@ -61,24 +61,23 @@ public class CustomerDAO {
 	 * @throws SQLException If there is an issue with executing the SQL query.
 	 */
 	public static boolean logInCustomer(long phone, String email, String password) throws DAOException, SQLException {
-	    final String query = "SELECT phone,email,password FROM customers WHERE phone = ? ";
+		final String query = "SELECT phone,email,password FROM customers WHERE phone = ? ";
 
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setLong(1, phone);
-	            try (ResultSet rs = pst.executeQuery()) {
-	                if (rs.next()) {
-	                    if (rs.getString("email").equals(email.trim())
-	                            && rs.getString("password").equals(password.trim()) && rs.getLong("phone") == phone) {
-	                        return true;
-	                    }
-	                }
-	            }
-	        }
-	    } catch (SQLException e) {
-	        throw new DAOException(CustomerDAOError.INVALID_DATA);
-	    }
-	    return false;
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setLong(1, phone);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next() && rs.getString("email").equals(email.trim())
+							&& rs.getString("password").equals(password.trim()) && rs.getLong("phone") == phone) {
+						return true;
+					}
+
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(CustomerDAOError.INVALID_DATA);
+		}
+		return false;
 	}
 
 	/**
@@ -91,46 +90,47 @@ public class CustomerDAO {
 	 *                      checking account availability.
 	 */
 	public static boolean isAvailableAccount(long phone) throws DAOException {
-	    final String query = "SELECT phone FROM customers WHERE phone = ?";
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setLong(1, phone);
-	            try (ResultSet rs = pst.executeQuery()) {
-	                if (rs.next()) {
-	                    return true;
-	                }
-	            }
-	        }
-	    } catch (SQLException e) {
-	        throw new DAOException(TransactionDAOError.UN_AVAILABLE_ACCOUNT);
-	    }
-	    return false;
+		final String query = "SELECT phone FROM customers WHERE phone = ?";
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setLong(1, phone);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.UN_AVAILABLE_ACCOUNT);
+		}
+		return false;
 	}
 
 	/**
 	 * Checks if a customer account is active by phone number.
 	 *
 	 * @param phone The phone number to check for customer account activity.
-	 * @return {@code true} if the customer account is active, {@code false} otherwise.
+	 * @return {@code true} if the customer account is active, {@code false}
+	 *         otherwise.
 	 * @throws DAOException If there is an issue with the database operation while
 	 *                      checking account activity.
 	 */
 	public static boolean isActiveAccount(long phone) throws DAOException {
-	    final String query = "SELECT email,password FROM customers WHERE phone = ? AND is_active = ?";
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setLong(1, phone);
-	            pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
-	            try (ResultSet rs = pst.executeQuery()) {
-	                if (rs.next()) {
-	                    return true;
-	                }
-	            }
-	        }
-	    } catch (SQLException e) {
-	        throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
-	    }
-	    return false;
+		final String query = "SELECT email,password FROM customers WHERE phone = ? AND is_active = ?";
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setLong(1, phone);
+				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+		}
+		return false;
 	}
 
 	/**
@@ -142,30 +142,28 @@ public class CustomerDAO {
 	 * @throws DAOException If there is an issue with the database operation.
 	 */
 	public static List<Customer> getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
-	    List<Customer> customerList = new ArrayList<>();
-	    final String query = "SELECT customer_id,first_name,last_name,phone,email,password,is_active FROM customers WHERE phone = ?";
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setLong(1, phone);
-	            System.out.println(pst);
-	            try (ResultSet rs = pst.executeQuery()) {
-	                if (rs.next()) {
-	                    Customer customer = new Customer();
-	                    customer.setFirstName(rs.getString("first_name"));
-	                    customer.setLastName(rs.getString("last_name"));
-	                    customer.setPhoneNumber(rs.getLong("phone"));
-	                    customer.setEmail(rs.getString("email"));
-	                    customer.setPassword(rs.getString("password"));
-	                    customer.setActive(rs.getBoolean("is_active"));
-	                    customer.setCustomerId(rs.getInt("customer_id"));
-	                    customerList.add(customer);
-	                    return customerList;
-	                }
-	            }
-	        }
-	    } catch (SQLException e) {
-	        throw new DAOException(CustomerDAOError.INVALID_DATA);
-	    }
-	    return null;
+		List<Customer> customerList = new ArrayList<>();
+		final String query = "SELECT customer_id,first_name,last_name,phone,email,password,is_active FROM customers WHERE phone = ?";
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setLong(1, phone);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						Customer customer = new Customer();
+						customer.setFirstName(rs.getString("first_name"));
+						customer.setLastName(rs.getString("last_name"));
+						customer.setPhoneNumber(rs.getLong("phone"));
+						customer.setEmail(rs.getString("email"));
+						customer.setPassword(rs.getString("password"));
+						customer.setActive(rs.getBoolean("is_active"));
+						customer.setCustomerId(rs.getInt("customer_id"));
+						customerList.add(customer);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(CustomerDAOError.INVALID_DATA);
+		}
+		return customerList; 
 	}
 }

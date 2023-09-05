@@ -3,6 +3,7 @@ package com.fssa.netbliz.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.dao.TransactionDAO;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
@@ -10,7 +11,7 @@ import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Transaction;
 import com.fssa.netbliz.validator.CustomerValidator;
 import com.fssa.netbliz.validator.TransactionValidator;
- 
+
 public class TransactionService {
 
 	/**
@@ -21,38 +22,39 @@ public class TransactionService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean moneyTransaction(Transaction trans) throws ServiceException {
-	    try {
-	        if (TransactionValidator.validate(trans)) {
-	            return TransactionDAO.updateHolderAccount(trans);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
-	    return false;
-	} 
+		try {
+			if (TransactionValidator.validate(trans)) {
+				return TransactionDAO.updateHolderAccount(trans);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return false;
+	}
 
 	/**
 	 * Get a list of transactions for a given customer ID.
 	 *
 	 * @param id The customer ID to retrieve transactions for.
-	 * @return A list of transactions for the customer, or an empty list if none are found.
+	 * @return A list of transactions for the customer, or an empty list if none are
+	 *         found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public List<Transaction> listOfTransaction(int id) throws ServiceException {
-	    List<Transaction> list = new ArrayList<>();
+		List<Transaction> list = new ArrayList<>();
 
-	    try {
-	        if (CustomerValidator.validateCustomerId(id)) {
-	            return TransactionDAO.listTransaction(id);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
-	    return list;
+		try {
+			if (CustomerValidator.validateCustomerId(id)) {
+				return TransactionDAO.listTransaction(id);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return list;
 	}
 
 	/**
@@ -63,17 +65,16 @@ public class TransactionService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean printTransactions(int id) throws ServiceException {
-	    try { 
-	        if (CustomerValidator.validateCustomerId(id)) {
-	            return TransactionDAO.printTransactions(id);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
-	    return false;
+		try {
+			if (CustomerValidator.validateCustomerId(id)) {
+				return TransactionDAO.printTransactions(id);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return false;
 	}
-
 
 }

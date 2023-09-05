@@ -1,8 +1,10 @@
 package com.fssa.netbliz.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.dao.CustomerDAO;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
@@ -21,17 +23,17 @@ public class CustomerService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean addCustomer(Customer customer) throws ServiceException {
-	    try {
-	        if (CustomerValidator.validate(customer) && !isAvailableAccount(customer.getPhoneNumber())) {
-	            return CustomerDAO.addCustomer(customer);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
+		try {
+			if (CustomerValidator.validate(customer) && !isAvailableAccount(customer.getPhoneNumber())) {
+				return CustomerDAO.addCustomer(customer);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
@@ -42,17 +44,17 @@ public class CustomerService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean isActiveAccount(long phone) throws ServiceException {
-	    try {
-	        if (AccountValidator.validatePhoneNumber(phone)) {
-	            return CustomerDAO.isActiveAccount(phone);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
+		try {
+			if (AccountValidator.validatePhoneNumber(phone)) {
+				return CustomerDAO.isActiveAccount(phone);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
@@ -63,65 +65,70 @@ public class CustomerService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean isAvailableAccount(long phone) throws ServiceException {
-	    try {
-	        if (AccountValidator.validatePhoneNumber(phone)) {
-	            return CustomerDAO.isAvailableAccount(phone);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
+		try {
+			if (AccountValidator.validatePhoneNumber(phone)) {
+				return CustomerDAO.isAvailableAccount(phone);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
 	 * Logs in a customer using their phone number, email, and password.
 	 *
-	 * @param phone The customer's phone number.
-	 * @param email The customer's email.
+	 * @param phone    The customer's phone number.
+	 * @param email    The customer's email.
 	 * @param password The customer's password.
 	 * @return True if the login is successful, false otherwise.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean logInCustomer(long phone, String email, String password) throws ServiceException {
-	    try {
-	        if (CustomerValidator.validateEmail(email) && CustomerValidator.validatePassword(password)
-	                && AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone)
-	                && isAvailableAccount(phone)) {
-	            return CustomerDAO.logInCustomer(phone, email, password);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    } catch (SQLException e) {
-	        throw new ServiceException("SQL error: " + e.getMessage());
-	    }
+		try {
+			if (CustomerValidator.validateEmail(email) && CustomerValidator.validatePassword(password)
+					&& AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone)
+					&& isAvailableAccount(phone)) {
+				return CustomerDAO.logInCustomer(phone, email, password);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (SQLException e) {
+			throw new ServiceException("SQL error: " + e.getMessage());
+		}
 
-	    return false;
+		return false;
 	}
 
 	/**
 	 * Retrieves customer details by phone number.
 	 *
 	 * @param phone The phone number to search for.
-	 * @return A list of customers with the given phone number, or null if none are found.
+	 * @return A list of customers with the given phone number, or null if none are
+	 *         found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public List<Customer> getCustomerByPhoneNumber(long phone) throws ServiceException {
-	    try {
-	        if (AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone) && isAvailableAccount(phone)) {
-	            return CustomerDAO.getCustomerDetailsByPhoneNumber(phone);
-	        }
-	    } catch (ValidatorException e) {
-	        throw new ServiceException("Validation error: " + e.getMessage());
-	    } catch (DAOException e) {
-	        throw new ServiceException("DAO error: " + e.getMessage());
-	    }
 
-	    return null;
+		List<Customer> cusDetails = new ArrayList<>();
+		try {
+			if (AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone) && isAvailableAccount(phone)) {
+
+				cusDetails = CustomerDAO.getCustomerDetailsByPhoneNumber(phone);
+
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+
+		return cusDetails;
 	}
 
 }
