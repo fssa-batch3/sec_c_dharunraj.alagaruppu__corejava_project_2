@@ -22,121 +22,129 @@ public class AccountService {
 //		private constructor
 	}
 
+	/**
+	 * Adds an account to the system.
+	 *
+	 * @param account The account to add.
+	 * @return True if the account was added successfully, false otherwise.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public boolean addAccount(Account account) throws ServiceException {
-
-		// Validate the account using AccountValidator
 		try {
-
 			if (AccountValidator.validate(account)) {
-
-				// If validation passes, call the AccountDao to check account existence
 				return AccountDAO.addAccount(account);
 			}
 		} catch (ValidatorException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Validation error: " + e.getMessage());
 		} catch (DAOException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("DAO error: " + e.getMessage());
 		}
-		// If validation fails, return false
 		return false;
 	}
 
-	// Method to remove an account by account number
+	/**
+	 * Removes an account by its account number.
+	 *
+	 * @param accountNumber The account number to remove.
+	 * @return True if the account was removed successfully, false otherwise.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException {
-
-		// Validate the account number using AccountValidator
 		try {
 			if (AccountValidator.validateAccountNumber(accountNumber) && isAvailableAccount(accountNumber)
 					&& isActiveAccount(accountNumber)) {
-
-				// If validation passes, call the AccountDao to remove the account
 				return AccountDAO.removeAccountByAccountNumber(accountNumber);
 			}
 		} catch (ValidatorException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Validation error: " + e.getMessage());
 		} catch (DAOException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("DAO error: " + e.getMessage());
 		}
-
-		// If validation fails, return false
 		return false;
 	}
 
+	/**
+	 * Retrieves a list of accounts by phone number.
+	 *
+	 * @param phone The phone number to search for.
+	 * @return A list of accounts matching the phone number, or null if none are
+	 *         found.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public List<Account> getAccountByPhoneNumber(long phone) throws ServiceException {
-
 		try {
-
 			if (AccountValidator.validatePhoneNumber(phone)) {
-
 				return AccountDAO.getAccountByPhoneNumber(phone);
-
 			}
 		} catch (ValidatorException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Validation error: " + e.getMessage());
 		} catch (DAOException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("DAO error: " + e.getMessage());
 		}
 		return null;
 	}
 
+	/**
+	 * Checks if an account with the given account number is available.
+	 *
+	 * @param accNo The account number to check.
+	 * @return True if the account is available, false otherwise.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public boolean isAvailableAccount(String accNo) throws ServiceException {
-
 		try {
 			if (AccountValidator.validateAccountNumber(accNo)) {
-
 				return AccountDAO.isAvailableAccount(accNo);
 			}
 		} catch (ValidatorException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Validation error: " + e.getMessage());
 		} catch (DAOException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("DAO error: " + e.getMessage());
 		}
 		return false;
 	}
 
-	// Checks if an account is active
+	/**
+	 * Checks if an account with the given account number is active.
+	 *
+	 * @param accNo The account number to check.
+	 * @return True if the account is active, false otherwise.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public boolean isActiveAccount(String accNo) throws ServiceException {
-		
-			try {
-				if (AccountValidator.validateAccountNumber(accNo)) {
-					return AccountDAO.isActiveAccount(accNo);
-				} 
-			} catch (ValidatorException e) {
-				e.getMessage();
-				throw new ServiceException(e.getMessage());
-			} catch (DAOException e) {
-				e.getMessage();
-				throw new ServiceException(e.getMessage());
-			}
-		return false;
+	    try {
+	        if (AccountValidator.validateAccountNumber(accNo)) {
+	            return AccountDAO.isActiveAccount(accNo);
+	        }
+	    } catch (ValidatorException e) {
+	        throw new ServiceException("Validation error: " + e.getMessage());
+	    } catch (DAOException e) {
+	        throw new ServiceException("DAO error: " + e.getMessage());
+	    }
+	    return false;
 	}
 
+	/**
+	 * Retrieves a list of accounts by account number, if the account is active and
+	 * available.
+	 *
+	 * @param accountNumber The account number to search for.
+	 * @return A list of accounts matching the account number, or null if none are
+	 *         found.
+	 * @throws ServiceException If there is a service-level error.
+	 */
 	public List<Account> getAccountByNumber(String accountNumber) throws ServiceException {
-
 		try {
-
 			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
 					&& isAvailableAccount(accountNumber)) {
-
 				return AccountDAO.getAccountByNumber(accountNumber);
-
 			}
 		} catch (ValidatorException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Validation error: " + e.getMessage());
 		} catch (DAOException e) {
-			e.getMessage();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("DAO error: " + e.getMessage());
 		}
 		return null;
-
 	}
+
 }

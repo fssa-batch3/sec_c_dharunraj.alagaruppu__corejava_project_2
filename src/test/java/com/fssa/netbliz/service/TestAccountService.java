@@ -12,25 +12,22 @@ import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.util.Logger;
 
-public class TestAccountService {
+ class TestAccountService {
 
 	Account account = new Account();
 
 	AccountService accountService = new AccountService();
 
 	/**
-	 * This method tests the addition of a new account using the provided account
-	 * details.
-	 *
 	 * @throws ServiceException If an error occurs while attempting to add the new
 	 *                          account.
 	 */
 
 	@Test
 	// Valid test case
-	public void testAddAccount() {  // before commit update the new account number
+	 void testAddAccount() {  // before commit update the new account number
 
-		Account account = new Account("1234567890123789", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("0987654321123456", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -38,17 +35,15 @@ public class TestAccountService {
 
 			Assertions.fail(e);
 		}
-	}
+	}  
 
 	/**
-	 * This method tests the addition of an account with invalid parameters.
-	 * 
 	 * @throws ServiceException If an unexpected error occurs while attempting to
 	 *                          add the invalid account.
 	 */
 
 	@Test
-	public void testInvalidAddAccount() {
+	 void testInvalidAddAccount() {
 
 		Account account = new Account("1234567890123456", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
 
@@ -56,21 +51,18 @@ public class TestAccountService {
 			Assertions.assertFalse(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			Assertions.fail(e); 
 		}
 
 	}
 
 	/**
-	 * This method tests the occurrence of a validation error during the addition of
-	 * an account.
-	 *
 	 * @throws ServiceException If the expected validation error does not occur
 	 *                          while attempting to add the account.
 	 */
 
 	@Test
-	public void testValidationErrorAddAccount() {
+	 void testValidationErrorAddAccount() {
 		Account account = new Account("1234567890", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
 
 		assertThrows(ServiceException.class, () -> accountService.addAccount(account));
@@ -78,25 +70,19 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the handling of a DAO error during the addition of an
-	 * account.
-	 *
 	 * @throws ServiceException If the expected DAO error is not encountered while
 	 *                          attempting to add the account.
 	 */
 
 	@Test
-	public void testDAOErrorAddAccount() {
-		Account account = new Account("09876564321123456", "IDIB000K132", 9360067834l, 500.0, AccountEnum.SAVINGS);
+	 void testDAOErrorAddAccount() {
+		Account account = new Account("09876564321123456", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
 
 		assertThrows(ServiceException.class, () -> accountService.addAccount(account));
 
 	}
 
 	/**
-	 * This method tests the removal of an Account by specifying its account number.
-	 * It asserts that the removal process is successful for a valid account number.
-	 *
 	 * @throws AccountValidatorException If there's a validation error with the
 	 *                                   Account details.
 	 * @throws AccountDAOException       If there's an issue with the Account DAO
@@ -104,8 +90,8 @@ public class TestAccountService {
 	 */
 	@Test
 	// Valid test case
-	public void testRemoveAccountByAccountNumber() {
-		String accountNumber = "1234567890123453";
+	 void testRemoveAccountByAccountNumber() {
+		String accountNumber = "1234567890123789";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -118,14 +104,12 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the removal of an account using an invalid account number.
-	 *
 	 * @throws ServiceException If the unexpected removal of an account occurs while
 	 *                          using an invalid account number.
 	 */
 
 	@Test
-	public void testInvalidRemoveAccountByAccountNumber() {
+	 void testInvalidRemoveAccountByAccountNumber() {
 
 		String accountNumber = "1234567890123455";
 
@@ -138,15 +122,13 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the occurrence of a validation error during the removal of
-	 * an account.
 	 * 
 	 * @throws ServiceException If the expected validation error does not occur
 	 *                          while attempting to remove the account.
 	 */
 
 	@Test
-	public void testValidationErrorRemoveAccount() {
+	 void testValidationErrorRemoveAccount() {
 		String accountNumber = "12345671";
 
 		assertThrows(ServiceException.class, () -> accountService.removeAccountByAccountNumber(accountNumber));
@@ -155,9 +137,9 @@ public class TestAccountService {
 
 	@Test
 	// Valid test case
-	public void testAddExistsAccount() { // before commit update the new account number
+	 void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("0987654320023456", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123455", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -169,7 +151,7 @@ public class TestAccountService {
 
 	@Test
 	// Valid test case
-	public void testGetAccountByPhoneNumber() {
+	 void testGetAccountByPhoneNumber() {
 
 		long phoneNumber = 9361320511l;
 		try {
@@ -192,16 +174,13 @@ public class TestAccountService {
 	}
 
 	/**
-	 * Test case for retrieving accounts by account number using the
-	 * accountService's `getAccount` method. It verifies whether accounts associated
-	 * with a specific account number can be successfully retrieved.
 	 *
 	 * @throws ServiceException If there is an issue with the service operation
 	 *                          during the test.
 	 */
 	@Test
 	// Valid test case
-	public void testGetAccountByNumber() {
+	 void testGetAccountByNumber() {
 
 		String accountNumber = "1234567890123456";
 		try {
@@ -229,7 +208,7 @@ public class TestAccountService {
 	 */
 
 	@Test
-	public void testInValidGetAccountByNumber() {
+	 void testInValidGetAccountByNumber() {
 
 		String accountNumber = "1234562890223456";
 
@@ -241,8 +220,6 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the check for whether an account is active or not. It
-	 * specifies an account number and asserts that the account is active.
 	 *
 	 * @throws AccountDAOException       If there's an issue with the Account DAO
 	 *                                   operations.
@@ -265,14 +242,12 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the determination of an invalid account's activity status.
-	 * 
 	 * @throws ServiceException If the activity status determination unexpectedly
 	 *                          indicates the account as active.
 	 */
 
 	@Test
-	public void invalidIsActive() {
+	 void invalidIsActive() {
 
 		String accNo = "1234567890098763";
 
@@ -286,15 +261,13 @@ public class TestAccountService {
 	}
 
 	/**
-	 * This method tests the occurrence of a validation error during the
-	 * determination of account activity status.
 	 * 
 	 * @throws ServiceException If the expected validation error does not result in
 	 *                          the account being considered inactive.
 	 */
 
 	@Test
-	public void validationErrorIsActive() { 
+	 void validationErrorIsActive() { 
 
 		String accNo = "12345690987"; 
 	

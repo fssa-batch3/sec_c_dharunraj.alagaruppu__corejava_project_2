@@ -21,7 +21,7 @@ public class TransactionDAO {
 
 	private TransactionDAO() {
 		// Private constructor to prevent instantiation
-	} 
+	}
 
 	/**
 	 * Retrieves the phone number associated with the given account number from the
@@ -35,7 +35,6 @@ public class TransactionDAO {
 	 * @throws DAOException If there is an issue with the database operation while
 	 *                      retrieving the phone number.
 	 */
-
 	public static long phoneNumberCheck(Connection con, String accountNumber) throws DAOException {
 
 		final String query = "SELECT phone_number FROM accounts WHERE acc_no = ?";
@@ -72,7 +71,6 @@ public class TransactionDAO {
 	 *         transaction.
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
-
 	public static double accountHolderConditions(Transaction trans, Connection con) throws DAOException {
 
 		final String query = "SELECT avl_balance FROM accounts WHERE acc_no = ? AND is_active = ? AND avl_balance >= ?";
@@ -87,12 +85,15 @@ public class TransactionDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
 					avlBalance = rs.getDouble("avl_balance") - trans.getTransferAmount();
+					return avlBalance;
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
-		return avlBalance;
+
+		throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+
 	}
 
 	/**
@@ -118,18 +119,19 @@ public class TransactionDAO {
 			pst.setString(1, trans.getRemittanceAccNo());
 			pst.setString(2, trans.getReceiverIfscCode());
 			pst.setBoolean(3, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
-
+			System.out.println(pst);
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
 					avlBalance = rs.getDouble("avl_balance") + trans.getTransferAmount();
+					return avlBalance;
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
+		throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 
-		return avlBalance;
 	}
 
 	/**
@@ -142,7 +144,7 @@ public class TransactionDAO {
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static boolean updateHolderAccount(Transaction trans) throws DAOException { 
+	public static boolean updateHolderAccount(Transaction trans) throws DAOException {
 
 		final String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
 
@@ -253,7 +255,7 @@ public class TransactionDAO {
 			pst.setString(1, trans.getRemittanceAccNo());
 			pst.setString(2, trans.getAccountHolderAccNo());
 			pst.setString(3, Transaction.DEBIT_DENOTES);
-			pst.setDouble(4, trans.getTransferAmount()); 
+			pst.setDouble(4, trans.getTransferAmount());
 			pst.setDouble(5, Transaction.remittanceBalance);
 			pst.setString(6, trans.getRemark());
 			pst.setInt(7, reciverCustomerId);
@@ -301,7 +303,7 @@ public class TransactionDAO {
 						trans.setDebitedDateTime(debitTime.toLocalDateTime());
 						trans.setRemark(rs.getString("remark"));
 						trans.setCustomerId(rs.getInt("customer_id"));
-						list.add(trans);  
+						list.add(trans);
 					}
 				}
 			}
@@ -320,7 +322,7 @@ public class TransactionDAO {
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static boolean printTransactions(int id ) throws DAOException {
+	public static boolean printTransactions(int id) throws DAOException {
 		List<Transaction> transList = listTransaction(id); 
 
 		if (transList.isEmpty() || transList == null) {

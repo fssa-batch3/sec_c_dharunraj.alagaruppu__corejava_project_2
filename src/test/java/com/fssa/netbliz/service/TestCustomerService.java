@@ -7,24 +7,20 @@ import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Customer;
 
-public class TestCustomerService {
+ class TestCustomerService {
 
 	CustomerService customerServive = new CustomerService();
 
 	/**
-	 * Test case for validating the addition of a valid customer using the
-	 * CustomerService's `addCustomer` method. It verifies whether a valid customer
-	 * can be added successfully to the system.
-	 *
 	 * @throws DAOException       If there is an issue with the database operation
 	 *                            during the test.
 	 * @throws ValidatorException If there is an issue with validating the customer
 	 *                            data during the test.
 	 */
 	@Test 
-	public void testValidAddCustomer() {  
+	 void testValidAddCustomer() {  
 
-		Customer customer = new Customer("bala", "kumar", 7402473342l, "bala@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Vijay", "kumar", 7904433228l, "vijay@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		try {
@@ -36,7 +32,7 @@ public class TestCustomerService {
 
 	@Test
 
-	public void testInvalidAddCustomer() {
+	 void testInvalidAddCustomer() {
 
 		Customer customer = new Customer("Joel", "Premkumar", 7402473347l, "zoho@gmail.com", "740247Dh@3347",
 				"740247Dh@3347");
@@ -49,7 +45,7 @@ public class TestCustomerService {
 	}
 
 	@Test
-	public void testValidationErrorAddCustomer() {
+	 void testValidationErrorAddCustomer() {
 
 		Customer customer = new Customer("Joel", "", 790247334l, "vishalgmail.com", "74024747", "740247Dh@3347");
 
@@ -58,17 +54,13 @@ public class TestCustomerService {
 	}
 
 	/**
-	 * Test case for validating the successful login of a customer using the
-	 * CustomerService's `logInCustomer` method. It verifies whether a customer with
-	 * valid login credentials can log in successfully.
-	 *
 	 * @throws DAOException       If there is an issue with the database operation
 	 *                            during the test.
 	 * @throws ValidatorException If there is an issue with validating the customer
 	 *                            data during the test.
 	 */
 	@Test
-	public void testValidLogInCustomer() {
+	 void testValidLogInCustomer() {
 
 		long phone = 9361320511l;
 		String email = "dharun1@gmail.com";
@@ -83,7 +75,7 @@ public class TestCustomerService {
 
 	@Test
 
-	public void testInvalidLogInCustomer() {
+	 void testInvalidLogInCustomer() {
 
 		long phone = 9361320511l;
 		String email = "dhar@gmail.com";

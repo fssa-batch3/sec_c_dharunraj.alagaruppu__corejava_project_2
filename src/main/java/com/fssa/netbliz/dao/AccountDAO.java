@@ -37,22 +37,19 @@ public class AccountDAO {
 	 * @return True if the account is successfully added, false otherwise
 	 * @throws DAOException If a database error occurs during the operation
 	 */
- 
 	public static boolean addAccount(Account account) throws DAOException {
-
 		try {
 			if (AccountValidator.validate(account) && !isActiveAccount(account.getAccountNumber())
 					&& isAvailableAccount(account.getAccountNumber())) {
-
 				existsCheck(account);
 				return true;
 			} else if (AccountValidator.validate(account) && !isAvailableAccount(account.getAccountNumber())) {
-				// SQL query to insert the account details into the database
+
 				final String query = "INSERT INTO accounts (acc_no, ifsc, phone_number, min_balance, account_type, avl_balance,customer_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 				try (Connection con = ConnectionUtil.getConnection()) {
 					try (PreparedStatement pst = con.prepareStatement(query)) {
-						// Set the parameters for the prepared statement
+
 						pst.setString(1, account.getAccountNumber());
 						pst.setString(2, account.getIfsc());
 						pst.setLong(3, account.getPhoneNumber());
@@ -61,21 +58,16 @@ public class AccountDAO {
 						pst.setDouble(6, Account.CONSTANT_AVL_BALANCE);
 						pst.setInt(7, getPrimaryCustomerId(account.getPhoneNumber()));
 
-						// Execute the insert query
 						int row = pst.executeUpdate();
-
 						return (row > Account.ZERO);
 					}
 				}
 			}
 		} catch (ValidatorException e) {
-
 			throw new DAOException(AccountValidatorError.INVALID_OBJECT_CREATION);
 		} catch (DAOException e) {
 			throw new DAOException(AccountDAOError.ERROR_ALREADY_EXITS);
-
 		} catch (SQLException e) {
-
 			throw new DAOException(AccountServiceError.NULL_ACCOUNT);
 		}
 		return false;
@@ -86,67 +78,47 @@ public class AccountDAO {
 	 * the account is not found, adds it as a new account.
 	 *
 	 * @param account The account object to be checked and activated
-	 * @return True if the account is successfully activated or added, false
-	 *         otherwise
 	 * @throws DAOException If a database error occurs during the operation
 	 */
-
 	public static void existsCheck(Account account) throws DAOException {
 
-		// Update the account status to active in the database
 		final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setBoolean(1, NetblizConstants.STATIC_IS_ACTIVE_TRUE); // true
 				pst.setString(2, account.getAccountNumber());
 				pst.executeUpdate();
-
 			}
-		}
-
-		catch (SQLException e) {
-
+		} catch (SQLException e) {
 			throw new DAOException(AccountDAOError.ERROR_ALREADY_EXITS);
 		}
-
 	}
 
 	/**
 	 * Retrieves the primary customer ID associated with the provided account.
 	 *
-	 * @param account The account for which the primary customer ID is to be
-	 *                retrieved
+	 * @param phone The phone number associated with the account
 	 * @return The primary customer ID associated with the account
 	 * @throws DAOException If a database error occurs during the operation
 	 */
-
 	public static int getPrimaryCustomerId(long phone) throws DAOException {
-
 		int id = Account.ZERO; // initialize the id number
 		final String query = "SELECT customer_id FROM customers WHERE phone = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (PreparedStatement pst = con.prepareStatement(query)) {
-
 				pst.setLong(1, phone);
 
 				try (ResultSet rs = pst.executeQuery()) {
-
 					if (rs.next()) {
-
 						id = rs.getInt("customer_id");
-
 					}
 				}
 			}
 		} catch (SQLException e) {
-
 			throw new DAOException(AccountDAOError.INVALID_PHONE_NUMBER);
 		}
-
 		return id;
-
 	}
 
 	/**
@@ -157,9 +129,7 @@ public class AccountDAO {
 	 *         otherwise
 	 * @throws DAOException If a database error occurs during the operation
 	 */
-
 	public static boolean removeAccountByAccountNumber(String accNo) throws DAOException {
-
 		final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -174,20 +144,25 @@ public class AccountDAO {
 		return true;
 	}
 
+	/**
+	 * Retrieves a list of Account objects based on the provided phone number.
+	 *
+	 * @param phone The phone number to search for.
+	 * @return A list of Account objects matching the provided phone number, or an
+	 *         empty list if no matches are found.
+	 * @throws DAOException If there is an issue with the database operation.
+	 */
 	public static List<Account> getAccountByPhoneNumber(long phone) throws DAOException {
-
 		List<Account> list = new ArrayList<>();
 
 		final String query = "SELECT acc_no,ifsc,account_type,min_balance,customer_id,is_active,avl_balance,date_of_joining,phone_number FROM accounts WHERE phone_number = ? AND is_active = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
 				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
 
 				try (ResultSet rs = pst.executeQuery()) {
-
 					while (rs.next()) {
 
 						Account account = new Account();
@@ -204,32 +179,22 @@ public class AccountDAO {
 						account.setCategory(enumType);
 						account.setCustomerId(rs.getInt("customer_id"));
 						list.add(account);
-
 					}
-
 				}
-
 			}
-
 		} catch (SQLException e) {
-
-			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER + e.getMessage()); // Handle SQLException by
-																								// throwing a
-			// DAOException with an appropriate error
-			// code
+			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER + e.getMessage());
 		}
-		return list; // Return null or an empty list if no matching accounts are found
-
+		return list;
 	}
 
 	/**
 	 * Checks if an account is active by its account number.
 	 *
-	 * @param holder The account number to be checked for activity
+	 * @param accNo The account number to be checked for activity
 	 * @return True if the account is active, false otherwise
 	 * @throws DAOException If a database error occurs during the operation
 	 */
-
 	public static boolean isActiveAccount(String accNo) throws DAOException {
 		final String query = "SELECT acc_no, avl_balance FROM accounts WHERE acc_no = ? AND is_active = ?";
 
@@ -237,6 +202,7 @@ public class AccountDAO {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, accNo);
 				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
+
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) {
 						return true;
@@ -259,30 +225,22 @@ public class AccountDAO {
 	 * @throws DAOException If there is an error while interacting with the database
 	 *                      or checking availability.
 	 */
-
 	public static boolean isAvailableAccount(String accNo) throws DAOException {
-
 		final String query = "SELECT acc_no FROM accounts WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (PreparedStatement pst = con.prepareStatement(query)) {
-
 				pst.setString(1, accNo);
 
 				try (ResultSet rs = pst.executeQuery()) {
-
 					if (rs.next()) {
-
 						return true;
 					}
 				}
 			}
 		} catch (SQLException e) {
-
 			throw new DAOException(TransactionDAOError.UN_AVAILABLE_ACCOUNT);
 		}
-
 		return false;
 	}
 
@@ -294,20 +252,16 @@ public class AccountDAO {
 	 *         empty list if no matches are found.
 	 * @throws DAOException If there is an issue with the database operation.
 	 */
-
 	public static List<Account> getAccountByNumber(String accNo) throws DAOException {
-
 		List<Account> list = new ArrayList<>();
 
 		final String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, accNo);
 
 				try (ResultSet rs = pst.executeQuery()) {
-
 					if (rs.next()) {
 
 						Account account = new Account();
@@ -322,19 +276,12 @@ public class AccountDAO {
 						list.add(account);
 						return list;
 					}
-
 				}
-
 			}
-
 		} catch (SQLException e) {
-
-			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER); // Handle SQLException by throwing a //
-																			// DAOException with an appropriate error //
-																			// code
+			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 		}
-		return null; // Return null or an empty list if no matching accounts are found
-
+		return list;
 	}
 
 }
