@@ -2,6 +2,7 @@ package com.fssa.netbliz.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.exception.ValidatorException;
@@ -20,10 +21,10 @@ import com.fssa.netbliz.model.Customer;
 	@Test 
 	 void testValidAddCustomer() {  
 
-		Customer customer = new Customer("Aakash", "kumar", 7402572247l, "aakash@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Denny", "kumar", 7402572243l, "denny@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
-		try {
+		try { 
 			Assertions.assertTrue(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
 			Assertions.fail(e);
@@ -37,7 +38,7 @@ import com.fssa.netbliz.model.Customer;
 		Customer customer = new Customer("Joel", "Premkumar", 7402473347l, "zoho@gmail.com", "740247Dh@3347",
 				"740247Dh@3347");
 
-		try {
+		try { 
 			Assertions.assertFalse(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
 			Assertions.fail(e);
@@ -45,7 +46,7 @@ import com.fssa.netbliz.model.Customer;
 	}
 
 	@Test
-	 void testValidationErrorAddCustomer() {
+	 void testValidationErrorAddCustomer() { 
 
 		Customer customer = new Customer("Joel", "", 790247334l, "vishalgmail.com", "74024747", "740247Dh@3347");
 
@@ -63,7 +64,7 @@ import com.fssa.netbliz.model.Customer;
 	 void testValidLogInCustomer() {
 
 		long phone = 9361320511l;
-		String email = "dharun1@gmail.com";
+		String email = "dharun@gmail.com";
 		String password = "1234567890Dh@";
 
 		try {

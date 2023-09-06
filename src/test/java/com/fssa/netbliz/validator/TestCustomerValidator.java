@@ -194,7 +194,7 @@ import com.fssa.netbliz.model.Customer;
 	 void testValidPassword() throws ValidatorException {
 
 		customer.setPassword("1234567890Dh@");
-
+ 
 		Assertions.assertTrue(CustomerValidator.validatePassword(customer.getPassword()));
 	}
 

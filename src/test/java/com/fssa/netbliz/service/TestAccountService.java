@@ -16,7 +16,7 @@ import com.fssa.netbliz.util.Logger;
 
 	Account account = new Account();
 
-	AccountService accountService = new AccountService();
+	AccountService accountService = new AccountService(); 
 
 	/**
 	 * @throws ServiceException If an error occurs while attempting to add the new
@@ -25,17 +25,17 @@ import com.fssa.netbliz.util.Logger;
 
 	@Test
 	// Valid test case
-	 void testAddAccount() {  // before commit update the new account number
+	 void testAddAccount() {   // before commit update the new account number
 
-		Account account = new Account("0988454321126451", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("0987654321123453", "IDIB000K132", 7402473347l, 5000.0, AccountEnum.SAVINGS);
 
-		try {
+		try { 
 			Assertions.assertTrue(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
 			Assertions.fail(e);
 		}
-	}  
+	}   
 
 	/**
 	 * @throws ServiceException If an unexpected error occurs while attempting to
@@ -91,7 +91,7 @@ import com.fssa.netbliz.util.Logger;
 	@Test
 	// Valid test case
 	 void testRemoveAccountByAccountNumber() {
-		String accountNumber = "2345678901234523";
+		String accountNumber = "0987654321123454";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -111,7 +111,7 @@ import com.fssa.netbliz.util.Logger;
 	@Test
 	 void testInvalidRemoveAccountByAccountNumber() {
 
-		String accountNumber = "2345678901234903";
+		String accountNumber = "8901234567890123";
 
 		try {
 			Assertions.assertFalse(accountService.removeAccountByAccountNumber(accountNumber));
@@ -136,10 +136,10 @@ import com.fssa.netbliz.util.Logger;
 	}
 
 	@Test
-	// Valid test case
+	// Valid test case 
 	 void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("0987654321123454", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("9012345678901234", "IDIB000K132", 9361320511l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));

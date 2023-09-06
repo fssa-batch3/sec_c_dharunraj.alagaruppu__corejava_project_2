@@ -18,11 +18,13 @@ public class TransactionDAO {
 
 	static int senderCustomerId = Transaction.INITIALIZE_ZERO;
 	static int reciverCustomerId = Transaction.INITIALIZE_ZERO;
+	
+	static String AVL_BALANCE = "avl_balance";
 
 	private TransactionDAO() {
 		// Private constructor to prevent instantiation
 	}
-
+ 
 	/**
 	 * Retrieves the phone number associated with the given account number from the
 	 * database.
@@ -84,7 +86,7 @@ public class TransactionDAO {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					avlBalance = rs.getDouble("avl_balance") - trans.getTransferAmount();
+					avlBalance = rs.getDouble(AVL_BALANCE) - trans.getTransferAmount();
 					return avlBalance;
 				}
 			}
@@ -122,7 +124,7 @@ public class TransactionDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
-					avlBalance = rs.getDouble("avl_balance") + trans.getTransferAmount();
+					avlBalance = rs.getDouble(AVL_BALANCE) + trans.getTransferAmount();
 					return avlBalance;
 				}
 			}
@@ -293,7 +295,7 @@ public class TransactionDAO {
 						trans.setRemittanceAccNo(rs.getString("remittance"));
 						trans.setTransferAmount(rs.getDouble("trans_amount"));
 						trans.setTransStatus(rs.getString("trans_status"));
-						trans.setAvlAmount(rs.getDouble("avl_balance"));
+						trans.setAvlAmount(rs.getDouble(AVL_BALANCE));
 						Timestamp paidTime = rs.getTimestamp("paid_time");
 						trans.setPaidDateTime(paidTime.toLocalDateTime());
 						Timestamp debitTime = rs.getTimestamp("paid_time");

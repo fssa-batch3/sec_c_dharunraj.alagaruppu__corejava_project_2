@@ -27,7 +27,7 @@ public class CustomerValidator {
 	 * @throws ValidatorException If any validation error occurs during the process
 	 */
 	public static boolean validate(Customer customer) throws ValidatorException {
-
+ 
 		if (customer == null) {
 			throw new ValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
@@ -35,6 +35,7 @@ public class CustomerValidator {
 		validateFirstName(customer.getFirstName());
 		validateLastName(customer.getLastName());
 		validateEmail(customer.getEmail());
+		validatePassword(customer.getPassword());
 		validateComparePassword(customer.getPassword(), customer.getConfirmPassword());
 		AccountValidator.validatePhoneNumber(customer.getPhoneNumber());
 
@@ -127,8 +128,8 @@ public class CustomerValidator {
 			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
 		}
 
-		String regexStrongPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-		Pattern pattern = Pattern.compile(regexStrongPassword);
+		String regexPassword = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+		Pattern pattern = Pattern.compile(regexPassword); 
 		Matcher matcher = pattern.matcher(password);
 		boolean isMatch = matcher.matches();
 		if (!isMatch) {
@@ -154,9 +155,7 @@ public class CustomerValidator {
 			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_PASSWORD);
 		}
 
-		boolean password = validatePassword(pass);
-
-		if (password && pass.equals(confirm)) {
+		if (pass.equals(confirm)) {
 
 			return true;
 		}

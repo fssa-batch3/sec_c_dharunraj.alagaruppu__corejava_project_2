@@ -26,18 +26,6 @@ public class Customer {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Customer(int customerId, String firstName, String lastName, long phoneNumber, String email, String password,
-			String confirmPassword, boolean isActive) {
-		this.customerId = customerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-		this.password = password;
-		this.confirmPassword = confirmPassword;
-		this.isActive = isActive;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}

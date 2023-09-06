@@ -36,21 +36,6 @@ public class Account {
 		this.typeOfAccount = typeOfAccount;
 	}
 
-	public Account(String accountNumber, String ifsc, long phoneNumber, AccountEnum typeOfAccount,
-			double minimumBalance, double availableBalance, LocalDateTime dateOfJoining, boolean isActive,
-			int customerId) {
-		super();
-		this.accountNumber = accountNumber;
-		this.ifsc = ifsc;
-		this.phoneNumber = phoneNumber;
-		this.typeOfAccount = typeOfAccount;
-		this.minimumBalance = minimumBalance;
-		this.availableBalance = availableBalance;
-		this.dateOfJoining = dateOfJoining;
-		this.isActive = isActive;
-		this.customerId = customerId;
-	}
-
 	public String getAccountNumber() {
 		return accountNumber;
 	}

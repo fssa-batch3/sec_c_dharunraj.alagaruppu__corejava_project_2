@@ -21,7 +21,7 @@ public class TransactionValidator {
 	 * @throws ValidatorException If there are issues with the validation process.
 	 */
 	public static boolean validate(Transaction trans) throws ValidatorException {
-		if (trans == null) {
+		if (trans == null) { 
 			throw new ValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
 		}
 

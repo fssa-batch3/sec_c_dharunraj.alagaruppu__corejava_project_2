@@ -32,21 +32,6 @@ public class Transaction {
 		this.remark = remark;
 	}
 
-	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
-			double transferAmount, String remark, String transStatus, double avlAmount, LocalDateTime paidDateTime,
-			LocalDateTime debitedDateTime, int customerId) {
-		this.accountHolderAccNo = accountHolderAccNo;
-		this.remittanceAccNo = remittanceAccNo;
-		this.receiverIfscCode = receiverIfscCode;
-		this.transferAmount = transferAmount;
-		this.remark = remark;
-		this.transStatus = transStatus;
-		this.avlAmount = avlAmount;
-		this.paidDateTime = paidDateTime;
-		this.debitedDateTime = debitedDateTime;
-		this.customerId = customerId;
-	}
-
 	// Default constructor
 	public Transaction() {
 

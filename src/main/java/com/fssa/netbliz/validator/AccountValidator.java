@@ -7,7 +7,6 @@ import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.error.AccountValidatorError;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Account;
-import com.fssa.netbliz.util.Logger;
 
 /**
  * Utility class for validating Account objects.
@@ -33,7 +32,7 @@ public class AccountValidator {
      */
     public static boolean validate(Account account) throws ValidatorException {
 
-        if (account == null) {
+        if (account == null) { 
             throw new ValidatorException(AccountValidatorError.INVALID_OBJECT_NULL);
         }
 
@@ -111,13 +110,12 @@ public class AccountValidator {
 
         String num = Long.toString(phoneNumber);
 
-        String regexPhoneNumber = "^[0-9]{10}$";
+        String regexPhoneNumber = "^\\d{10}$";
         Pattern pattern = Pattern.compile(regexPhoneNumber);
         Matcher matcher = pattern.matcher(num);
         boolean isMatch = matcher.matches();
 
         if (!isMatch) {
-            Logger.info("Valid mobilenumber");
             throw new ValidatorException(AccountValidatorError.INVALID_PHONENUMBER);
         }
         return true;
