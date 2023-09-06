@@ -15,22 +15,23 @@ This repository contains the SQL schema definition for a Core Java project's dat
 - [Accounts Table](#accounts-table)
 - [Transactions Table](#transactions-table)
 
-
-## Customers Table
+### Customers Table
 
 This table stores information about customers.
 
 | Column       | Data Type          | Constraints                  | Description                           |
 |--------------|--------------------|------------------------------|---------------------------------------|
 | customer_id  | BIGINT             | AUTO_INCREMENT, PRIMARY KEY  | Unique identifier for each customer.  |
-| f_name       | VARCHAR(30)        | NOT NULL                     | First name of the customer.           |
-| l_name       | VARCHAR(30)        | NOT NULL                     | Last name of the customer.            |
-| email        | VARCHAR(30)        | NOT NULL                     | Email address of the customer.        |
-| phone        | BIGINT             | NOT NULL  , UNIQUE           | Phone number of the customer.         |
+| first_name   | VARCHAR(30)        | NOT NULL                     | First name of the customer.           |
+| last_name    | VARCHAR(30)        | NOT NULL                     | Last name of the customer.            |
+| email        | VARCHAR(50)        | NOT NULL                     | Email address of the customer.        |
+| phone        | BIGINT             | NOT NULL, UNIQUE             | Phone number of the customer.         |
 | password     | VARCHAR(30)        | NOT NULL                     | Password for customer authentication. |
+| is_active    | BOOLEAN            | NOT NULL, DEFAULT TRUE       | Indicates if the customer is active.  |
 
 
-## Accounts Table
+
+### Accounts Table
 
 This table stores information about customer accounts.
 
@@ -45,7 +46,7 @@ This table stores information about customer accounts.
 | is_active        | BOOLEAN           | NOT NULL                                    | Indicates if the account is active.  |
 | account_type     | VARCHAR(40)       | NOT NULL                                    | Type of the account (e.g., savings, current, etc.). |
 | date_of_joining  | TIMESTAMP         | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, NOT NULL | Date of joining the bank.       |
-| customer_id      | BIGINT            | NOT NULL REFERENCES Customers (customer_id) | Foreign key referencing the customer.|
+| customer_id      | BIGINT            | NOT NULL REFERENCES customers (customer_id) | Foreign key referencing the customer.|
 
 
 ## Transactions Table
@@ -63,5 +64,5 @@ This table stores information about transactions.
 | paid_time      | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP, NOT NULL         | Timestamp of when the transaction was initiated.  |
 | debited_time   | TIMESTAMP     | DEFAULT CURRENT_TIMESTAMP, NOT NULL         | Timestamp of when the amount was debited.         |
 | remark         | VARCHAR(30)   | NULL                                        | Additional remarks or notes about the transaction.|
-| acc_holder     | FOREIGN KEY   | REFERENCES accounts(acc_no)                  | Foreign key referencing the account holder's account number.|
-
+| acc_holder     | FOREIGN KEY   | REFERENCES accounts(acc_no)                 | Foreign key referencing the account holder's account number.|
+| customer_id    | BIGINT        | NOT NULL REFERENCES customers (customer_id) | Foreign key referencing the customer.|
