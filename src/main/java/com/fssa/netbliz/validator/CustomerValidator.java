@@ -155,9 +155,8 @@ public class CustomerValidator {
 		}
 
 		boolean password = validatePassword(pass);
-		boolean confirmPassword = validatePassword(confirm);
 
-		if (password && confirmPassword && pass.equals(confirm)) {
+		if (password && pass.equals(confirm)) {
 
 			return true;
 		}

@@ -323,7 +323,7 @@ public class TransactionDAO {
 	public static boolean printTransactions(int id) throws DAOException {
 		List<Transaction> transList = listTransaction(id); 
 
-		if (transList.isEmpty() || transList == null) {
+		if (transList.isEmpty()) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
 
