@@ -15,7 +15,7 @@ public class ConnectionUtil {
 		String url;
 		String userName;
 		String passWord;
-//
+
 //		url = "jdbc:mysql://localhost:3306/netbliz";
 //		userName = "root";
 //		passWord = "root";

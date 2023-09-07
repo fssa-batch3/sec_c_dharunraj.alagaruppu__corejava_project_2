@@ -12,12 +12,12 @@ class TestTransactionService {
 
 	TransactionService transService = new TransactionService();
 
-	/** 
+	/**
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
 	@Test
-	void moneyTransaction() { 
+	void moneyTransaction() {
 
 		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "case pack");
 
@@ -70,6 +70,35 @@ class TestTransactionService {
 
 		try {
 			Assertions.assertNotNull(transService.listOfTransaction(id));
+		} catch (ServiceException e) {
+			Assertions.fail(e.getMessage());
+		}
+
+	}
+
+	@Test
+
+	void checkMinimumBalance() { // minimum balance penalty
+
+		String accNo = "1234567890123456";
+		double transferMoney = 19600;
+
+		try {
+			Assertions.assertTrue(transService.checkMinimumBalance(accNo, transferMoney));
+		} catch (ServiceException e) {
+			Assertions.fail(e.getMessage());
+		}
+	}
+
+	@Test
+
+	void invalidCheckMinimumBalance() { // minimum balance penalty
+
+		String accNo = "1234567890123456";
+		double transferMoney = 10;
+
+		try {
+			Assertions.assertFalse(transService.checkMinimumBalance(accNo, transferMoney));
 		} catch (ServiceException e) {
 			Assertions.fail(e.getMessage());
 		}

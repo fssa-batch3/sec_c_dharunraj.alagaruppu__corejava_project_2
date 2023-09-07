@@ -9,6 +9,7 @@ import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.exception.ValidatorException;
 import com.fssa.netbliz.model.Transaction;
+import com.fssa.netbliz.validator.AccountValidator;
 import com.fssa.netbliz.validator.CustomerValidator;
 import com.fssa.netbliz.validator.TransactionValidator;
 
@@ -68,6 +69,20 @@ public class TransactionService {
 		try {
 			if (CustomerValidator.validateCustomerId(id)) {
 				return TransactionDAO.printTransactions(id);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return false;
+	}
+
+	public boolean checkMinimumBalance(String accNo, double transferMoney) throws ServiceException {
+
+		try {
+			if (AccountValidator.validateAccountNumber(accNo) && TransactionValidator.validateAmount(transferMoney)) { 
+				return TransactionDAO.checkMinimumBalance(accNo, transferMoney);
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());

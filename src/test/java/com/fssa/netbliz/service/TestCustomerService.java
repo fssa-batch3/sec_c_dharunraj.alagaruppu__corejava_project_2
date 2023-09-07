@@ -21,7 +21,7 @@ import com.fssa.netbliz.model.Customer;
 	@Test 
 	 void testValidAddCustomer() {  
 
-		Customer customer = new Customer("Denny", "kumar", 7402572243l, "denny@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Kathir", "kumar", 7402172243l, "kathir@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		try { 
@@ -64,7 +64,7 @@ import com.fssa.netbliz.model.Customer;
 	 void testValidLogInCustomer() {
 
 		long phone = 9361320511l;
-		String email = "dharun@gmail.com";
+		String email = "dharun1@gmail.com";
 		String password = "1234567890Dh@";
 
 		try {

@@ -183,12 +183,12 @@ import com.fssa.netbliz.model.Customer;
 
 		try {
 
-			CustomerValidator.validateEmail("dharungmail");
+			CustomerValidator.validateEmail("dharun@gmail.com");
 		} catch (Exception e) {
 			Assertions.assertEquals(CustomerValidatorError.INVALID_PATTERN_EMAIL, e.getMessage());
-		}
+		} 
 	}
-
+ 
 	@Test
 
 	 void testValidPassword() throws ValidatorException {

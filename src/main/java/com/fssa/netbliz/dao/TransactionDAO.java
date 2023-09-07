@@ -18,13 +18,13 @@ public class TransactionDAO {
 
 	static int senderCustomerId = Transaction.INITIALIZE_ZERO;
 	static int reciverCustomerId = Transaction.INITIALIZE_ZERO;
-	
+
 	static String AVL_BALANCE = "avl_balance";
 
 	private TransactionDAO() {
 		// Private constructor to prevent instantiation
 	}
- 
+
 	/**
 	 * Retrieves the phone number associated with the given account number from the
 	 * database.
@@ -323,7 +323,7 @@ public class TransactionDAO {
 	 */
 
 	public static boolean printTransactions(int id) throws DAOException {
-		List<Transaction> transList = listTransaction(id); 
+		List<Transaction> transList = listTransaction(id);
 
 		if (transList.isEmpty()) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
@@ -333,6 +333,36 @@ public class TransactionDAO {
 			Logger.info(list);
 		}
 
+		return true;
+	}
+
+	public static boolean checkMinimumBalance(String accNo , double transferMoney) throws DAOException {
+
+		final String query = "SELECT acc_no,avl_balance,min_balance FROM accounts WHERE acc_no = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setString(1, accNo);
+
+				try (ResultSet rs = pst.executeQuery()) {
+
+					if (rs.next() && rs.getDouble("avl_balance") >= transferMoney) {
+
+						double avlBalance = rs.getDouble("avl_balance");
+
+						double minBalance = rs.getDouble("min_balance");
+
+						if (minBalance < (avlBalance - transferMoney)) {
+
+							return false;
+						}
+					} 
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
+		}
+		
 		return true;
 	}
 

@@ -12,7 +12,7 @@ import com.fssa.netbliz.model.Account;
  * A class containing test cases for the AccountValidator class.
  */
 
- class TestAccountValidator {
+ public class TestAccountValidator {
 
 	Account account = new Account();
 
@@ -49,7 +49,7 @@ import com.fssa.netbliz.model.Account;
 			Assertions.assertEquals(AccountValidatorError.INVALID_OBJECT_NULL, e.getMessage());
 		}
 
-	}
+	} 
 
 	@Test
 

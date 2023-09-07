@@ -27,7 +27,7 @@ public class CustomerValidator {
 	 * @throws ValidatorException If any validation error occurs during the process
 	 */
 	public static boolean validate(Customer customer) throws ValidatorException {
- 
+
 		if (customer == null) {
 			throw new ValidatorException(CustomerValidatorError.NULL_OBJECT);
 		}
@@ -110,7 +110,16 @@ public class CustomerValidator {
 		} else if ("".equals(email.trim())) {
 			throw new ValidatorException(CustomerValidatorError.INVALID_EMPTY_EMAIL);
 		}
+
+		String regexEmail = "^[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z0-9]+$";
+		Pattern pattern = Pattern.compile(regexEmail);
+		Matcher matcher = pattern.matcher(email);
+		boolean isMatch = matcher.matches();
+		if (!isMatch) {
+			throw new ValidatorException(CustomerValidatorError.INVALID_PATTERN_EMAIL);
+		}
 		return true;
+
 	}
 
 	/**
@@ -129,7 +138,7 @@ public class CustomerValidator {
 		}
 
 		String regexPassword = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-		Pattern pattern = Pattern.compile(regexPassword); 
+		Pattern pattern = Pattern.compile(regexPassword);
 		Matcher matcher = pattern.matcher(password);
 		boolean isMatch = matcher.matches();
 		if (!isMatch) {

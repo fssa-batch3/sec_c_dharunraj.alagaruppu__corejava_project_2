@@ -17,11 +17,11 @@ public class AccountValidator {
         // Private constructor to prevent instantiation
     }
 
-    public static final int ACCOUNT_NUMBER_LENGTH = 16;
+    public static final int ACCOUNT_NUMBER_LENGTH = 16; 
     
     public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
 
-    public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0;
+    public static final double BELOW_MINIMUM_BALANCE_RANGE = 25000.0; 
 
     /**
      * Validates the provided account object's data.
