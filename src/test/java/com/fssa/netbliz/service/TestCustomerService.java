@@ -21,7 +21,7 @@ import com.fssa.netbliz.model.Customer;
 	@Test 
 	 void testValidAddCustomer() {  
 
-		Customer customer = new Customer("Kathir", "kumar", 7402172243l, "kathir@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Vel", "kumar", 7402112243l, "vel@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		try { 

@@ -27,7 +27,7 @@ import com.fssa.netbliz.util.Logger;
 	// Valid test case
 	 void testAddAccount() {   // before commit update the new account number
 
-		Account account = new Account("1234567890123411", "IDIB000K132", 7402473347l, 5000.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123111", "IDIB000K132", 7402473347l, 5000.0, AccountEnum.SAVINGS);
 
 		try { 
 			Assertions.assertTrue(accountService.addAccount(account));
@@ -91,7 +91,7 @@ import com.fssa.netbliz.util.Logger;
 	@Test
 	// Valid test case
 	 void testRemoveAccountByAccountNumber() {
-		String accountNumber = "7890123456789012";
+		String accountNumber = "1234567890123411";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -111,7 +111,7 @@ import com.fssa.netbliz.util.Logger;
 	@Test
 	 void testInvalidRemoveAccountByAccountNumber() {
 
-		String accountNumber = "8901234567890123";
+		String accountNumber = "0123456789012345";
 
 		try {
 			Assertions.assertFalse(accountService.removeAccountByAccountNumber(accountNumber));
@@ -139,7 +139,7 @@ import com.fssa.netbliz.util.Logger;
 	// Valid test case 
 	 void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("8901234567890123", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("7890123456789012", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
