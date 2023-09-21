@@ -10,11 +10,12 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<sonar.projectKey>fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2</sonar.projectKey>
+		<sonar.projectKey>
+			fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2</sonar.projectKey>
 		<sonar.organization>fssa-batch3</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
-	
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
 		<dependency>
@@ -29,14 +30,24 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.fssa.corejava</groupId>
+			<artifactId>Dharunraj</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.7</version> <!-- Use the latest version available -->
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -17,11 +17,11 @@ class TestTransactionService {
 	 */
 
 	@Test
-	void moneyTransaction() {
+	void moneyTransaction() {   
 
-		Transaction trans = new Transaction("1234567890123456", "0987654321123456", "IDIB000K132", 10, "case pack");
+		Transaction trans = new Transaction("0987654321123456", "1234567890123456", "IDIB000K132", 10, "case pack");
 
-		try {
+		try { 
 			Assertions.assertTrue(transService.moneyTransaction(trans));
 		} catch (ServiceException e) {
 
@@ -48,8 +48,8 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void printTransactions() {
-		int id = 1;
+	void printTransactions() {     
+		int id = 2;
 
 		try {
 			Assertions.assertTrue(transService.printTransactions(id));
@@ -65,7 +65,7 @@ class TestTransactionService {
 	 * @throws Exception If there's an unexpected exception during the test.
 	 */
 
-	void listOfTransaction() {
+	void listOfTransaction() { 
 		int id = 1;
 
 		try {

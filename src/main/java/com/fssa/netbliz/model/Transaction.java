@@ -21,6 +21,8 @@ public class Transaction {
 	private LocalDateTime paidDateTime;
 	private LocalDateTime debitedDateTime;
 	private int customerId;
+	private String holderName;
+	private String remittanceName;
 
 	// Constructor with parameters to initialize Transaction object
 	public Transaction(String accountHolderAccNo, String remittanceAccNo, String receiverIfscCode,
@@ -37,7 +39,7 @@ public class Transaction {
 
 	}
 
-	public String getAccountHolderAccNo() { 
+	public String getAccountHolderAccNo() {
 		return accountHolderAccNo;
 	}
 
@@ -117,12 +119,29 @@ public class Transaction {
 		this.customerId = customerId;
 	}
 
+	public String getHolderName() {
+		return holderName;
+	}
+
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
+
+	public String getRemittanceName() {
+		return remittanceName;
+	}
+
+	public void setRemittanceName(String remittanceName) {
+		this.remittanceName = remittanceName;
+	}
+
 	@Override
 	public String toString() {
 		return "Transaction [accountHolderAccNo=" + accountHolderAccNo + ", remittanceAccNo=" + remittanceAccNo
 				+ ", receiverIfscCode=" + receiverIfscCode + ", transferAmount=" + transferAmount + ", remark=" + remark
 				+ ", transStatus=" + transStatus + ", avlAmount=" + avlAmount + ", paidDateTime=" + paidDateTime
-				+ ", debitedDateTime=" + debitedDateTime + ", customerId=" + customerId + "]";
+				+ ", debitedDateTime=" + debitedDateTime + ", customerId=" + customerId + ", holderName=" + holderName
+				+ ", remittanceName=" + remittanceName + "]";
 	}
 
 }

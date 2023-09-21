@@ -1,5 +1,6 @@
 package com.fssa.netbliz.validator;
 
+
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -26,8 +27,8 @@ import com.fssa.netbliz.model.Account;
 
 	 void testValidObject() throws ValidatorException {
  
-		Account account = new Account("1234567091123456", "IDIB000K132", 9361320511l, 1000.0, AccountEnum.SAVINGS);
-
+		Account account = new Account("1234567091123456", "IDIB000K132", 9361320511l);
+ 
 		Assertions.assertTrue(AccountValidator.validate(account));
 	}
 

@@ -7,16 +7,15 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.netbliz.enums.AccountEnum;
 import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.model.Account;
 import com.fssa.netbliz.util.Logger;
 
- class TestAccountService {
+class TestAccountService {
 
 	Account account = new Account();
 
-	AccountService accountService = new AccountService(); 
+	AccountService accountService = new AccountService();
 
 	/**
 	 * @throws ServiceException If an error occurs while attempting to add the new
@@ -25,17 +24,17 @@ import com.fssa.netbliz.util.Logger;
 
 	@Test
 	// Valid test case
-	 void testAddAccount() {   // before commit update the new account number
+	void testAddAccount() { // before commit update the new account number
 
-		Account account = new Account("1234567890123111", "IDIB000K132", 7402473347l, 5000.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123456", "IDIB000K132", 9361320511l);
 
-		try { 
-			Assertions.assertTrue(accountService.addAccount(account));
+		try {
+			Assertions.assertTrue(accountService.getBankDetails(account));
 		} catch (ServiceException e) {
 
 			Assertions.fail(e);
 		}
-	}   
+	}
 
 	/**
 	 * @throws ServiceException If an unexpected error occurs while attempting to
@@ -43,15 +42,15 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void testInvalidAddAccount() {
+	void testInvalidAddAccount() {
 
-		Account account = new Account("1234567890123456", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
+		Account account = new Account("1234567890123456", "IDIB000K132", 9361320511l);
 
 		try {
 			Assertions.assertFalse(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e); 
+			Assertions.fail(e);
 		}
 
 	}
@@ -62,8 +61,8 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void testValidationErrorAddAccount() {
-		Account account = new Account("1234567890", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
+	void testValidationErrorAddAccount() {
+		Account account = new Account("1234567890", "IDIB000K132", 9361320511l);
 
 		assertThrows(ServiceException.class, () -> accountService.addAccount(account));
 
@@ -75,8 +74,8 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void testDAOErrorAddAccount() {
-		Account account = new Account("09876564321123456", "IDIB000K132", 9361320511l, 500.0, AccountEnum.SAVINGS);
+	void testDAOErrorAddAccount() {
+		Account account = new Account("09876564321123456", "IDIB000K132", 9361320511l);
 
 		assertThrows(ServiceException.class, () -> accountService.addAccount(account));
 
@@ -90,8 +89,8 @@ import com.fssa.netbliz.util.Logger;
 	 */
 	@Test
 	// Valid test case
-	 void testRemoveAccountByAccountNumber() {
-		String accountNumber = "1234567890123411";
+	void testRemoveAccountByAccountNumber() {
+		String accountNumber = "7890123456789012";
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
 
@@ -109,9 +108,9 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void testInvalidRemoveAccountByAccountNumber() {
+	void testInvalidRemoveAccountByAccountNumber() {
 
-		String accountNumber = "0123456789012345";
+		String accountNumber = "7890123456789012";
 
 		try {
 			Assertions.assertFalse(accountService.removeAccountByAccountNumber(accountNumber));
@@ -128,7 +127,7 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void testValidationErrorRemoveAccount() {
+	void testValidationErrorRemoveAccount() {
 		String accountNumber = "12345671";
 
 		assertThrows(ServiceException.class, () -> accountService.removeAccountByAccountNumber(accountNumber));
@@ -136,13 +135,13 @@ import com.fssa.netbliz.util.Logger;
 	}
 
 	@Test
-	// Valid test case 
-	 void testAddExistsAccount() { // before commit update the new account number
+	// Valid test case
+	void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("7890123456789012", "IDIB000K132", 7402473347l, 2500.0, AccountEnum.SAVINGS);
+		Account account = new Account("7890123456789012", "IDIB000K132", 7402473347l);
 
 		try {
-			Assertions.assertTrue(accountService.addAccount(account));
+			Assertions.assertTrue(accountService.addAccount( account));
 		} catch (ServiceException e) {
 
 			Assertions.fail(e);
@@ -151,7 +150,7 @@ import com.fssa.netbliz.util.Logger;
 
 	@Test
 	// Valid test case
-	 void testGetAccountByPhoneNumber() {
+	void testGetAccountByPhoneNumber() {
 
 		long phoneNumber = 9361320511l;
 		try {
@@ -180,7 +179,7 @@ import com.fssa.netbliz.util.Logger;
 	 */
 	@Test
 	// Valid test case
-	 void testGetAccountByNumber() {
+	void testGetAccountByNumber() {
 
 		String accountNumber = "1234567890123456";
 		try {
@@ -215,7 +214,7 @@ import com.fssa.netbliz.util.Logger;
 	// Valid test case
 	void isActiveAccount() {
 		String accNo = "1234567890123456";
- 
+
 		try {
 			Assertions.assertTrue(accountService.isActiveAccount(accNo));
 		} catch (ServiceException e) {
@@ -230,7 +229,7 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void invalidIsActive() {
+	void invalidIsActive() {
 
 		String accNo = "1234567890098763";
 
@@ -241,7 +240,7 @@ import com.fssa.netbliz.util.Logger;
 			Assertions.fail(e);
 		}
 
-	} 
+	}
 
 	/**
 	 * 
@@ -250,10 +249,10 @@ import com.fssa.netbliz.util.Logger;
 	 */
 
 	@Test
-	 void validationErrorIsActive() { 
+	void validationErrorIsActive() {
 
-		String accNo = "12345690987"; 
-	
+		String accNo = "12345690987";
+
 		Assertions.assertThrows(ServiceException.class, () -> accountService.isActiveAccount(accNo));
 	}
 

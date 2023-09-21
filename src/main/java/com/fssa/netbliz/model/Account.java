@@ -11,29 +11,28 @@ public class Account {
 	public static final double CONSTANT_AVL_BALANCE = 20000.0;
 
 	// These are the attribute for the account class
+	private int bankId;
 	private String accountNumber;
 	private String ifsc;
 	private long phoneNumber;
 	private AccountEnum typeOfAccount;
 	private double minimumBalance;
 	private double availableBalance;
-	private LocalDateTime dateOfJoining;
+	private int monthIntervel;
 	private boolean isActive;
 	private int customerId;
+	private LocalDateTime dateOfJoining;
 
 	// No argument constructor
 	public Account() {
 		// Empty constructor used for creating an instance without setting attributes
 	}
 
-	public Account(String accountNumber, String ifsc, long phoneNumber, double minimumBalance,
-			AccountEnum typeOfAccount) {
+	public Account(String accountNumber, String ifsc, long phoneNumber) {
 
 		this.accountNumber = accountNumber;
 		this.ifsc = ifsc;
 		this.phoneNumber = phoneNumber;
-		this.minimumBalance = minimumBalance;
-		this.typeOfAccount = typeOfAccount;
 	}
 
 	public String getAccountNumber() {
@@ -108,12 +107,28 @@ public class Account {
 		this.customerId = customerId;
 	}
 
+	public int getMonthIntervel() {
+		return monthIntervel;
+	}
+
+	public void setMonthIntervel(int monthIntervel) {
+		this.monthIntervel = monthIntervel;
+	}
+
+	public int getBankId() {
+		return bankId;
+	}
+
+	public void setBankId(int bankId) {
+		this.bankId = bankId;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountNumber=" + accountNumber + ", ifsc=" + ifsc + ", phoneNumber=" + phoneNumber
 				+ ", typeOfAccount=" + typeOfAccount + ", minimumBalance=" + minimumBalance + ", availableBalance="
 				+ availableBalance + ", dateOfJoining=" + dateOfJoining + ", isActive=" + isActive + ", customerId="
-				+ customerId + "]";
+				+ customerId + ", monthIntervel=" + monthIntervel + ", bankId=" + bankId + "]";
 	}
 
 }

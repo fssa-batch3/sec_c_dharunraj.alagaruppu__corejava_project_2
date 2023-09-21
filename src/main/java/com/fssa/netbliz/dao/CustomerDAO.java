@@ -30,7 +30,7 @@ public class CustomerDAO {
 	 *                      adding the customer.
 	 */
 	public static boolean addCustomer(Customer customer) throws DAOException {
-		final String query = "INSERT INTO customers (first_name,last_name,email,phone,password) VALUES (?,?,?,?,?)";
+		final String query = "INSERT INTO customers (first_name,last_name,email,phone_number,password) VALUES (?,?,?,?,?)";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -61,14 +61,15 @@ public class CustomerDAO {
 	 * @throws SQLException If there is an issue with executing the SQL query.
 	 */
 	public static boolean logInCustomer(long phone, String email, String password) throws DAOException, SQLException {
-		final String query = "SELECT phone,email,password FROM customers WHERE phone = ? ";
+		final String query = "SELECT phone_number,email,password FROM customers WHERE phone_number = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next() && rs.getString("email").equals(email.trim())
-							&& rs.getString("password").equals(password.trim()) && rs.getLong("phone") == phone) {
+							&& rs.getString("password").equals(password.trim())
+							&& rs.getLong("phone_number") == phone) {
 						return true;
 					}
 
@@ -90,7 +91,7 @@ public class CustomerDAO {
 	 *                      checking account availability.
 	 */
 	public static boolean isAvailableAccount(long phone) throws DAOException {
-		final String query = "SELECT phone FROM customers WHERE phone = ?";
+		final String query = "SELECT phone_number FROM customers WHERE phone_number = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
@@ -116,7 +117,7 @@ public class CustomerDAO {
 	 *                      checking account activity.
 	 */
 	public static boolean isActiveAccount(long phone) throws DAOException {
-		final String query = "SELECT email,password FROM customers WHERE phone = ? AND is_active = ?";
+		final String query = "SELECT email,password FROM customers WHERE phone_number = ? AND is_active = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
@@ -143,7 +144,7 @@ public class CustomerDAO {
 	 */
 	public static List<Customer> getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
 		List<Customer> customerList = new ArrayList<>();
-		final String query = "SELECT customer_id,first_name,last_name,phone,email,password,is_active FROM customers WHERE phone = ?";
+		final String query = "SELECT customer_id,first_name,last_name,phone_number,email,password,is_active FROM customers WHERE phone_number = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
@@ -152,7 +153,7 @@ public class CustomerDAO {
 						Customer customer = new Customer();
 						customer.setFirstName(rs.getString("first_name"));
 						customer.setLastName(rs.getString("last_name"));
-						customer.setPhoneNumber(rs.getLong("phone"));
+						customer.setPhoneNumber(rs.getLong("phone_number"));
 						customer.setEmail(rs.getString("email"));
 						customer.setPassword(rs.getString("password"));
 						customer.setActive(rs.getBoolean("is_active"));
@@ -164,6 +165,25 @@ public class CustomerDAO {
 		} catch (SQLException e) {
 			throw new DAOException(CustomerDAOError.INVALID_DATA);
 		}
-		return customerList; 
+		return customerList;
+	}
+
+	public static String getCustomerNameById(int id) throws DAOException {
+
+		final String query = "SELECT first_name,last_name FROM customers WHERE id = ? ";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setInt(1, id);
+
+				try (ResultSet rs = pst.executeQuery()) {
+
+					return rs.getString("first_name");
+				}
+			}
+		} catch (SQLException e) {
+
+			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
+		}
 	}
 }

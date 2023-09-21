@@ -14,7 +14,7 @@ public class Customer {
 	// No argument constructor
 	public Customer() {
 		// Empty constructor used for creating an instance without setting attributes
-	}
+	} 
 
 	public Customer(String firstName, String lastName, long phoneNumber, String email, String password,
 			String confirmPassword) {

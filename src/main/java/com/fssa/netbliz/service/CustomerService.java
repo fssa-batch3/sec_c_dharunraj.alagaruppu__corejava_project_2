@@ -25,7 +25,7 @@ public class CustomerService {
 	public boolean addCustomer(Customer customer) throws ServiceException {
 		try {
 			if (CustomerValidator.validate(customer) && !isAvailableAccount(customer.getPhoneNumber())) {
-				return CustomerDAO.addCustomer(customer);
+				return CustomerDAO.addCustomer(customer); 
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());

@@ -220,16 +220,17 @@ public class TransactionDAO {
 	 */
 
 	public static boolean insertAccountHolderDetails(Transaction trans, Connection con) throws DAOException {
-		final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,customer_id) VALUES (?, ?, ?, ?, ?, ?,?)";
+		final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,holder_id,remittance_id) VALUES (?, ?, ?, ?, ?, ?,?,?)";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, trans.getAccountHolderAccNo());
 			pst.setString(2, trans.getRemittanceAccNo());
-			pst.setString(3, Transaction.CRIDIT_DENOTES);
+			pst.setString(3, Transaction.DEBIT_DENOTES);
 			pst.setDouble(4, trans.getTransferAmount());
 			pst.setDouble(5, Transaction.holderBalance);
 			pst.setString(6, trans.getRemark());
 			pst.setInt(7, senderCustomerId);
+			pst.setInt(8, reciverCustomerId);
 			pst.executeUpdate();
 			insertRemittanceAccountDetails(trans, con);
 		} catch (SQLException e) {
@@ -250,22 +251,53 @@ public class TransactionDAO {
 	 */
 
 	public static boolean insertRemittanceAccountDetails(Transaction trans, Connection con) throws DAOException {
-		final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,customer_id) VALUES (?, ?, ?, ?, ?, ?,?)";
+		final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,holder_id,remittance_id) VALUES (?, ?, ?, ?, ?, ?,?,?)";
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, trans.getRemittanceAccNo());
 			pst.setString(2, trans.getAccountHolderAccNo());
-			pst.setString(3, Transaction.DEBIT_DENOTES);
+			pst.setString(3, Transaction.CRIDIT_DENOTES);
 			pst.setDouble(4, trans.getTransferAmount());
 			pst.setDouble(5, Transaction.remittanceBalance);
 			pst.setString(6, trans.getRemark());
 			pst.setInt(7, reciverCustomerId);
+			pst.setInt(8, senderCustomerId);
 			pst.executeUpdate();
+			updateBankHolderAccount(trans, con);
 			Logger.info("Check DataBase"); // It's assumed that Logger is a valid logging mechanism
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
+		return true;
+	}
+
+	public static boolean updateBankHolderAccount(Transaction trans, Connection con) throws DAOException {
+		final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
+
+		try (PreparedStatement pst = con.prepareStatement(query)) {
+
+			pst.setDouble(1, Transaction.holderBalance);
+			pst.setString(2, trans.getAccountHolderAccNo());
+			pst.executeUpdate();
+			updateBankRemittanceAccount(trans, con);
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+		}
+		return true;
+	}
+
+	public static boolean updateBankRemittanceAccount(Transaction trans, Connection con) throws DAOException {
+		final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
+
+		try (PreparedStatement pst = con.prepareStatement(query)) {
+
+			pst.setDouble(1, Transaction.remittanceBalance);
+			pst.setString(2, trans.getRemittanceAccNo());
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(TransactionDAOError.INVALID_ACCOUNT_NUMBER);
+		}
 		return true;
 	}
 
@@ -282,12 +314,11 @@ public class TransactionDAO {
 	public static List<Transaction> listTransaction(int id) throws DAOException {
 		List<Transaction> list = new ArrayList<>();
 
-		final String query = "SELECT acc_holder,remittance,trans_status,trans_amount,avl_balance,paid_time,debited_time,remark,customer_id FROM transactions WHERE customer_id = ?";
+		final String query = "SELECT acc_holder,remittance,trans_status,trans_amount,avl_balance,paid_time,debited_time,remark,holder_id,remittance_id FROM transactions WHERE holder_id = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setInt(1, id);
-
 				try (ResultSet rs = pst.executeQuery()) {
 					while (rs.next()) {
 						Transaction trans = new Transaction();
@@ -302,15 +333,19 @@ public class TransactionDAO {
 						debitTime = rs.getTimestamp("debited_time");
 						trans.setDebitedDateTime(debitTime.toLocalDateTime());
 						trans.setRemark(rs.getString("remark"));
-						trans.setCustomerId(rs.getInt("customer_id"));
+						int holder_id = rs.getInt("holder_id");
+						int remittance_id = rs.getInt("remittance_id");
+						trans.setCustomerId(holder_id);
+						trans.setHolderName(getCustomerNameById(holder_id));
+						trans.setRemittanceName(getCustomerNameById(remittance_id));
 						list.add(trans);
+
 					}
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
-
 		return list;
 	}
 
@@ -330,13 +365,13 @@ public class TransactionDAO {
 		}
 
 		for (Transaction list : transList) {
-			Logger.info(list);
+			
 		}
 
 		return true;
 	}
 
-	public static boolean checkMinimumBalance(String accNo , double transferMoney) throws DAOException {
+	public static boolean checkMinimumBalance(String accNo, double transferMoney) throws DAOException {
 
 		final String query = "SELECT acc_no,avl_balance,min_balance FROM accounts WHERE acc_no = ?";
 
@@ -346,7 +381,7 @@ public class TransactionDAO {
 
 				try (ResultSet rs = pst.executeQuery()) {
 
-					if (rs.next() && rs.getDouble("avl_balance") >= transferMoney) {
+					if (rs.next()) {
 
 						double avlBalance = rs.getDouble("avl_balance");
 
@@ -354,16 +389,41 @@ public class TransactionDAO {
 
 						if (minBalance < (avlBalance - transferMoney)) {
 
-							return false;
+							return true;
 						}
-					} 
+					}
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
-		
-		return true;
+
+		return false;
+	}
+
+	public static String getCustomerNameById(int id) throws DAOException {
+
+		String name = "";
+
+		final String query = "SELECT first_name FROM customers WHERE customer_id = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setInt(1, id);
+
+				try (ResultSet rs = pst.executeQuery()) {
+
+					if (rs.next()) {
+						name = rs.getString("first_name");
+					}
+				}
+			}
+		} catch (SQLException e) {
+
+			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
+		}
+
+		return name;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.fssa.netbliz.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,25 @@ import com.fssa.netbliz.validator.AccountValidator;
 
 public class AccountService {
 	public AccountService() {
-//		private constructor
+//		private constructor 
+	}
+
+	public boolean getBankDetails(Account account) throws ServiceException {
+
+		Account acc = new Account();
+		try {
+			if (AccountValidator.validateAccountNumber(account.getAccountNumber())
+					&& AccountValidator.validateIfsc(account.getIfsc())
+					&& AccountValidator.validatePhoneNumber(account.getPhoneNumber())) {
+
+				acc = AccountDAO.getBankDetailsByAccountNumber(account);
+			}
+		} catch (ValidatorException e) {
+			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
+		} catch (DAOException e) {
+			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		}
+		return addAccount(acc);
 	}
 
 	/**
@@ -30,11 +49,16 @@ public class AccountService {
 	 * @param account The account to add.
 	 * @return True if the account was added successfully, false otherwise.
 	 * @throws ServiceException If there is a service-level error.
+	 * @throws SQLException
 	 */
 	public boolean addAccount(Account account) throws ServiceException {
 		try {
-			if (AccountValidator.validate(account)) {
+			if (AccountValidator.validate(account) && !isAvailableAccount(account.getAccountNumber())) {
 				return AccountDAO.addAccount(account);
+			} else if (AccountValidator.validate(account) && isAvailableAccount(account.getAccountNumber())
+					&& !isActiveAccount(account.getAccountNumber())) {
+
+				return AccountDAO.existsCheck(account);
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
@@ -152,6 +176,14 @@ public class AccountService {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 		return details;
+	}
+
+	public static void main(String[] args) throws ServiceException, SQLException {
+
+		Account account = new Account("1234567890123455", "IDIB000K132", 9361320511l);
+
+		AccountService as = new AccountService();
+		System.out.println(as.getBankDetails(account));
 	}
 
 }
