@@ -335,7 +335,8 @@ public class TransactionDAO {
 						trans.setRemark(rs.getString("remark"));
 						int holder_id = rs.getInt("holder_id");
 						int remittance_id = rs.getInt("remittance_id");
-						trans.setCustomerId(holder_id);
+						trans.setHolderId(holder_id);
+						trans.setRemittanceId(remittance_id);
 						trans.setHolderName(getCustomerNameById(holder_id));
 						trans.setRemittanceName(getCustomerNameById(remittance_id));
 						list.add(trans);
@@ -360,14 +361,9 @@ public class TransactionDAO {
 	public static boolean printTransactions(int id) throws DAOException {
 		List<Transaction> transList = listTransaction(id);
 
-		if (transList.isEmpty()) {
+		if (transList.isEmpty())
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
-		}
-
-		for (Transaction list : transList) {
-			
-		}
-
+		
 		return true;
 	}
 
@@ -387,7 +383,7 @@ public class TransactionDAO {
 
 						double minBalance = rs.getDouble("min_balance");
 
-						if (minBalance < (avlBalance - transferMoney)) {
+						if (minBalance <= (avlBalance - transferMoney)) {
 
 							return true;
 						}

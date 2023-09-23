@@ -53,15 +53,16 @@ public class AccountDAO {
 						account.setCategory(enumType);
 						account.setActive(rs.getBoolean("is_active"));
 						account.setMonthIntervel(rs.getInt("month_interval"));
-
+						return account;
 					}
+					
+					throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 				}
 			}
 		} catch (SQLException e) {
 
 			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 		}
-		return account;
 
 	}
 

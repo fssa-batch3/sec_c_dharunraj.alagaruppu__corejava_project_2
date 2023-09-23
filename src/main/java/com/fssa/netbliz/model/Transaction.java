@@ -20,7 +20,8 @@ public class Transaction {
 	private double avlAmount;
 	private LocalDateTime paidDateTime;
 	private LocalDateTime debitedDateTime;
-	private int customerId;
+	private int holderId;
+	private int remittanceId;
 	private String holderName;
 	private String remittanceName;
 
@@ -111,14 +112,6 @@ public class Transaction {
 		this.debitedDateTime = debitedDateTime;
 	}
 
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-
 	public String getHolderName() {
 		return holderName;
 	}
@@ -135,13 +128,29 @@ public class Transaction {
 		this.remittanceName = remittanceName;
 	}
 
+	public int getHolderId() {
+		return holderId;
+	}
+
+	public void setHolderId(int holderId) {
+		this.holderId = holderId;
+	}
+
+	public int getRemittanceId() {
+		return remittanceId;
+	}
+
+	public void setRemittanceId(int remittanceId) {
+		this.remittanceId = remittanceId;
+	}
+	
 	@Override
 	public String toString() {
 		return "Transaction [accountHolderAccNo=" + accountHolderAccNo + ", remittanceAccNo=" + remittanceAccNo
 				+ ", receiverIfscCode=" + receiverIfscCode + ", transferAmount=" + transferAmount + ", remark=" + remark
 				+ ", transStatus=" + transStatus + ", avlAmount=" + avlAmount + ", paidDateTime=" + paidDateTime
-				+ ", debitedDateTime=" + debitedDateTime + ", customerId=" + customerId + ", holderName=" + holderName
-				+ ", remittanceName=" + remittanceName + "]";
+				+ ", debitedDateTime=" + debitedDateTime + ", holderId=" + holderId + ", remittanceId=" + remittanceId
+				+ ", holderName=" + holderName + ", remittanceName=" + remittanceName + "]";
 	}
 
 }

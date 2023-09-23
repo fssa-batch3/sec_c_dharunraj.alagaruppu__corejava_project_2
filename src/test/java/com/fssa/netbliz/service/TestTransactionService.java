@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.model.Transaction;
+import com.fssa.netbliz.util.Logger;
 
 class TestTransactionService {
 
@@ -69,6 +70,7 @@ class TestTransactionService {
 		int id = 1;
 
 		try {
+			Logger.info(transService.listOfTransaction(id));
 			Assertions.assertNotNull(transService.listOfTransaction(id));
 		} catch (ServiceException e) {
 			Assertions.fail(e.getMessage());

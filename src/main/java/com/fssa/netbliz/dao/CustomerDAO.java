@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.error.CustomerDAOError;
@@ -72,13 +70,15 @@ public class CustomerDAO {
 							&& rs.getLong("phone_number") == phone) {
 						return true;
 					}
-
+					else {
+						throw new DAOException(CustomerDAOError.INVALID_DATA);
+					}
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(CustomerDAOError.INVALID_DATA);
 		}
-		return false;
+		
 	}
 
 	/**
@@ -142,15 +142,14 @@ public class CustomerDAO {
 	 *         empty list if no matches are found.
 	 * @throws DAOException If there is an issue with the database operation.
 	 */
-	public static List<Customer> getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
-		List<Customer> customerList = new ArrayList<>();
+	public static Customer getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
+		Customer customer = new Customer();
 		final String query = "SELECT customer_id,first_name,last_name,phone_number,email,password,is_active FROM customers WHERE phone_number = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) {
-						Customer customer = new Customer();
 						customer.setFirstName(rs.getString("first_name"));
 						customer.setLastName(rs.getString("last_name"));
 						customer.setPhoneNumber(rs.getLong("phone_number"));
@@ -158,14 +157,13 @@ public class CustomerDAO {
 						customer.setPassword(rs.getString("password"));
 						customer.setActive(rs.getBoolean("is_active"));
 						customer.setCustomerId(rs.getInt("customer_id"));
-						customerList.add(customer);
 					}
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(CustomerDAOError.INVALID_DATA);
 		}
-		return customerList;
+		return customer;
 	}
 
 	public static String getCustomerNameById(int id) throws DAOException {

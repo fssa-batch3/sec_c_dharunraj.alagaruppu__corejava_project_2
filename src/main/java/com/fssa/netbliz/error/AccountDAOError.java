@@ -10,7 +10,7 @@ public final class AccountDAOError {
     
     public static final String NO_INVALID_ACCOUNT = "No invalid account occour";
     
-    public static final String INVALID_ACCOUNT_NUMBER = "Cann't fetch data";
+    public static final String INVALID_ACCOUNT_NUMBER = "Account number or IFSC code is not valid";
     
     public static final String INVALID_PHONE_NUMBER = "This phone number have account in netbliz .Please use that account ";
     

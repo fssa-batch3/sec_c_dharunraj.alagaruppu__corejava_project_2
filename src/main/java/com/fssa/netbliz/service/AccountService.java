@@ -34,13 +34,18 @@ public class AccountService {
 					&& AccountValidator.validatePhoneNumber(account.getPhoneNumber())) {
 
 				acc = AccountDAO.getBankDetailsByAccountNumber(account);
+				return addAccount(acc);
+			}
+			else {
+				
+				throw new ServiceException("Your bank details can't fetch the data from your respective bank");
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return addAccount(acc);
+		
 	}
 
 	/**
@@ -60,12 +65,15 @@ public class AccountService {
 
 				return AccountDAO.existsCheck(account);
 			}
+			else {
+				throw new ServiceException("Your account can't added !! Retry...!");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
+		
 	}
 
 	/**
@@ -81,12 +89,14 @@ public class AccountService {
 					&& isActiveAccount(accountNumber)) {
 				return AccountDAO.removeAccountByAccountNumber(accountNumber);
 			}
+			else {
+				throw new ServiceException("Your account can't deteted");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
 	}
 
 	/**
@@ -124,12 +134,14 @@ public class AccountService {
 			if (AccountValidator.validateAccountNumber(accNo)) {
 				return AccountDAO.isAvailableAccount(accNo);
 			}
+			else {
+				throw new ServiceException("Your account is not available");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
 	}
 
 	/**
@@ -144,12 +156,14 @@ public class AccountService {
 			if (AccountValidator.validateAccountNumber(accNo)) {
 				return AccountDAO.isActiveAccount(accNo);
 			}
+			else {
+				throw new ServiceException("Your account is not active now please reactivate");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
 	}
 
 	/**

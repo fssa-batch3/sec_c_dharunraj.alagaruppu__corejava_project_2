@@ -26,7 +26,7 @@ class TestAccountService {
 	// Valid test case
 	void testAddAccount() { // before commit update the new account number
 
-		Account account = new Account("1234567890123456", "IDIB000K132", 9361320511l);
+		Account account = new Account("1234567890123454", "IDIB000K132", 9361320511l);
 
 		try {
 			Assertions.assertTrue(accountService.getBankDetails(account));

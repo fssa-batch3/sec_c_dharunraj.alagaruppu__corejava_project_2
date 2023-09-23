@@ -27,12 +27,14 @@ public class TransactionService {
 			if (TransactionValidator.validate(trans)) {
 				return TransactionDAO.updateHolderAccount(trans);
 			}
+			else {
+				throw new ServiceException("Your transaction is failed");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
 	}
 
 	/**
@@ -70,12 +72,15 @@ public class TransactionService {
 			if (CustomerValidator.validateCustomerId(id)) {
 				return TransactionDAO.printTransactions(id);
 			}
+			else {
+				throw new ServiceException("Your transaction can't listed");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
+		
 	}
 
 	public boolean checkMinimumBalance(String accNo, double transferMoney) throws ServiceException {
@@ -84,12 +89,14 @@ public class TransactionService {
 			if (AccountValidator.validateAccountNumber(accNo) && TransactionValidator.validateAmount(transferMoney)) { 
 				return TransactionDAO.checkMinimumBalance(accNo, transferMoney);
 			}
+			else {
+				throw new ServiceException("Your minimum balance is not maintained");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-		return false;
 	}
 
 }

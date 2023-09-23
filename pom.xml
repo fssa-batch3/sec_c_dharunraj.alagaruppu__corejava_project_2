@@ -48,6 +48,11 @@
 			<artifactId>commons-validator</artifactId>
 			<version>1.7</version> <!-- Use the latest version available -->
 		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.2</version> <!-- Check for the latest version -->
+		</dependency>
 	</dependencies>
 
 	<build>

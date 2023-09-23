@@ -25,7 +25,9 @@ public class CustomerService {
 	public boolean addCustomer(Customer customer) throws ServiceException {
 		try {
 			if (CustomerValidator.validate(customer) && !isAvailableAccount(customer.getPhoneNumber())) {
-				return CustomerDAO.addCustomer(customer); 
+				return CustomerDAO.addCustomer(customer);
+			} else {
+				throw new ServiceException("Mobile Number Already registered with another account");
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
@@ -33,7 +35,6 @@ public class CustomerService {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 
-		return false;
 	}
 
 	/**
@@ -48,13 +49,16 @@ public class CustomerService {
 			if (AccountValidator.validatePhoneNumber(phone)) {
 				return CustomerDAO.isActiveAccount(phone);
 			}
+			else {
+				throw new ServiceException("Your account is not active");
+			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 
-		return false;
+		
 	}
 
 	/**
@@ -68,14 +72,14 @@ public class CustomerService {
 		try {
 			if (AccountValidator.validatePhoneNumber(phone)) {
 				return CustomerDAO.isAvailableAccount(phone);
+			} else {
+				throw new ServiceException("Your account is not available");
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
 		} catch (DAOException e) {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
-
-		return false;
 	}
 
 	/**
@@ -93,6 +97,9 @@ public class CustomerService {
 					&& AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone)
 					&& isAvailableAccount(phone)) {
 				return CustomerDAO.logInCustomer(phone, email, password);
+			} else {
+
+				throw new ServiceException("Data mismatch : Try again with your valid phone number and other fields");
 			}
 		} catch (ValidatorException e) {
 			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
@@ -101,8 +108,6 @@ public class CustomerService {
 		} catch (SQLException e) {
 			throw new ServiceException("SQL error: " + e.getMessage());
 		}
-
-		return false;
 	}
 
 	/**
@@ -113,13 +118,13 @@ public class CustomerService {
 	 *         found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
-	public List<Customer> getCustomerByPhoneNumber(long phone) throws ServiceException {
+	public Customer getCustomerByPhoneNumber(long phone) throws ServiceException {
 
-		List<Customer> cusDetails = new ArrayList<>();
+		Customer customer = new Customer();
 		try {
 			if (AccountValidator.validatePhoneNumber(phone) && isActiveAccount(phone) && isAvailableAccount(phone)) {
 
-				cusDetails = CustomerDAO.getCustomerDetailsByPhoneNumber(phone);
+				customer = CustomerDAO.getCustomerDetailsByPhoneNumber(phone);
 
 			}
 		} catch (ValidatorException e) {
@@ -128,7 +133,7 @@ public class CustomerService {
 			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
 		}
 
-		return cusDetails;
+		return customer;
 	}
 
 }
