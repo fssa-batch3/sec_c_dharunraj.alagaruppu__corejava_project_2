@@ -11,4 +11,4 @@ public class NetblizConstants {
 	public static final String DAO_ERROR = "DAO error: " ;
 	
 	
-} 
+}

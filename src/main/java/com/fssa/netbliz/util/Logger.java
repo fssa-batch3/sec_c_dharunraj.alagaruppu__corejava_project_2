@@ -5,7 +5,11 @@ public class Logger {
 //		private constructor
 	}
 
-	public static void info(Object obj) {
-		System.out.println(obj);
-	} 
+	public static void info(String msg) {
+		System.out.println(msg);
+	}
+	
+	public static void info(Object msg) {
+		System.out.println(msg);
+	}
 }

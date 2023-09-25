@@ -9,23 +9,25 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.fssa.netbliz.dao.UpdateAverageBalanceJob;
+
 public class CronJob {
 
-    public static void main(String[] args) throws Exception {
-        // Create a Quartz Scheduler Factory
+	public static void main(String[] args) throws Exception {
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
         Scheduler scheduler = schedulerFactory.getScheduler();
 
-        // Define the Job
-        JobDetail jobDetail = JobBuilder.newJob(MyJob.class)
-                .withIdentity("myJob")
+        // Define the JobDetail
+        JobDetail jobDetail = JobBuilder.newJob(UpdateAverageBalanceJob.class)
+                .withIdentity("updateAverageJob") 
                 .build();
 
-        // Define a Trigger with the given cron expression
+        // Define the Trigger with the cron expression (11:59 PM)
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("myTrigger")
-                .withSchedule(CronScheduleBuilder.cronSchedule("59 23 * * *"))
+                .withIdentity("dailyUpdateTrigger")
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 56 20 * * ?"))
                 .build();
+
 
         // Schedule the Job with the Trigger
         scheduler.scheduleJob(jobDetail, trigger);

@@ -175,9 +175,9 @@ public class AccountService {
 	 *         found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
-	public List<Account> getAccountByNumber(String accountNumber) throws ServiceException {
+	public Account getAccountByNumber(String accountNumber) throws ServiceException {
 
-		List<Account> details = new ArrayList<>();
+		Account details = new Account(); 
 		try {
 			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
 					&& isAvailableAccount(accountNumber)) {

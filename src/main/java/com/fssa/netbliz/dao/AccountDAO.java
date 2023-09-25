@@ -55,7 +55,7 @@ public class AccountDAO {
 						account.setMonthIntervel(rs.getInt("month_interval"));
 						return account;
 					}
-					
+
 					throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 				}
 			}
@@ -283,8 +283,8 @@ public class AccountDAO {
 	 *         empty list if no matches are found.
 	 * @throws DAOException If there is an issue with the database operation.
 	 */
-	public static List<Account> getAccountByNumber(String accNo) throws DAOException {
-		List<Account> list = new ArrayList<>();
+	public static Account getAccountByNumber(String accNo) throws DAOException {
+		Account list = new Account();
 
 		final String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
 
@@ -304,7 +304,6 @@ public class AccountDAO {
 						AccountEnum enumType = AccountEnum.valueOf(type);
 						account.setCategory(enumType);
 						account.setActive(rs.getBoolean("is_active"));
-						list.add(account);
 						return list;
 					}
 				}

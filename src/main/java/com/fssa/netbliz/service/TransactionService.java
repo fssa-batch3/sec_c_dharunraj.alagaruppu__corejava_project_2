@@ -70,7 +70,7 @@ public class TransactionService {
 	public boolean printTransactions(int id) throws ServiceException {
 		try {
 			if (CustomerValidator.validateCustomerId(id)) {
-				return TransactionDAO.printTransactions(id);
+				return TransactionDAO.printTransactions(id); 
 			}
 			else {
 				throw new ServiceException("Your transaction can't listed");
@@ -89,7 +89,7 @@ public class TransactionService {
 			if (AccountValidator.validateAccountNumber(accNo) && TransactionValidator.validateAmount(transferMoney)) { 
 				return TransactionDAO.checkMinimumBalance(accNo, transferMoney);
 			}
-			else {
+			else { 
 				throw new ServiceException("Your minimum balance is not maintained");
 			}
 		} catch (ValidatorException e) {

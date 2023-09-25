@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fssa.netbliz.constants.NetblizConstants;
+//import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.error.TransactionDAOError;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.model.Transaction;
@@ -389,7 +391,7 @@ public class TransactionDAO {
 						}
 					}
 				}
-			}
+			} 
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}

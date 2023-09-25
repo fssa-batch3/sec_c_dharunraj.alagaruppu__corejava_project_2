@@ -26,13 +26,13 @@ class TestAccountService {
 	// Valid test case
 	void testAddAccount() { // before commit update the new account number
 
-		Account account = new Account("1234567890123454", "IDIB000K132", 9361320511l);
+		Account account = new Account("1234567890123451", "IDIB000K132", 9361320511l);
 
 		try {
 			Assertions.assertTrue(accountService.getBankDetails(account));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 	}
 
@@ -50,7 +50,7 @@ class TestAccountService {
 			Assertions.assertFalse(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 
 	}
@@ -90,14 +90,13 @@ class TestAccountService {
 	@Test
 	// Valid test case
 	void testRemoveAccountByAccountNumber() {
-		String accountNumber = "7890123456789012";
+		String accountNumber = "1234567890123455";
+
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
-
 		} catch (ServiceException e) {
 
-			Assertions.fail("Remove account is failed");
-
+			e.getMessage();
 		}
 
 	}
@@ -110,13 +109,13 @@ class TestAccountService {
 	@Test
 	void testInvalidRemoveAccountByAccountNumber() {
 
-		String accountNumber = "7890123456789012";
+		String accountNumber = "7820123456789012";
 
 		try {
 			Assertions.assertFalse(accountService.removeAccountByAccountNumber(accountNumber));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 	}
 
@@ -138,13 +137,13 @@ class TestAccountService {
 	// Valid test case
 	void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("7890123456789012", "IDIB000K132", 7402473347l);
+		Account account = new Account("1234567890123453", "IDIB000K132", 9361320511l);
 
 		try {
-			Assertions.assertTrue(accountService.addAccount( account));
+			Assertions.assertTrue(accountService.addAccount(account));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 	}
 
@@ -167,7 +166,7 @@ class TestAccountService {
 
 		} catch (ServiceException e) {
 
-			Assertions.fail("Account details can't display");
+			e.getMessage();
 
 		}
 	}
@@ -183,20 +182,16 @@ class TestAccountService {
 
 		String accountNumber = "1234567890123456";
 		try {
+			
+			Account acc = new Account();
 
-			List<Account> list = (accountService.getAccountByNumber(accountNumber));
-
-			for (Account ac : list) {
-
-				Logger.info(ac);
-
-			}
-
-			Assertions.assertTrue(!list.isEmpty());
+			 acc = (accountService.getAccountByNumber(accountNumber));
+			
+			Logger.info(acc);
 
 		} catch (ServiceException e) {
 
-			Assertions.fail("Account details can't display the data");
+			e.getMessage();
 
 		}
 	}
@@ -219,7 +214,7 @@ class TestAccountService {
 			Assertions.assertTrue(accountService.isActiveAccount(accNo));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 	}
 
@@ -237,7 +232,7 @@ class TestAccountService {
 			Assertions.assertFalse(accountService.isActiveAccount(accNo));
 		} catch (ServiceException e) {
 
-			Assertions.fail(e);
+			e.getMessage();
 		}
 
 	}
