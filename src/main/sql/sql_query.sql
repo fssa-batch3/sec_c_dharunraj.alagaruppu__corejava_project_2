@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS bank_details (
-    bank_id INT PRIMARY KEY,
+    bank_id BIGINT PRIMARY KEY,
     acc_no VARCHAR(16) NOT NULL UNIQUE ,
     ifsc VARCHAR(11) NOT NULL,
     avl_balance DOUBLE NOT NULL,
@@ -54,35 +54,52 @@ remittance_id BIGINT NOT NULL,
 FOREIGN KEY (holder_id) REFERENCES customers (customer_id)
 );
 
+CREATE TABLE IF NOT EXISTS date_table (
+
+date_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS closing_balance (
+    closing_balance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    acc_no VARCHAR(16) NOT NULL,
+    date_id BIGINT NOT NULL,
+    eod_balance DOUBLE NOT NULL,
+    FOREIGN KEY (date_id) REFERENCES date_table (date_id),
+    FOREIGN KEY (acc_no) REFERENCES accounts (acc_no)
+);
+
+CREATE TABLE IF NOT EXISTS backup_date_table (
+
+date_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS backup_closing_balance (
+    closing_balance_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    acc_no VARCHAR(16) NOT NULL,
+    date_id BIGINT NOT NULL,
+    eod_balance DOUBLE NOT NULL,
+    FOREIGN KEY (date_id) REFERENCES backup_date_table (date_id)
+);
+
 SELECT * FROM customers;
 SELECT * FROM accounts;
 SELECT * FROM transactions;
 SELECT * FROM bank_details;
+SELECT * FROM date_table;
+SELECT * FROM closing_balance;
+SELECT * FROM backup_date_table;
+SELECT * FROM backup_closing_balance;
 
--- drop table customers;
--- drop table accounts;
--- drop table transactions;
--- drop table bank_details;
-
-INSERT INTO customers (first_name, last_name, email, phone, password, is_active)
-VALUES
-  ('Dharunraj', 'Alagaruppu', 'dharun1@gmail.com', 9361320511, '1234567890Dh@', TRUE),
-  ('Joel', 'Premkumar', 'joel@gmail.com', 9600678232, '1234567890Dh@', TRUE),
-  ('Naresh', 'kumar', 'naresh@gmail.com', 7402473347, '1234567890Dh@', TRUE),
-  ('Priya', 'Alagar', 'priya@gmail.com', 9998887777, '1234567890Dh@', TRUE),
-  ('David', 'Brown', 'david@example.com', 9444333222, '1234567890Dh@', FALSE);
-
-
-INSERT INTO accounts (acc_no, ifsc, avl_balance, phone_number, min_balance, account_type, is_active,date_of_joining,customer_id)
-VALUES
-  ('1234567890123456', 'IDIB000K132', 20000.00, 9361320511, 1000.00, 'SAVINGS',TRUE, '2023-09-06 06:35:04', 1),
-  ('0987654321123456', 'IDIB000K132', 20000.00, 9600678232, 1000.00, 'SAVINGS',TRUE, '2023-09-06 06:35:04', 2),
-  ('7890123456789012', 'IDIB000K132', 20000.00, 9361320511, 1000.00, 'SAVINGS',TRUE, '2023-09-06 06:35:04', 1),
-  ('8901234567890123', 'IDIB000K132', 20000.00, 7402473347, 500.00, 'SAVINGS',TRUE,'2023-09-06 06:35:04', 3),
-  ('9012345678901234', 'IDIB000K132', 500.00, 9361320511, 1000.00, 'SAVINGS',FALSE, '2023-09-06 06:35:04', 1),
-  ('0123456789012349', 'IDIB000K132', 500.00, 9361320511, 1000.00, 'SAVINGS',TRUE, '2023-09-06 06:35:04', 1),
-  ('0123456789012345', 'IDIB000K132', 25000.00, 9361320511, 25000.00, 'SAVINGS',FALSE, '2023-09-06 06:35:04', 1);
-
+ drop table transactions;
+ drop table backup_closing_balance;
+ drop table closing_balance;
+ drop table date_table;
+ drop table accounts;
+ drop table bank_details;
+ drop table customers;
+ drop table backup_date_table;
 
 INSERT INTO bank_details (bank_id, acc_no, ifsc, avl_balance, phone_number, min_balance, account_type, is_active, month_interval)
 VALUES
@@ -186,3 +203,130 @@ VALUES
     (98, '98123456789012', 'HDFC0012345', 70000.00, '2109876543', 10000.00, 'SAVINGS', true, 1),
     (99, '9912345678901289', 'IDIB000K132', 9000.00, '9361320513', 5000.00, 'SAVINGS', true, 1),
     (100, '1001234567890124', 'IDIB000K132', 5000.00, '6380409632', 500.00, 'SAVINGS', true, 1);
+    
+------    Customer DAO Query     ---------
+
+    	final String query = "INSERT INTO customers (first_name,last_name,email,phone_number,password) VALUES (?,?,?,?,?)";
+ 
+    	final String query = "SELECT phone_number,password FROM customers WHERE phone_number = ? ";
+
+    	final String query = "SELECT phone_number FROM customers WHERE phone_number = ?";
+
+    	final String query = "SELECT email,password FROM customers WHERE phone_number = ? AND is_active = ?";
+
+    	final String query = "SELECT customer_id,first_name,last_name,phone_number,email,password,is_active FROM customers WHERE phone_number = ?";
+
+    	final String query = "SELECT first_name,last_name FROM customers WHERE id = ? ";
+
+--------    	Account DAO Query     ---------------
+
+    	
+    	final String query = "SELECT bank_id,acc_no,ifsc,avl_balance,phone_number,min_balance,account_type,is_active,month_interval FROM bank_details WHERE acc_no = ? AND ifsc = ? AND phone_number = ?";
+
+    	final String query = "INSERT INTO accounts (acc_no, ifsc, avl_balance ,phone_number, min_balance, account_type,month_interval,customer_id,bank_id) VALUES (?, ?, ?, ?, ?, ?, ? ,?,?)";
+
+    	final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
+
+    	final String query = "SELECT customer_id FROM customers WHERE phone_number = ? ";
+    	
+    	final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
+
+    	final String query = "SELECT acc_no,ifsc,account_type,min_balance,customer_id,is_active,avl_balance,date_of_joining,phone_number FROM accounts WHERE phone_number = ? AND is_active = ?";
+
+    	final String query = "SELECT acc_no, avl_balance FROM accounts WHERE acc_no = ? AND is_active = ?";
+
+    	final String query = "SELECT acc_no FROM accounts WHERE acc_no = ?";
+
+    	final String query = "SELECT acc_no,ifsc,avl_balance,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
+
+    	
+--------    	Transaction DAO        ---------
+    	
+    	
+    	final String query = "SELECT phone_number FROM accounts WHERE acc_no = ?";
+
+    	final String query = "SELECT avl_balance FROM accounts WHERE acc_no = ? AND is_active = ? AND avl_balance >= ?";
+
+    	final String query = "SELECT avl_balance FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = ?";
+
+    	final String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+
+    	final String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
+    	
+    	final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,holder_id,remittance_id) VALUES (?, ?, ?, ?, ?, ?,?,?)";
+    	
+    	final String query = "INSERT INTO transactions (acc_holder, remittance, trans_status, trans_amount, avl_balance, remark,holder_id,remittance_id) VALUES (?, ?, ?, ?, ?, ?,?,?)";
+    	
+    	final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
+    	
+    	final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
+
+    	final String query = "SELECT acc_no,is_active,avl_balance FROM accounts WHERE acc_no = ? AND is_active = ? AND avl_balance >= ?";
+
+    	final String query = "SELECT acc_no,ifsc,is_active FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = ?";
+    	
+    	final String query = "SELECT acc_holder,remittance,trans_status,trans_amount,avl_balance,paid_time,debited_time,remark,holder_id,remittance_id FROM transactions WHERE holder_id = ?";
+
+    	final String query = "SELECT acc_no,avl_balance,min_balance FROM accounts WHERE acc_no = ?";
+
+    	final String query = "SELECT first_name FROM customers WHERE customer_id = ?";
+
+    	
+---------    	Update Cron DAO     ----------
+
+    	
+    	final String query = "UPDATE accounts SET avg_balance = avg_balance + avl_balance WHERE is_active = ?";
+
+    	final String query = "INSERT INTO date_table (updated_date) VALUES (NOW())";
+
+    	final String query = "INSERT INTO closing_balance (date_id,acc_no,eod_balance) VALUES (? , ? , ? )";
+
+    	final String query = "SELECT acc_no,avl_balance FROM accounts";
+
+    	final String query = "SELECT date_id FROM date_table ORDER BY date_id DESC LIMIT 1";
+
+    	final String query = "SELECT c.acc_no,c.eod_balance,d.updated_date FROM closing_balance AS c INNER JOIN date_table AS d ON c.date_id = d.date_id WHERE acc_no = ?";
+
+    	final String dataTransferDateTable = "INSERT INTO backup_date_table SELECT * FROM date_table";
+    	
+    	final String dataTransferClosingBalance = "INSERT INTO backup_closing_balance SELECT * FROM closing_balance";
+
+		final String clearDateTable = "DELETE FROM date_table";
+
+		final String clearClosingBalance = "DELETE FROM closing_balance";
+
+
+    	
+
+
+
+    	
+    	
+
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    

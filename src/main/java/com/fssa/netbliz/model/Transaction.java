@@ -143,7 +143,7 @@ public class Transaction {
 	public void setRemittanceId(int remittanceId) {
 		this.remittanceId = remittanceId;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Transaction [accountHolderAccNo=" + accountHolderAccNo + ", remittanceAccNo=" + remittanceAccNo

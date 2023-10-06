@@ -17,19 +17,19 @@ public class CustomerDAO {
 //		private constructor 
 	}
 
-	/**
-	 * Adds a new customer to the database using the provided Customer object.
-	 *
-	 * @param customer The Customer object containing the details of the customer to
-	 *                 be added.
-	 * @return {@code true} if the customer is successfully added, {@code false}
-	 *         otherwise.
-	 * @throws DAOException If there is an issue with the database operation while
-	 *                      adding the customer.
-	 */
+    /**
+     * Adds a new customer to the database using the provided Customer object.
+     *
+     * @param customer The Customer object containing the details of the customer to
+     *                 be added.
+     * @return {@code true} if the customer is successfully added, {@code false}
+     *         otherwise.
+     * @throws DAOException If there is an issue with the database operation while
+     *                      adding the customer.
+     */
 	public static boolean addCustomer(Customer customer) throws DAOException {
 		final String query = "INSERT INTO customers (first_name,last_name,email,phone_number,password) VALUES (?,?,?,?,?)";
-
+ 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, customer.getFirstName());
@@ -46,50 +46,46 @@ public class CustomerDAO {
 		return true;
 	}
 
-	/**
-	 * Attempts to log in a customer using the provided credentials (phone, email,
-	 * and password).
-	 *
-	 * @param phone    The phone number of the customer.
-	 * @param email    The email address of the customer.
-	 * @param password The password of the customer.
-	 * @return {@code true} if the login is successful, {@code false} otherwise.
-	 * @throws DAOException If there is an issue with the database operation during
-	 *                      login.
-	 * @throws SQLException If there is an issue with executing the SQL query.
-	 */
-	public static boolean logInCustomer(long phone, String email, String password) throws DAOException, SQLException {
-		final String query = "SELECT phone_number,email,password FROM customers WHERE phone_number = ? ";
+	  /**
+     * Attempts to log in a customer using the provided credentials (phone, email,
+     * and password).
+     *
+     * @param phone    The phone number of the customer.
+     * @param password The password of the customer.
+     * @return {@code true} if the login is successful, {@code false} otherwise.
+     * @throws DAOException If there is an issue with the database operation during
+     *                      login.
+     * @throws SQLException If there is an issue with executing the SQL query.
+     */
+	public static boolean logInCustomer(long phone, String password) throws DAOException, SQLException {
+		final String query = "SELECT phone_number,password FROM customers WHERE phone_number = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setLong(1, phone);
 				try (ResultSet rs = pst.executeQuery()) {
-					if (rs.next() && rs.getString("email").equals(email.trim())
-							&& rs.getString("password").equals(password.trim())
-							&& rs.getLong("phone_number") == phone) {
+					if (rs.next() && rs.getLong("phone_number") == phone
+							&& rs.getString("password").equals(password.trim())) {
 						return true;
-					}
-					else {
-						throw new DAOException(CustomerDAOError.INVALID_DATA);
-					}
+					} 
+
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(CustomerDAOError.INVALID_DATA);
 		}
-		
+		throw new DAOException(CustomerDAOError.INVALID_DATA);
 	}
 
-	/**
-	 * Checks if a customer account is available by phone number.
-	 *
-	 * @param phone The phone number to check for customer availability.
-	 * @return {@code true} if a customer account with the provided phone number
-	 *         exists, {@code false} otherwise.
-	 * @throws DAOException If there is an issue with the database operation while
-	 *                      checking account availability.
-	 */
+	  /**
+     * Checks if a customer account is available by phone number.
+     *
+     * @param phone The phone number to check for customer availability.
+     * @return {@code true} if a customer account with the provided phone number
+     *         exists, {@code false} otherwise.
+     * @throws DAOException If there is an issue with the database operation while
+     *                      checking account availability.
+     */
 	public static boolean isAvailableAccount(long phone) throws DAOException {
 		final String query = "SELECT phone_number FROM customers WHERE phone_number = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -107,15 +103,15 @@ public class CustomerDAO {
 		return false;
 	}
 
-	/**
-	 * Checks if a customer account is active by phone number.
-	 *
-	 * @param phone The phone number to check for customer account activity.
-	 * @return {@code true} if the customer account is active, {@code false}
-	 *         otherwise.
-	 * @throws DAOException If there is an issue with the database operation while
-	 *                      checking account activity.
-	 */
+	   /**
+     * Checks if a customer account is active by phone number.
+     *
+     * @param phone The phone number to check for customer account activity.
+     * @return {@code true} if the customer account is active, {@code false}
+     *         otherwise.
+     * @throws DAOException If there is an issue with the database operation while
+     *                      checking account activity.
+     */
 	public static boolean isActiveAccount(long phone) throws DAOException {
 		final String query = "SELECT email,password FROM customers WHERE phone_number = ? AND is_active = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -134,14 +130,15 @@ public class CustomerDAO {
 		return false;
 	}
 
-	/**
-	 * Retrieves customer details based on the provided phone number.
-	 *
-	 * @param phone The phone number to search for.
-	 * @return A list of Customer objects matching the provided phone number, or an
-	 *         empty list if no matches are found.
-	 * @throws DAOException If there is an issue with the database operation.
-	 */
+
+    /**
+     * Retrieves customer details based on the provided phone number.
+     *
+     * @param phone The phone number to search for.
+     * @return A Customer object matching the provided phone number, or null if no
+     *         match is found.
+     * @throws DAOException If there is an issue with the database operation.
+     */
 	public static Customer getCustomerDetailsByPhoneNumber(long phone) throws DAOException {
 		Customer customer = new Customer();
 		final String query = "SELECT customer_id,first_name,last_name,phone_number,email,password,is_active FROM customers WHERE phone_number = ?";
@@ -165,6 +162,14 @@ public class CustomerDAO {
 		}
 		return customer;
 	}
+	
+	 /**
+     * Retrieves the customer's name by their ID.
+     *
+     * @param id The customer's ID to retrieve the name for.
+     * @return The customer's name if found, or null if not found.
+     * @throws DAOException If there is an issue with the database operation.
+     */
 
 	public static String getCustomerNameById(int id) throws DAOException {
 

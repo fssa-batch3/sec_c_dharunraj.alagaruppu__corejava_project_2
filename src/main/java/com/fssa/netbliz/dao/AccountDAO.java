@@ -27,6 +27,18 @@ public class AccountDAO {
 //		private constructor 
 	}
 
+	/**
+	 * Retrieves bank account details from the database based on the provided
+	 * account information.
+	 *
+	 * @param account The account object containing the account number, IFSC code,
+	 *                and phone number.
+	 * @return An Account object with the retrieved bank details if found, or null
+	 *         if not found.
+	 * @throws DAOException If there is an error in the database operation or if the
+	 *                      account number is invalid.
+	 */
+
 	public static Account getBankDetailsByAccountNumber(Account account) throws DAOException {
 
 		final String query = "SELECT bank_id,acc_no,ifsc,avl_balance,phone_number,min_balance,account_type,is_active,month_interval FROM bank_details WHERE acc_no = ? AND ifsc = ? AND phone_number = ?";
@@ -69,10 +81,9 @@ public class AccountDAO {
 	/**
 	 * Adds a new account to the database.
 	 *
-	 * @param accList The account object to be added
-	 * @return True if the account is successfully added, false otherwise
-	 * @throws DAOException If a database error occurs during the operation
-	 * @throws SQLException
+	 * @param account The account object to be added.
+	 * @return True if the account is successfully added, false otherwise.
+	 * @throws DAOException If a database error occurs during the operation.
 	 */
 	public static boolean addAccount(Account account) throws DAOException {
 
@@ -106,9 +117,10 @@ public class AccountDAO {
 	 * Checks if the provided account is inactive and activates it if necessary. If
 	 * the account is not found, adds it as a new account.
 	 *
-	 * @param accList The account object to be checked and activated
-	 * @return
-	 * @throws DAOException If a database error occurs during the operation
+	 * @param account The account object to be checked and activated.
+	 * @return True if the account is successfully activated or added, false
+	 *         otherwise.
+	 * @throws DAOException If a database error occurs during the operation.
 	 */
 	public static boolean existsCheck(Account account) throws DAOException {
 
@@ -128,9 +140,9 @@ public class AccountDAO {
 	/**
 	 * Retrieves the primary customer ID associated with the provided account.
 	 *
-	 * @param phone The phone number associated with the account
-	 * @return The primary customer ID associated with the account
-	 * @throws DAOException If a database error occurs during the operation
+	 * @param phone The phone number associated with the account.
+	 * @return The primary customer ID associated with the account.
+	 * @throws DAOException If a database error occurs during the operation.
 	 */
 	public static int getPrimaryCustomerId(long phone) throws DAOException {
 		int id = Account.ZERO; // initialize the id number
@@ -155,10 +167,10 @@ public class AccountDAO {
 	/**
 	 * Marks an account as inactive by account number.
 	 *
-	 * @param accNo The account number of the account to be removed
+	 * @param accNo The account number of the account to be removed.
 	 * @return True if the account is successfully marked as inactive, false
-	 *         otherwise
-	 * @throws DAOException If a database error occurs during the operation
+	 *         otherwise.
+	 * @throws DAOException If a database error occurs during the operation.
 	 */
 	public static boolean removeAccountByAccountNumber(String accNo) throws DAOException {
 		final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
@@ -222,9 +234,9 @@ public class AccountDAO {
 	/**
 	 * Checks if an account is active by its account number.
 	 *
-	 * @param accNo The account number to be checked for activity
-	 * @return True if the account is active, false otherwise
-	 * @throws DAOException If a database error occurs during the operation
+	 * @param accNo The account number to be checked for activity.
+	 * @return True if the account is active, false otherwise.
+	 * @throws DAOException If a database error occurs during the operation.
 	 */
 	public static boolean isActiveAccount(String accNo) throws DAOException {
 		final String query = "SELECT acc_no, avl_balance FROM accounts WHERE acc_no = ? AND is_active = ?";
@@ -276,17 +288,17 @@ public class AccountDAO {
 	}
 
 	/**
-	 * Retrieves a list of Account objects based on the provided account number.
+	 * Retrieves an Account object based on the provided account number.
 	 *
 	 * @param accNo The account number to search for.
-	 * @return A list of Account objects matching the provided account number, or an
-	 *         empty list if no matches are found.
+	 * @return An Account object matching the provided account number, or null if no
+	 *         match is found.
 	 * @throws DAOException If there is an issue with the database operation.
 	 */
 	public static Account getAccountByNumber(String accNo) throws DAOException {
-		Account list = new Account();
+		Account account = new Account();
 
-		final String query = "SELECT acc_no,ifsc,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
+		final String query = "SELECT acc_no,ifsc,avl_balance,phone_number,min_balance,account_type,is_active FROM accounts WHERE acc_no = ? ";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -294,24 +306,22 @@ public class AccountDAO {
 
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) {
-
-						Account account = new Account();
 						account.setAccountNumber(rs.getString("acc_no"));
 						account.setIfsc(rs.getString("ifsc"));
+						account.setAvailableBalance(rs.getDouble("avl_balance"));
 						account.setPhoneNumber(rs.getLong("phone_number"));
 						account.setMinimumBalance(rs.getDouble("min_balance"));
 						String type = rs.getString("account_type");
 						AccountEnum enumType = AccountEnum.valueOf(type);
 						account.setCategory(enumType);
 						account.setActive(rs.getBoolean("is_active"));
-						return list;
 					}
 				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 		}
-		return list;
+		return account;
 	}
 
 }

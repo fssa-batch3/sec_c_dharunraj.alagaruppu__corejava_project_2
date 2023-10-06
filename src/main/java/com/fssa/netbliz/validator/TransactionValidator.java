@@ -22,7 +22,6 @@ public class TransactionValidator {
 	 */
 	public static boolean validate(Transaction trans) throws ValidatorException {
 		if (trans == null) {
-			System.out.println("trans null");
 			throw new ValidatorException(TransactionValidatorError.INVALID_OBJECT_NULL);
 		}
 		AccountValidator.validateAccountNumber(trans.getAccountHolderAccNo());

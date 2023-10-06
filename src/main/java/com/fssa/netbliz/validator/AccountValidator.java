@@ -166,6 +166,17 @@ public class AccountValidator {
 		throw new ValidatorException(AccountValidatorError.INVALID_MINIMUMBALANCE);
 	}
 
+	/**
+	 * Validates the available balance to ensure it is greater than or equal to
+	 * zero.
+	 *
+	 * @param availableBalance The available balance to be validated.
+	 * @return True if the available balance is valid (greater than or equal to
+	 *         zero), false otherwise.
+	 * @throws ValidatorException If the available balance is invalid (less than
+	 *                            zero).
+	 */
+
 	public static boolean validateAvailableBalance(double availableBalance) throws ValidatorException {
 
 		if (availableBalance >= Account.ZERO) {
@@ -173,6 +184,16 @@ public class AccountValidator {
 		}
 		throw new ValidatorException(AccountValidatorError.INVALID_MINIMUMBALANCE);
 	}
+
+	/**
+	 * Validates the month interval to ensure it is greater than zero.
+	 *
+	 * @param monthInterval The month interval to be validated.
+	 * @return True if the month interval is valid (greater than zero), false
+	 *         otherwise.
+	 * @throws ValidatorException If the month interval is invalid (less than or
+	 *                            equal to zero).
+	 */
 
 	public static boolean validateMonthIntervel(int monthIntervel) throws ValidatorException {
 

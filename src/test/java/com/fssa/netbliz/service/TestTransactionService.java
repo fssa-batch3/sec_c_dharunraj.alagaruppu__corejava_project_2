@@ -77,10 +77,17 @@ class TestTransactionService {
 		}
 
 	}
+	
+	/**
+	 * Test case for checking if minimum balance penalty is applied correctly.
+	 * 
+	 * It checks if the minimum balance penalty is applied when the available balance is above the minimum required.
+	 * The test expects the method to return true.
+	 */
 
 	@Test
 
-	void checkMinimumBalance() { // minimum balance penalty
+	void checkMinimumBalance() { // minimum balance penalty 
 
 		String accNo = "1234567890123456";
 		double transferMoney = 19600;
@@ -92,6 +99,13 @@ class TestTransactionService {
 		}
 	}
 
+	/**
+	 * Test case for checking if minimum balance penalty is applied correctly.
+	 * 
+	 * It checks if the minimum balance penalty is not applied when the available balance is below the minimum required.
+	 * The test expects the method to return false.
+	 */
+	
 	@Test
 
 	void invalidCheckMinimumBalance() { // minimum balance penalty

@@ -23,7 +23,7 @@ class TestCustomerService {
 
 		Customer customer = new Customer("Srikannan", "E", 7402473347l, "srikannan@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
- 
+
 		try {
 			Assertions.assertTrue(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
@@ -40,7 +40,7 @@ class TestCustomerService {
 
 		Assertions.assertThrows(ServiceException.class, () -> customerServive.addCustomer(customer));
 
-	} 
+	}
 
 	@Test
 	void testValidationErrorAddCustomer() {
@@ -61,26 +61,31 @@ class TestCustomerService {
 	void testValidLogInCustomer() {
 
 		long phone = 9361320511l;
-		String email = "dharun1@gmail.com";
 		String password = "1234567890Dh@";
 
 		try {
-			Assertions.assertTrue(customerServive.logInCustomer(phone, email, password));
+			Assertions.assertTrue(customerServive.logInCustomer(phone, password));
 		} catch (ServiceException e) {
 			e.getMessage();
 		}
 	}
 
+	/**
+	 * Test case for invalid customer login.
+	 * 
+	 * It attempts to log in a customer with an invalid phone number and password.
+	 * The test expects the login to fail, and it asserts that the login method
+	 * returns false.
+	 */
 	@Test
 
 	void testInvalidLogInCustomer() {
 
 		long phone = 9361320511l;
-		String email = "dhar@gmail.com";
 		String password = "740247Dh@3347";
 
 		try {
-			Assertions.assertFalse(customerServive.logInCustomer(phone, email, password));
+			Assertions.assertFalse(customerServive.logInCustomer(phone, password));
 		} catch (ServiceException e) {
 			e.getMessage();
 		}

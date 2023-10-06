@@ -1,6 +1,7 @@
 package com.fssa.netbliz.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.netbliz.constants.NetblizConstants;
-//import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.error.TransactionDAOError;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.model.Transaction;
@@ -82,6 +82,7 @@ public class TransactionDAO {
 		double avlBalance = Transaction.INITIALIZE_ZERO;
 
 		try (PreparedStatement pst = con.prepareStatement(query)) {
+
 			pst.setString(1, trans.getAccountHolderAccNo());
 			pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
 			pst.setDouble(3, trans.getTransferAmount());
@@ -146,7 +147,6 @@ public class TransactionDAO {
 	 * @return True if the update is successful, otherwise false.
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
-
 	public static boolean updateHolderAccount(Transaction trans) throws DAOException {
 
 		final String query = "UPDATE accounts SET avl_balance = ? WHERE acc_no = ?";
@@ -274,6 +274,16 @@ public class TransactionDAO {
 		return true;
 	}
 
+	/**
+	 * Updates the bank holder's account balance after a successful transaction.
+	 * Invoked by the updateRemittanceAccount method.
+	 *
+	 * @param trans The Transaction object containing transaction details.
+	 * @param con   The Connection object for database access.
+	 * @return True if the update is successful, otherwise false.
+	 * @throws DAOException If there are issues with the transaction data access.
+	 */
+
 	public static boolean updateBankHolderAccount(Transaction trans, Connection con) throws DAOException {
 		final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
 
@@ -288,6 +298,16 @@ public class TransactionDAO {
 		}
 		return true;
 	}
+
+	/**
+	 * Updates the bank remittance account's balance after a successful transaction.
+	 * Invoked by the insertRemittanceAccountDetails method.
+	 *
+	 * @param trans The Transaction object containing transaction details.
+	 * @param con   The Connection object for database access.
+	 * @return True if the update is successful, otherwise false.
+	 * @throws DAOException If there are issues with the transaction data access.
+	 */
 
 	public static boolean updateBankRemittanceAccount(Transaction trans, Connection con) throws DAOException {
 		final String query = "UPDATE bank_details SET avl_balance = ? WHERE acc_no = ?";
@@ -304,11 +324,80 @@ public class TransactionDAO {
 	}
 
 	/**
-	 * Retrieves a list of transactions associated with the specified account
-	 * number. The list contains Transaction objects with details such as account
-	 * numbers, transaction amount, and remark.
+	 * Checks if the account holder's account has sufficient minimum balance for the
+	 * transaction.
 	 *
-	 * @param accNo The account number for which transactions are to be retrieved.
+	 * @param trans The Transaction object containing transaction details.
+	 * @return True if the account has sufficient minimum balance, otherwise false.
+	 * @throws DAOException If there are issues with the transaction data access.
+	 */
+
+	public static boolean accountHolderCheck(Transaction trans) throws DAOException {
+
+		final String query = "SELECT acc_no,is_active,avl_balance FROM accounts WHERE acc_no = ? AND is_active = ? AND avl_balance >= ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+
+				pst.setString(1, trans.getAccountHolderAccNo());
+				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
+				pst.setDouble(3, trans.getTransferAmount());
+
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Insufficient balance");
+		}
+
+		throw new DAOException("Insufficient balance");
+
+	}
+
+	/**
+	 * Checks if the remittance account meets the transaction conditions.
+	 *
+	 * @param trans The Transaction object containing transaction details.
+	 * @return True if the remittance account meets the conditions, otherwise false.
+	 * @throws DAOException If there are issues with the transaction data access.
+	 */
+
+	public static boolean remittanceAccountCheck(Transaction trans) throws DAOException {
+		final String query = "SELECT acc_no,ifsc,is_active FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = ?";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+
+				pst.setString(1, trans.getRemittanceAccNo());
+				pst.setString(2, trans.getReceiverIfscCode());
+				pst.setBoolean(3, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
+				try (ResultSet rs = pst.executeQuery()) {
+
+					if (rs.next()) {
+
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Invalid account number or ifsc code");
+		}
+		throw new DAOException("Invalid account number or ifsc code");
+
+	}
+
+	/**
+	 * Retrieves a list of transactions associated with the specified account
+	 * holder's ID. The list contains Transaction objects with details such as
+	 * account numbers, transaction amount, and remark.
+	 *
+	 * @param id The ID of the account holder for which transactions are to be
+	 *           retrieved.
 	 * @return A list of Transaction objects representing the transactions.
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
@@ -353,9 +442,11 @@ public class TransactionDAO {
 	}
 
 	/**
-	 * Prints a list of transactions associated with the specified account number.
+	 * Prints a list of transactions associated with the specified account holder's
+	 * ID.
 	 *
-	 * @param accNo The account number for which transactions are to be printed.
+	 * @param id The ID of the account holder for which transactions are to be
+	 *           printed.
 	 * @return True if the printing is successful, otherwise false.
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
@@ -365,9 +456,18 @@ public class TransactionDAO {
 
 		if (transList.isEmpty())
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
-		
+
 		return true;
 	}
+
+	/**
+	 * Checks if the account has the minimum required balance after a transaction.
+	 *
+	 * @param accNo         The account number to check.
+	 * @param transferMoney The amount of money to transfer.
+	 * @return True if the account has sufficient minimum balance, otherwise false.
+	 * @throws DAOException If there are issues with the transaction data access.
+	 */
 
 	public static boolean checkMinimumBalance(String accNo, double transferMoney) throws DAOException {
 
@@ -391,13 +491,21 @@ public class TransactionDAO {
 						}
 					}
 				}
-			} 
+			}
 		} catch (SQLException e) {
 			throw new DAOException(TransactionDAOError.NON_TRANSACTION);
 		}
 
 		return false;
 	}
+
+	/**
+	 * Retrieves the name of a customer by their customer ID.
+	 *
+	 * @param id The customer ID to retrieve the name for.
+	 * @return The name of the customer, or an empty string if not found.
+	 * @throws DAOException If there are issues with the data access.
+	 */
 
 	public static String getCustomerNameById(int id) throws DAOException {
 

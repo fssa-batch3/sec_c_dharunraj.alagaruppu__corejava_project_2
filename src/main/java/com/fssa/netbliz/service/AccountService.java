@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.netbliz.constants.NetblizConstants;
 import com.fssa.netbliz.dao.AccountDAO;
 import com.fssa.netbliz.exception.DAOException;
 import com.fssa.netbliz.exception.ServiceException;
@@ -25,9 +24,18 @@ public class AccountService {
 //		private constructor 
 	}
 
+	/**
+	 * Validates the provided account details and retrieves bank details.
+	 *
+	 * @param account The Account object containing account details.
+	 * @return True if the bank details were fetched successfully, false otherwise.
+	 * @throws ServiceException If there is a service-level error.
+	 */
+
 	public boolean getBankDetails(Account account) throws ServiceException {
 
 		Account acc = new Account();
+
 		try {
 			if (AccountValidator.validateAccountNumber(account.getAccountNumber())
 					&& AccountValidator.validateIfsc(account.getIfsc())
@@ -35,28 +43,26 @@ public class AccountService {
 
 				acc = AccountDAO.getBankDetailsByAccountNumber(account);
 				return addAccount(acc);
-			}
-			else {
-				
+			} else {
+
 				throw new ServiceException("Your bank details can't fetch the data from your respective bank");
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | DAOException | ServiceException e) {
+
+			e.getMessage();
 		}
-		
+		throw new ServiceException("Invalid account number or IFSC code");
 	}
 
 	/**
-	 * Adds an account to the system.
+	 * Adds an account to the system if it is valid and not already available.
 	 *
-	 * @param account The account to add.
+	 * @param account The Account object to add.
 	 * @return True if the account was added successfully, false otherwise.
 	 * @throws ServiceException If there is a service-level error.
-	 * @throws SQLException
 	 */
 	public boolean addAccount(Account account) throws ServiceException {
+
 		try {
 			if (AccountValidator.validate(account) && !isAvailableAccount(account.getAccountNumber())) {
 				return AccountDAO.addAccount(account);
@@ -64,61 +70,60 @@ public class AccountService {
 					&& !isActiveAccount(account.getAccountNumber())) {
 
 				return AccountDAO.existsCheck(account);
-			}
-			else {
+			} else {
 				throw new ServiceException("Your account can't added !! Retry...!");
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | ServiceException | DAOException e) {
+
+			e.getMessage();
 		}
-		
+		throw new ServiceException("Account details mismatch");
+
 	}
 
 	/**
-	 * Removes an account by its account number.
+	 * Removes an account by its account number if it is valid, available, and
+	 * active.
 	 *
 	 * @param accountNumber The account number to remove.
 	 * @return True if the account was removed successfully, false otherwise.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean removeAccountByAccountNumber(String accountNumber) throws ServiceException {
+
 		try {
 			if (AccountValidator.validateAccountNumber(accountNumber) && isAvailableAccount(accountNumber)
 					&& isActiveAccount(accountNumber)) {
 				return AccountDAO.removeAccountByAccountNumber(accountNumber);
-			}
-			else {
+			} else {
 				throw new ServiceException("Your account can't deteted");
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | ServiceException | DAOException e) {
+			e.getMessage();
 		}
+		throw new ServiceException("Account details can't deleted");
 	}
 
 	/**
-	 * Retrieves a list of accounts by phone number.
+	 * Retrieves a list of accounts by phone number if the phone number is valid.
 	 *
 	 * @param phone The phone number to search for.
-	 * @return A list of accounts matching the phone number, or null if none are
-	 *         found.
+	 * @return A list of Account objects matching the phone number, or null if none
+	 *         are found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public List<Account> getAccountByPhoneNumber(long phone) throws ServiceException {
 		List<Account> accountDetails = new ArrayList<>();
+
 		try {
 			if (AccountValidator.validatePhoneNumber(phone)) {
 
 				accountDetails = AccountDAO.getAccountByPhoneNumber(phone);
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | DAOException e) {
+			e.getMessage();
 		}
+
 		return accountDetails;
 	}
 
@@ -130,18 +135,17 @@ public class AccountService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean isAvailableAccount(String accNo) throws ServiceException {
+
 		try {
 			if (AccountValidator.validateAccountNumber(accNo)) {
 				return AccountDAO.isAvailableAccount(accNo);
-			}
-			else {
+			} else {
 				throw new ServiceException("Your account is not available");
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | DAOException | ServiceException e) {
+			e.getMessage();
 		}
+		return false;
 	}
 
 	/**
@@ -152,52 +156,42 @@ public class AccountService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public boolean isActiveAccount(String accNo) throws ServiceException {
+
 		try {
 			if (AccountValidator.validateAccountNumber(accNo)) {
 				return AccountDAO.isActiveAccount(accNo);
-			}
-			else {
+			} else {
 				throw new ServiceException("Your account is not active now please reactivate");
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | DAOException | ServiceException e) {
+			e.getMessage();
 		}
+		return false;
 	}
 
 	/**
-	 * Retrieves a list of accounts by account number, if the account is active and
+	 * Retrieves an account by its account number if it is valid, active, and
 	 * available.
 	 *
-	 * @param accountNumber The account number to search for.
-	 * @return A list of accounts matching the account number, or null if none are
+	 * @param accountNumber The account number to retrieve.
+	 * @return The Account object representing the account details, or null if not
 	 *         found.
 	 * @throws ServiceException If there is a service-level error.
 	 */
 	public Account getAccountByNumber(String accountNumber) throws ServiceException {
 
-		Account details = new Account(); 
+		Account details = new Account();
+
 		try {
 			if (AccountValidator.validateAccountNumber(accountNumber) && isActiveAccount(accountNumber)
 					&& isAvailableAccount(accountNumber)) {
 				details = AccountDAO.getAccountByNumber(accountNumber);
 
 			}
-		} catch (ValidatorException e) {
-			throw new ServiceException(NetblizConstants.VALIDATION_ERROR + e.getMessage());
-		} catch (DAOException e) {
-			throw new ServiceException(NetblizConstants.DAO_ERROR + e.getMessage());
+		} catch (ValidatorException | ServiceException | DAOException e) {
+			e.getMessage();
 		}
+
 		return details;
 	}
-
-	public static void main(String[] args) throws ServiceException, SQLException {
-
-		Account account = new Account("1234567890123455", "IDIB000K132", 9361320511l);
-
-		AccountService as = new AccountService();
-		System.out.println(as.getBankDetails(account));
-	}
-
 }

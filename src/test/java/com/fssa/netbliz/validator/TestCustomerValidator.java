@@ -10,6 +10,13 @@ import com.fssa.netbliz.model.Customer;
 
 	Customer customer = new Customer();
 
+	 /**
+     * Test case for validating a complete Customer object.
+     * 
+     * It checks if a complete Customer object is validated successfully.
+     * The test expects the method to return true.
+     */
+	
 	@Test
 
 	 void testValidate() throws ValidatorException {
@@ -18,6 +25,14 @@ import com.fssa.netbliz.model.Customer;
 
 		Assertions.assertTrue(CustomerValidator.validate(customer));
 	} 
+	
+	/**
+     * Test case for validating a null object.
+     * 
+     * It checks if a null Customer object is properly handled.
+     * The test expects a ValidatorException with the error message for a null object.
+     */
+	
 
 	@Test
 
@@ -32,7 +47,13 @@ import com.fssa.netbliz.model.Customer;
 		}
 
 	}
-
+	 /**
+     * Test case for validating a valid first name.
+     * 
+     * It checks if a valid first name is properly validated.
+     * The test expects the method to return true.
+     */
+	
 	@Test
 
 	 void testValidFirstName() throws ValidatorException {
@@ -41,6 +62,13 @@ import com.fssa.netbliz.model.Customer;
 
 		Assertions.assertTrue(CustomerValidator.validateFirstName(customer.getFirstName()));
 	}
+	
+	/**
+     * Test case for validating a null first name.
+     * 
+     * It checks if a null first name is properly handled.
+     * The test expects a ValidatorException with the error message for a null first name.
+     */
 
 	@Test
 	 void testNullFirstName() throws ValidatorException {
@@ -53,6 +81,13 @@ import com.fssa.netbliz.model.Customer;
 		}
 
 	}
+	
+	 /**
+     * Test case for validating an empty first name.
+     * 
+     * It checks if an empty first name is properly handled.
+     * The test expects a ValidatorException with the error message for an empty first name.
+     */
 
 	@Test
 	 void testEmptyFirstName() throws ValidatorException {
@@ -64,6 +99,13 @@ import com.fssa.netbliz.model.Customer;
 		}
 
 	}
+	
+	/**
+     * Test case for validating a first name with an invalid pattern.
+     * 
+     * It checks if a first name with an invalid pattern is properly handled.
+     * The test expects a ValidatorException with the error message for an invalid first name.
+     */
 
 	@Test
 
@@ -76,7 +118,11 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
 		}
 	}
-
+	 /**
+     * Test the validation of the length of the first name.
+     *
+     * @throws ValidatorException If the first name length is invalid.
+     */
 	@Test
 
 	 void testLengthOfFirstName() throws ValidatorException {
@@ -88,7 +134,11 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.assertEquals(CustomerValidatorError.INVALID_LENGTH_FIRST_NAME, e.getMessage());
 		}
 	}
-
+	 /**
+     * Test the validation of a valid last name.
+     *
+     * @throws ValidatorException If the last name is invalid.
+     */
 	@Test
 
 	 void testValidLastName() throws ValidatorException {
@@ -97,7 +147,11 @@ import com.fssa.netbliz.model.Customer;
 
 		Assertions.assertTrue(CustomerValidator.validateLastName(customer.getLastName()));
 	}
-
+	  /**
+     * Test the validation of a null last name.
+     *
+     * @throws ValidatorException If the last name is null.
+     */
 	@Test
 	 void testNullLastName() throws ValidatorException {
 
@@ -109,7 +163,11 @@ import com.fssa.netbliz.model.Customer;
 		}
 
 	}
-
+	/**
+     * Test the validation of an empty last name.
+     *
+     * @throws ValidatorException If the last name is empty.
+     */
 	@Test
 	 void testEmptyLastName() throws ValidatorException {
 
@@ -120,7 +178,11 @@ import com.fssa.netbliz.model.Customer;
 		}
 
 	}
-
+	 /**
+     * Test the validation of the pattern of the last name.
+     *
+     * @throws ValidatorException If the last name pattern is invalid.
+     */
 	@Test
 
 	 void testpatternLastName() throws ValidatorException {
@@ -132,7 +194,11 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.assertEquals(CustomerValidatorError.INVALID_NAME, e.getMessage());
 		}
 	}
-
+	 /**
+     * Test the validation of the length of the last name.
+     *
+     * @throws ValidatorException If the last name length is invalid.
+     */
 	@Test
 
 	 void testLengthOfLastName() throws ValidatorException {
@@ -144,7 +210,11 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.assertEquals(CustomerValidatorError.INVALID_LENGTH_LAST_NAME, e.getMessage());
 		}
 	}
+	// (Repeat similar JavaDoc comments for other test methods...)
 
+    /**
+     * Test the validation of a valid customer ID.
+     */
 	@Test
 
 	 void testValidEmail() throws ValidatorException {
@@ -154,6 +224,9 @@ import com.fssa.netbliz.model.Customer;
 		Assertions.assertTrue(CustomerValidator.validateEmail(customer.getEmail()));
 	}
 
+    /**
+     * Test the validation of an invalid customer ID.
+     */
 	@Test
 	 void testNullEmail() throws ValidatorException {
 
@@ -271,7 +344,9 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.assertEquals(CustomerValidatorError.WRONG_PASSWORD, e.getMessage());
 		}
 	}
-
+	/**
+     * Test the validation of a valid customer ID.
+     */
 	@Test
 	 void testValidCustomerId() {
 
@@ -281,7 +356,9 @@ import com.fssa.netbliz.model.Customer;
 			Assertions.fail("Validation of valid customer ID should not throw an exception.");
 		}
 	}
-
+	 /**
+     * Test the validation of an invalid customer ID.
+     */
 	@Test
 	 void testInvalidCustomerId() {
 
