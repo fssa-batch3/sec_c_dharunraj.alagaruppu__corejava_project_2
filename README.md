@@ -1,8 +1,4 @@
-# sec_c_dharunraj.alagaruppu__corejava_project_2
-
-<div align="center">
-  <img src="er_image/netbliz_module.png" alt="Account Database Design" width="65%">
-</div>
+# NETBLIZ Full Stack Java Project
 
 ## Problem Statement
 
@@ -16,15 +12,6 @@ This project aim is to address a real-time issue that affects all customers with
 
 This project stands out from existing UPI apps as it allows customers to link their bank accounts to my application. Once linked, customers can transfer money to other accounts within the application. In every transaction, I check the customers monthly minimum balance, and if the sent amount exceeds this minimum balance, It notify the user before proceeding with the transaction. This ensures that customers maintain their monthly minimum balance properly.
 
-## GitHub Issue - Milestone - 1,2,3:
-Link to GitHub Issue: [Milestone -1,2,3 GitHub Issue](https://github.com/fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2/issues)
-<hr>
-
-## Code Quality Analysis
-
-We have integrated our project with SonarCloud to perform code quality analysis and static code analysis. You can find the overall analysis report on the SonarCloud platform:
-
-- [SonarCloud Analysis](https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2)
 
 # User Flow
 
@@ -216,6 +203,20 @@ We have integrated our project with SonarCloud to perform code quality analysis 
 4. **MAB Display:**
    - The resulting MAB value is displayed on the chart page, providing users with insights into their account's financial health.
 
+
+## GitHub Issue - Milestone - 1,2,3:
+Link to GitHub Issue: [Milestone -1,2,3 GitHub Issue](https://github.com/fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2/issues)
+
+## Code Quality Analysis
+
+We have integrated our project with SonarCloud to perform code quality analysis and static code analysis. You can find the overall analysis report on the SonarCloud platform:
+
+- [SonarCloud Analysis](https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2)
+
+
+<div align="center">
+  <img src="er_image/netbliz_module.png" alt="Account Database Design" width="65%">
+</div>
 
 
 ## Table of Contents
