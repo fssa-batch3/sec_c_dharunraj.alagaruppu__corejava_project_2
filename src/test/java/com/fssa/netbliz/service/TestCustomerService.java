@@ -21,7 +21,7 @@ class TestCustomerService {
 	@Test
 	void testValidAddCustomer() {
 
-		Customer customer = new Customer("Srikannan", "E", 7402473347l, "srikannan@gmail.com", "1234567890Dh@",
+		Customer customer = new Customer("Paramas", "E", 7402473342l, "paramas@gmail.com", "1234567890Dh@",
 				"1234567890Dh@");
 
 		try {

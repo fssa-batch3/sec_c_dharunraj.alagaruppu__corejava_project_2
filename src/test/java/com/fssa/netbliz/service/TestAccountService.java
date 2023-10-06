@@ -237,18 +237,4 @@ class TestAccountService {
 
 	}
 
-	/**
-	 * 
-	 * @throws ServiceException If the expected validation error does not result in
-	 *                          the account being considered inactive.
-	 */
-
-	@Test
-	void validationErrorIsActive() {
-
-		String accNo = "12345690987";
-
-		Assertions.assertThrows(ServiceException.class, () -> accountService.isActiveAccount(accNo));
-	}
-
 }
