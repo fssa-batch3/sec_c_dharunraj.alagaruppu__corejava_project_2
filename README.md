@@ -4,9 +4,16 @@
 
 This project aim is to address a real-time issue that affects all customers with existing bank accounts, particularly those who have savings and current accounts in major public and private banks. In today's world, it is common for individuals to hold at least one or two bank accounts, and most of these accounts require customers to maintain a Monthly Average Minimum Balance (MAB).Failure to maintain the MAB results in customers being fined, albeit by small amounts.From an individual perspective, these fines may seem insignificant, but from the bank's overall perspective, they accumulate into a substantial amount.
 
+**Documentation:**
+ - https://docs.google.com/document/d/1Pd_Vr5JCE_fCAsmLozY6B-8e9VC90pcJfIr5ve53BoQ/edit
+
+
 ## Market Research
 
  According to 2020 statistics, both public and private sector banks in India collectively accrued more than 35,530 crores in penalties from customers due to non-compliance with MAB requirements.
+
+**Documentation:** 
+ - https://docs.google.com/document/d/1yPs_HxGylre5W5KP73vrg6rRLLvlIQ_hda2WGTz5LOc/edit
 
 ## Solution
 
@@ -218,7 +225,7 @@ We have integrated our project with SonarCloud to perform code quality analysis 
 ## Reverse Engineering
 
 <div align="center">
-  <img src="er_image/netbliz_module.png" alt="Account Database Design" width="65%">
+  <img src="er_image/netbliz_module.png" alt="Account Database Design" width="90%">
 </div>
 
 
@@ -226,7 +233,7 @@ We have integrated our project with SonarCloud to perform code quality analysis 
 
 1. [Customers Table](#customers-table)
 2. [Accounts Table](#accounts-table)
-3.[Bank Details Table](#bank-details-table)
+3. [Bank Details Table](#bank-details-table)
 4. [Transactions Table](#transactions-table)
 5. [Date Table](#date-table) 
 6. [Closing Balance Table](#closing-balance-table)

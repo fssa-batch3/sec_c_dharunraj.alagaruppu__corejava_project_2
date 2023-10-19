@@ -38,7 +38,7 @@ public class TransactionValidator {
 	 * @throws ValidatorException If the amount is invalid.
 	 */
 	public static boolean validateAmount(double amount) throws ValidatorException {
-		if (amount >= MINIMUM_TRANSFER_AMOUNT) {
+		if (amount >= MINIMUM_TRANSFER_AMOUNT) { 
 			return true;
 		}
 		throw new ValidatorException(TransactionValidatorError.INVALID_AMOUNT);

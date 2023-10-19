@@ -1,6 +1,7 @@
 package com.fssa.netbliz.validator;
 
 import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import com.fssa.netbliz.error.CustomerValidatorError;
 import com.fssa.netbliz.exception.ValidatorException;
@@ -8,7 +9,7 @@ import com.fssa.netbliz.model.Customer;
 
  class TestCustomerValidator {
 
-	Customer customer = new Customer();
+	Customer customer = new Customer(); 
 
 	 /**
      * Test case for validating a complete Customer object.

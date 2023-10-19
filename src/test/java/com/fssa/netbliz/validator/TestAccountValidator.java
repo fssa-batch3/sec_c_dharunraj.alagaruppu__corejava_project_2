@@ -2,6 +2,7 @@ package com.fssa.netbliz.validator;
 
 
 import org.junit.Test;
+
 import org.junit.jupiter.api.Assertions;
 
 import com.fssa.netbliz.enums.AccountEnum;
@@ -12,8 +13,8 @@ import com.fssa.netbliz.model.Account;
 /**
  * A class containing test cases for the AccountValidator class.
  */
-
- public class TestAccountValidator {
+ 
+ public class TestAccountValidator { 
 
 	Account account = new Account();
 
@@ -103,7 +104,7 @@ import com.fssa.netbliz.model.Account;
 	@Test
 	 void testLengthAccountNumber() throws ValidatorException {
 		try {
-			AccountValidator.validateAccountNumber("1234567890");
+			AccountValidator.validateAccountNumber("1234567");
 		} catch (Exception e) {
 			Assertions.assertEquals(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER, e.getMessage());
 		}

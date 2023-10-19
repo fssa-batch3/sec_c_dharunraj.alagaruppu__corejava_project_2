@@ -114,18 +114,19 @@ public class TransactionService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 
-	public boolean holderConditions(Transaction trans) throws ServiceException {
+	public boolean holderConditions(String accNo, double transMoney) throws ServiceException {
 
 		try {
-			if (TransactionValidator.validate(trans)) {
-				return TransactionDAO.accountHolderCheck(trans);
+			if (AccountValidator.validateAccountNumber(accNo) && TransactionValidator.validateAmount(transMoney)) {  
+				return TransactionDAO.accountHolderCheck(accNo,transMoney);
 			} else {
-				throw new ServiceException("sender details fail");
+				throw new ServiceException("sender details fail"); 
 			}
 		} catch (ValidatorException | DAOException | ServiceException e) {
 			e.getMessage();
 		}
-		return false;
+
+		throw new ServiceException("Insufficient balance");
 
 	}
 
@@ -137,18 +138,18 @@ public class TransactionService {
 	 * @throws ServiceException If there is a service-level error.
 	 */
 
-	public boolean remittanceConditions(Transaction trans) throws ServiceException {
+	public boolean remittanceConditions(String accNo,String ifsc) throws ServiceException {
 
 		try {
-			if (TransactionValidator.validate(trans)) {
-				return TransactionDAO.remittanceAccountCheck(trans);
+			if (AccountValidator.validateAccountNumber(accNo) && AccountValidator.validateIfsc(ifsc) ) {
+				return TransactionDAO.remittanceAccountCheck(accNo,ifsc);
 			} else {
 				throw new ServiceException("receiver details fail");
 			}
 		} catch (ValidatorException | DAOException | ServiceException e) {
 			e.getMessage();
 		}
-		return false;
+		throw new ServiceException("Receiver account details is not valid. Recheck!!");
 
 	}
 

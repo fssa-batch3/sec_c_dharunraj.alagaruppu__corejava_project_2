@@ -15,12 +15,12 @@ class TestTransactionService {
 
 	/**
 	 * @throws Exception If there's an unexpected exception during the test.
-	 */
+	 */ 
 
 	@Test
 	void moneyTransaction() {
 
-		Transaction trans = new Transaction("0987654321123456", "1234567890123456", "IDIB000K132", 10, "case pack");
+		Transaction trans = new Transaction("0987654321123456", "1234567890133456", "IDIB000K132", 10, "Tea");
 
 		try {
 			Assertions.assertTrue(transService.moneyTransaction(trans));
@@ -77,17 +77,18 @@ class TestTransactionService {
 		}
 
 	}
-	
+
 	/**
 	 * Test case for checking if minimum balance penalty is applied correctly.
 	 * 
-	 * It checks if the minimum balance penalty is applied when the available balance is above the minimum required.
-	 * The test expects the method to return true.
+	 * It checks if the minimum balance penalty is applied when the available
+	 * balance is above the minimum required. The test expects the method to return
+	 * true.
 	 */
 
 	@Test
 
-	void checkMinimumBalance() { // minimum balance penalty 
+	void checkMinimumBalance() { // minimum balance penalty
 
 		String accNo = "1234567890123456";
 		double transferMoney = 19600;
@@ -102,10 +103,11 @@ class TestTransactionService {
 	/**
 	 * Test case for checking if minimum balance penalty is applied correctly.
 	 * 
-	 * It checks if the minimum balance penalty is not applied when the available balance is below the minimum required.
-	 * The test expects the method to return false.
+	 * It checks if the minimum balance penalty is not applied when the available
+	 * balance is below the minimum required. The test expects the method to return
+	 * false.
 	 */
-	
+
 	@Test
 
 	void invalidCheckMinimumBalance() { // minimum balance penalty
@@ -113,10 +115,26 @@ class TestTransactionService {
 		String accNo = "1234567890123456";
 		double transferMoney = 74000;
 
-		try { 
+		try {
 			Assertions.assertFalse(transService.checkMinimumBalance(accNo, transferMoney));
 		} catch (ServiceException e) {
 			e.getMessage();
+		}
+
+	}
+
+	@Test
+
+	void validAccountHolderCondition() {
+
+		String accNo = "1234567890123456";
+		double transferMoney = 90;
+
+		try {
+			Assertions.assertTrue(transService.checkMinimumBalance(accNo,transferMoney)); 
+		} catch (ServiceException e) {
+			
+			e.printStackTrace();
 		}
 
 	}

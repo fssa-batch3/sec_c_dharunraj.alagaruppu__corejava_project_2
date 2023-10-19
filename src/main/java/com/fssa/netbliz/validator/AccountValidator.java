@@ -17,7 +17,9 @@ public class AccountValidator {
 		// Private constructor to prevent instantiation
 	}
 
-	public static final int ACCOUNT_NUMBER_LENGTH = 16;
+	public static final int MIN_ACCOUNT_NUMBER_LENGTH = 9;
+
+	public static final int MAX_ACCOUNT_NUMBER_LENGTH = 18;
 
 	public static final double ABOVE_MINIMUM_BALANCE_RANGE = 500.0;
 
@@ -60,11 +62,13 @@ public class AccountValidator {
 			throw new ValidatorException(AccountValidatorError.INVALID_ACCOUNTNUMBER);
 		} else if ("".equals(accountNumber.trim())) {
 			throw new ValidatorException(AccountValidatorError.INVALID_EMPTY_ACCOUNTNUMBER);
-		} else if (accountNumber.trim().length() != ACCOUNT_NUMBER_LENGTH) {
+		} else if (accountNumber.trim().length() <= MIN_ACCOUNT_NUMBER_LENGTH
+				&& accountNumber.trim().length() >= MAX_ACCOUNT_NUMBER_LENGTH) {
 			throw new ValidatorException(AccountValidatorError.INVALID_LENGTH_ACCOUNTNUMBER);
 		}
 
-		String regexAccountNumber = "\\d{16}";
+		String regexAccountNumber = "^\\d{9,18}$";
+
 		Pattern pattern = Pattern.compile(regexAccountNumber);
 		Matcher matcher = pattern.matcher(accountNumber);
 		boolean isMatch = matcher.matches();

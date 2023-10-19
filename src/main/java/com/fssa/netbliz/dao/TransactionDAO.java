@@ -154,24 +154,27 @@ public class TransactionDAO {
 		if (!trans.getAccountHolderAccNo().equals(trans.getRemittanceAccNo())) {
 
 			try (Connection con = ConnectionUtil.getConnection()) {
+
+				long senderPhoneNumber = phoneNumberCheck(con, trans.getAccountHolderAccNo());
+				long receiverPhoneNumber = phoneNumberCheck(con, trans.getRemittanceAccNo());
+
+				if (senderPhoneNumber != receiverPhoneNumber) {
+
+					senderCustomerId = AccountDAO.getPrimaryCustomerId(senderPhoneNumber);
+					reciverCustomerId = AccountDAO.getPrimaryCustomerId(receiverPhoneNumber);
+					Transaction.holderBalance = accountHolderConditions(trans, con);
+					Transaction.remittanceBalance = remittanceAccountConditions(trans, con);
+
+				} else {
+
+					throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
+				}
+				
 				try (PreparedStatement pst = con.prepareStatement(query)) {
-
-					long senderPhoneNumber = phoneNumberCheck(con, trans.getAccountHolderAccNo());
-					long receiverPhoneNumber = phoneNumberCheck(con, trans.getRemittanceAccNo());
-					if (senderPhoneNumber != receiverPhoneNumber) {
-
-						senderCustomerId = AccountDAO.getPrimaryCustomerId(senderPhoneNumber);
-						reciverCustomerId = AccountDAO.getPrimaryCustomerId(receiverPhoneNumber);
-						Transaction.holderBalance = accountHolderConditions(trans, con);
-						Transaction.remittanceBalance = remittanceAccountConditions(trans, con);
-						pst.setDouble(1, Transaction.holderBalance);
-						pst.setString(2, trans.getAccountHolderAccNo());
-						pst.executeUpdate();
-						updateRemittanceAccount(trans, con);
-					} else {
-
-						throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
-					}
+					pst.setDouble(1, Transaction.holderBalance);
+					pst.setString(2, trans.getAccountHolderAccNo());
+					pst.executeUpdate();
+					updateRemittanceAccount(trans, con);
 
 				}
 
@@ -332,7 +335,7 @@ public class TransactionDAO {
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static boolean accountHolderCheck(Transaction trans) throws DAOException {
+	public static boolean accountHolderCheck(String accNo, double transMoney) throws DAOException {
 
 		final String query = "SELECT acc_no,is_active,avl_balance FROM accounts WHERE acc_no = ? AND is_active = ? AND avl_balance >= ?";
 
@@ -340,9 +343,9 @@ public class TransactionDAO {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				pst.setString(1, trans.getAccountHolderAccNo());
+				pst.setString(1, accNo);
 				pst.setBoolean(2, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
-				pst.setDouble(3, trans.getTransferAmount());
+				pst.setDouble(3, transMoney);
 
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) {
@@ -366,15 +369,15 @@ public class TransactionDAO {
 	 * @throws DAOException If there are issues with the transaction data access.
 	 */
 
-	public static boolean remittanceAccountCheck(Transaction trans) throws DAOException {
+	public static boolean remittanceAccountCheck(String accNo, String ifsc) throws DAOException {
 		final String query = "SELECT acc_no,ifsc,is_active FROM accounts WHERE acc_no = ? AND ifsc = ? AND is_active = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 
-				pst.setString(1, trans.getRemittanceAccNo());
-				pst.setString(2, trans.getReceiverIfscCode());
+				pst.setString(1, accNo);
+				pst.setString(2, ifsc);
 				pst.setBoolean(3, NetblizConstants.STATIC_IS_ACTIVE_TRUE);
 				try (ResultSet rs = pst.executeQuery()) {
 
@@ -385,9 +388,9 @@ public class TransactionDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Invalid account number or ifsc code");
+			throw new DAOException("Receiver account number or ifsc code is not valid");
 		}
-		throw new DAOException("Invalid account number or ifsc code");
+		throw new DAOException("Invalid Receiver account number or ifsc code");
 
 	}
 

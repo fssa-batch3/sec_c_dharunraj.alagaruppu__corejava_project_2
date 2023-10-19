@@ -130,5 +130,4 @@ public class Account {
 				+ availableBalance + ", dateOfJoining=" + dateOfJoining + ", isActive=" + isActive + ", customerId="
 				+ customerId + ", monthIntervel=" + monthIntervel + ", bankId=" + bankId + "]";
 	}
-
 }

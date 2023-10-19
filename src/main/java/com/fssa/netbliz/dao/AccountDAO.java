@@ -50,9 +50,7 @@ public class AccountDAO {
 				pst.setString(1, account.getAccountNumber());
 				pst.setString(2, account.getIfsc());
 				pst.setLong(3, account.getPhoneNumber());
-
 				try (ResultSet rs = pst.executeQuery()) {
-
 					if (rs.next()) {
 						account.setBankId(rs.getInt("bank_id"));
 						account.setAccountNumber(rs.getString("acc_no"));
@@ -67,12 +65,10 @@ public class AccountDAO {
 						account.setMonthIntervel(rs.getInt("month_interval"));
 						return account;
 					}
-
 					throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 				}
 			}
 		} catch (SQLException e) {
-
 			throw new DAOException(AccountDAOError.INVALID_ACCOUNT_NUMBER);
 		}
 
@@ -122,7 +118,7 @@ public class AccountDAO {
 	 *         otherwise.
 	 * @throws DAOException If a database error occurs during the operation.
 	 */
-	public static boolean existsCheck(Account account) throws DAOException {
+	public static boolean existsCheck(Account account) throws DAOException { 
 
 		final String query = "UPDATE accounts SET is_active = ? WHERE acc_no = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {

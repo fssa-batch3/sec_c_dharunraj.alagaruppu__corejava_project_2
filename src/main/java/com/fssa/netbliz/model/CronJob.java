@@ -69,9 +69,9 @@ public class CronJob {
 		// Define the JobDetail
 		JobDetail jobDetail = JobBuilder.newJob(UpdateAverageBalanceJob.class).withIdentity("updateAverageJob").build();
 
-		// Cron expression (11:59 PM)
+		// Cron expression (11:45 PM)
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("dailyUpdateTrigger")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 50 17 * * ?")).build();
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 55 23 * * ?")).build();
 
 		// Schedule the Job with the Trigger
 		scheduler.scheduleJob(jobDetail, trigger);
