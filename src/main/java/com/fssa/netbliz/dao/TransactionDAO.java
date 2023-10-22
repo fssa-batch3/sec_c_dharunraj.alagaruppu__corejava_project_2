@@ -1,11 +1,11 @@
 package com.fssa.netbliz.dao;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,7 +169,7 @@ public class TransactionDAO {
 
 					throw new DAOException(TransactionDAOError.DISMATCH_PHONE_NUMBER);
 				}
-				
+
 				try (PreparedStatement pst = con.prepareStatement(query)) {
 					pst.setDouble(1, Transaction.holderBalance);
 					pst.setString(2, trans.getAccountHolderAccNo());
@@ -474,7 +474,7 @@ public class TransactionDAO {
 
 	public static boolean checkMinimumBalance(String accNo, double transferMoney) throws DAOException {
 
-		final String query = "SELECT acc_no,avl_balance,min_balance FROM accounts WHERE acc_no = ?";
+		final String query = "SELECT acc_no,avl_balance,min_balance,avg_balance FROM accounts WHERE acc_no = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -488,8 +488,13 @@ public class TransactionDAO {
 
 						double minBalance = rs.getDouble("min_balance");
 
-						if (minBalance <= (avlBalance - transferMoney)) {
+						double avgBalance = rs.getDouble("avg_balance");
 
+						YearMonth currentYearMonth = YearMonth.now();
+						// Number of days in the current month
+						int daysInMonth = currentYearMonth.lengthOfMonth();
+
+						if (minBalance <= (avlBalance - transferMoney) || minBalance <= (avgBalance / daysInMonth)) {
 							return true;
 						}
 					}

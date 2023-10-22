@@ -113,7 +113,7 @@ class TestTransactionService {
 	void invalidCheckMinimumBalance() { // minimum balance penalty
 
 		String accNo = "1234567890123456";
-		double transferMoney = 74000;
+		double transferMoney = 18800.0;
 
 		try {
 			Assertions.assertFalse(transService.checkMinimumBalance(accNo, transferMoney));
@@ -128,7 +128,7 @@ class TestTransactionService {
 	void validAccountHolderCondition() {
 
 		String accNo = "1234567890123456";
-		double transferMoney = 90;
+		double transferMoney = 1000.0;
 
 		try {
 			Assertions.assertTrue(transService.checkMinimumBalance(accNo,transferMoney)); 

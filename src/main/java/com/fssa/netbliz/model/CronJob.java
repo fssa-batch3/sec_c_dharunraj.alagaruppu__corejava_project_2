@@ -71,7 +71,7 @@ public class CronJob {
 
 		// Cron expression (11:45 PM)
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("dailyUpdateTrigger")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 55 23 * * ?")).build();
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 26 23 * * ?")).build();
 
 		// Schedule the Job with the Trigger
 		scheduler.scheduleJob(jobDetail, trigger);

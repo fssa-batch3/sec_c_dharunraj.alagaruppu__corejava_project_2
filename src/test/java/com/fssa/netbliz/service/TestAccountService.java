@@ -1,5 +1,6 @@
 package com.fssa.netbliz.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -188,6 +189,8 @@ class TestAccountService {
 			 acc = (accountService.getAccountByNumber(accountNumber));
 			
 			Logger.info(acc);
+			
+			Assertions.assertDoesNotThrow(() -> accountService.getAccountByNumber(accountNumber));
 
 		} catch (ServiceException e) {
 

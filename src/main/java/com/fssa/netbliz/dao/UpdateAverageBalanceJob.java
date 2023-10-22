@@ -113,8 +113,6 @@ public class UpdateAverageBalanceJob implements Job {
 
 		int id = getDateIdFromDateTable(con);
 
-		System.out.println(id);
-
 		for (Account acc : list) {
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -247,7 +245,7 @@ public class UpdateAverageBalanceJob implements Job {
 	 * @throws DAOException If there are issues with data transfer.
 	 */
 
-	public static void dataTransfer() throws DAOException {
+	public static void dataTransfer(){
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
