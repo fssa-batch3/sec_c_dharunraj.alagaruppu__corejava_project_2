@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 	acc_id BIGINT AUTO_INCREMENT PRIMARY KEY,
 	acc_no VARCHAR(16) NOT NULL UNIQUE ,
     ifsc VARCHAR(11) NOT NULL,
-    avl_balance DOUBLE NOT NULL,
+    avl_balance DOUBLE NOT NULL, 
     phone_number BIGINT NOT NULL,
     min_balance DOUBLE NOT NULL,
     account_type VARCHAR(40) NOT NULL,
@@ -92,42 +92,55 @@ SELECT * FROM closing_balance;
 SELECT * FROM backup_date_table;
 SELECT * FROM backup_closing_balance;
 
- drop table transactions;
- drop table backup_closing_balance;
- drop table closing_balance;
- drop table date_table;
- drop table accounts;
- drop table bank_details;
- drop table customers;
- drop table backup_date_table;
+
+
+-- select closing_balance.acc_number,closing_balance.closing_balance ,date_table.date_of_update from closing_balance inner join date_table on closing_balance.date_of_update = date_table.date_of_update;
+-- SELECT date_id FROM date_table ORDER BY date_id DESC LIMIT 1;
+
+-- SELECT date_id FROM date_table ORDER BY date_id DESC LIMIT 1;
+-- update updated_date  set date_of_update = now();
+-- INSERT INTO updated_date (date_of_update) VALUES (NOW());  
+
+-- INSERT INTO closing_balance (date_id,acc_number,closing_balance) VALUES (2 , 1234567890123456 , 75000.0);
+
+drop table transactions;
+drop table backup_closing_balance;
+drop table closing_balance;
+drop table date_table;
+drop table accounts;
+drop table bank_details;
+drop table customers;
+drop table backup_date_table;
 
 INSERT INTO bank_details (bank_id, acc_no, ifsc, avl_balance, phone_number, min_balance, account_type, is_active, month_interval)
 VALUES
-    (1, '1234567890123456', 'IDIB000K132', 75000.00, '9361320511', 25000.00, 'SAVINGS', true, 1),
-	(7, '0987654321123456', 'HDFC0001858', 95000.00, '9600678232', 5000.00, 'SAVINGS', true, 1),
+    (1, '1234567890123456', 'IDIB000K132', 20000.00, '9361320511', 500.00, 'SAVINGS', true, 1),
+	(7, '0987654321123456', 'HDFC0001858', 31000.00, '9600678232', 1000.00, 'SAVINGS', true, 1),
     (2, '1234567890123455', 'IDIB000K132', 45000.00, '9361320511', 25000.00, 'SAVINGS', true, 1),
-    (3, '1234567890123454', 'IDIB000K132', 30000.00, '9361320511', 2500.00, 'SAVINGS', true, 1),
-    (4, '1234567890123453', 'IDIB000K132', 55000.00, '9361320511', 10000.00, 'CURRENT', true, 1),
+    (3, '1234567890123454', 'IDIB000K132', 2000.00, '9361320511', 10000.00, 'SAVINGS', true, 1),
+    (4, '1234567890123453', 'IDIB000K132', 5000.00, '9361320511', 1000.00, 'SAVINGS', true, 1),
     (5, '1234567890123452', 'IDIB000K132', 60000.00, '9361320511', 2500.00, 'SAVINGS', true, 1),
-    (6, '1234567890123451', 'IDIB000K132', 85000.00, '9361320511', 1000.00, 'SAVINGS', true, 1),
+    (6, '1234567890123451', 'IDIB000K132', 85000.00, '9361320511', 5000.00, 'SAVINGS', true, 1),
     (8, '0987654321123455', 'HDFC0001858', 70000.00, '9600678232', 10000.00, 'SAVINGS', true, 1),
     (9, '0987654321123454', 'HDFC0001858', 8000.00, '9600678232', 2500.00, 'SAVINGS', true, 1),
-    (10, '0987654321123453', 'HDFC0001858', 95000.00, '9600678232', 5000.00, 'CURRENT', true, 1),
+    (10, '0987654321123453', 'HDFC0001858', 95000.00, '9600678232', 5000.00, 'SAVINGS', true, 1),
     (11, '0987654321123452', 'HDFC0001858', 72000.00, '9600678232', 10000.00, 'SAVINGS', true, 1),
     (12, '0987654321123451', 'HDFC0001858', 8000.00, '9600678232', 2500.00, 'SAVINGS', true, 1),
-    (13, '7890123456789012', 'SBIN0071060', 3000.00, '7402473347', 500.00, 'CURRENT', true, 1),
+    (13, '7890123456789012', 'SBIN0071060', 3000.00, '7402473347', 500.00, 'SAVINGS', true, 1),
     (14, '7890123456789013', 'SBIN0071060', 60000.00, '7402473347', 10000.00, 'SAVINGS', true, 1),
     (15, '7890123456789014', 'SBIN0071060', 85000.00, '7402473347', 2500.00, 'SAVINGS', true, 1),
-    (16, '7890123456789015', 'SBIN0071060', 92000.00, '7402473347', 5000.00, 'CURRENT', true, 1),
+    (16, '7890123456789015', 'SBIN0071060', 92000.00, '7402473347', 5000.00, 'SAVINGS', true, 1),
     (17, '7890123456789016', 'SBIN0071060', 70000.00, '7402473347', 10000.00, 'SAVINGS', true, 1),
     (18, '7890123456789017', 'SBIN0071060', 89000.00, '7402473347', 2500.00, 'SAVINGS', true, 1),
-    (19, '8901234567890123', 'TMBL0000008', 95000.00, '7904486648', 5000.00, 'CURRENT', true, 1),
+    (19, '8901234567890123', 'TMBL0000008', 95000.00, '7904486648', 5000.00, 'SAVINGS', true, 1),
     (20, '8901234567890124', 'TMBL0000008', 72000.00, '7904486648', 10000.00, 'SAVINGS', true, 1),
     (21, '8901234567890125', 'TMBL0000008', 83000.00, '7904486648', 2500.00, 'SAVINGS', true, 1),
-    (22, '8901234567890126', 'TMBL0000008', 95000.00, '7904486648', 5000.00, 'CURRENT', false, 1),
+    (22, '8901234567890126', 'TMBL0000008', 95000.00, '7904486648', 5000.00, 'SAVINGS', false, 1),
     (23, '8901234567890127', 'TMBL0000008', 72000.00, '7904486648', 10000.00, 'SAVINGS', true, 1),
     (24, '8901234567890128', 'TMBL0000008', 83000.00, '7904486648', 2500.00, 'SAVINGS', true, 1),
-    (25, '8901234567890129', 'TMBL0000008', 92000.00, '7904486648', 5000.00, 'CURRENT', true, 1),
+    (25, '8901234567890129', 'TMBL0000008', 92000.00, '7904486648', 5000.00, 'SAVINGS', true, 1),
+    (99, '9912345678901289', 'IDIB000K132', 9000.00, '9361320513', 5000.00, 'SAVINGS', true, 1),
+    (100, '1001234567890124', 'IDIB000K132', 5000.00, '6380409632', 500.00, 'SAVINGS', true, 1),
     (26, '26123456789012', 'UNIN0012345', 70000.00, '2109876543', 10000.00, 'SAVINGS', true, 1),
     (27, '27123456789012', 'SBIN0015678', 89000.00, '1098765432', 2500.00, 'SAVINGS', true, 1),
     (28, '28123456789012', 'TMBL0019876', 95000.00, '9876543210', 5000.00, 'CURRENT', true, 1),
@@ -200,9 +213,8 @@ VALUES
     (95, '95123456789012', 'HDFC0012345', 60000.00, '5432109876', 10000.00, 'SAVINGS', true, 1),
     (96, '96123456789012', 'UNIN0012345', 85000.00, '4321098765', 2500.00, 'SAVINGS', true, 1),
     (97, '97123456789012', 'SBIN0015678', 92000.00, '3210987654', 5000.00, 'CURRENT', true, 1),
-    (98, '98123456789012', 'HDFC0012345', 70000.00, '2109876543', 10000.00, 'SAVINGS', true, 1),
-    (99, '9912345678901289', 'IDIB000K132', 9000.00, '9361320513', 5000.00, 'SAVINGS', true, 1),
-    (100, '1001234567890124', 'IDIB000K132', 5000.00, '6380409632', 500.00, 'SAVINGS', true, 1);
+    (98, '98123456789012', 'HDFC0012345', 70000.00, '2109876543', 10000.00, 'SAVINGS', true, 1);
+
     
 ------    Customer DAO Query     ---------
 

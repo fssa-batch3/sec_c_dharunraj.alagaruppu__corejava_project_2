@@ -9,6 +9,7 @@ import com.fssa.netbliz.exception.ServiceException;
 import com.fssa.netbliz.model.Transaction;
 import com.fssa.netbliz.util.Logger;
 
+
 class TestTransactionService {
 
 	TransactionService transService = new TransactionService();
@@ -91,7 +92,7 @@ class TestTransactionService {
 	void checkMinimumBalance() { // minimum balance penalty
 
 		String accNo = "1234567890123456";
-		double transferMoney = 19600;
+		double transferMoney = 18000;
 
 		try {
 			Assertions.assertTrue(transService.checkMinimumBalance(accNo, transferMoney));
@@ -122,7 +123,6 @@ class TestTransactionService {
 		}
 
 	}
-
 	@Test
 
 	void validAccountHolderCondition() {

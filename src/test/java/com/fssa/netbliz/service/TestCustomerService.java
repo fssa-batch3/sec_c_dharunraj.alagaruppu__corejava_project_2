@@ -21,10 +21,10 @@ class TestCustomerService {
 	@Test
 	void testValidAddCustomer() {
 
-		Customer customer = new Customer("Jegan", "E", 9876543210l, "Jegan@gmail.com", "1234567890Dh@",
-				"1234567890Dh@");
+		Customer customer = new Customer("Saran", "E", 9876543290l, "saran@gmail.com", "1234567890Dh@",
+				"1234567890Dh@");  
 
-		try {
+		try { 
 			Assertions.assertTrue(customerServive.addCustomer(customer));
 		} catch (ServiceException e) {
 			Assertions.fail(e);

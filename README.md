@@ -4,7 +4,7 @@
 
 This project aim is to address a real-time issue that affects all customers with existing bank accounts, particularly those who have savings and current accounts in major public and private banks. In today's world, it is common for individuals to hold at least one or two bank accounts, and most of these accounts require customers to maintain a Monthly Average Minimum Balance (MAB).Failure to maintain the MAB results in customers being fined, albeit by small amounts.From an individual perspective, these fines may seem insignificant, but from the bank's overall perspective, they accumulate into a substantial amount.
 
-**Documentation:**
+**Documentation :**
  - https://docs.google.com/document/d/1Pd_Vr5JCE_fCAsmLozY6B-8e9VC90pcJfIr5ve53BoQ/edit
 
 
@@ -12,7 +12,7 @@ This project aim is to address a real-time issue that affects all customers with
 
  According to 2020 statistics, both public and private sector banks in India collectively accrued more than 35,530 crores in penalties from customers due to non-compliance with MAB requirements.
 
-**Documentation:** 
+**Documentation :** 
  - https://docs.google.com/document/d/1yPs_HxGylre5W5KP73vrg6rRLLvlIQ_hda2WGTz5LOc/edit
 
 ## Solution
@@ -211,15 +211,19 @@ This project stands out from existing UPI apps as it allows customers to link th
    - The resulting MAB value is displayed on the chart page, providing users with insights into their account's financial health.
 
 
-## GitHub Issue - Milestone - 1,2,3:
-Link to GitHub Issue: [Milestone -1,2,3 GitHub Issue](https://github.com/fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2/issues)
+## GitHub Issue
+
+**Link to Milestones Issue :** 
+
+ - https://github.com/fssa-batch3/sec_c_dharunraj.alagaruppu__corejava_project_2/issues
 
 ## Code Quality Analysis
 
 We have integrated our project with SonarCloud to perform code quality analysis and static code analysis. You can find the overall analysis report on the SonarCloud platform:
 
-- [SonarCloud Analysis](https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2)
+**Link to SonarCloud Analysis :** 
 
+- https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_dharunraj.alagaruppu__corejava_project_2
 
 
 ## Reverse Engineering

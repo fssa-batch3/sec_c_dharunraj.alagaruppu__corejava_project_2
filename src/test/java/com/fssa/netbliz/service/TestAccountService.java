@@ -1,6 +1,5 @@
 package com.fssa.netbliz.service;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -27,7 +26,7 @@ class TestAccountService {
 	// Valid test case
 	void testAddAccount() { // before commit update the new account number
 
-		Account account = new Account("1234567890123451", "IDIB000K132", 9361320511l);
+		Account account = new Account("1234567890123452", "IDIB000K132", 9361320511l);
 
 		try {
 			Assertions.assertTrue(accountService.getBankDetails(account));
@@ -91,7 +90,7 @@ class TestAccountService {
 	@Test
 	// Valid test case
 	void testRemoveAccountByAccountNumber() {
-		String accountNumber = "1234567890123455";
+		String accountNumber = "1234567890123451";
 
 		try {
 			Assertions.assertTrue(accountService.removeAccountByAccountNumber(accountNumber));
@@ -138,7 +137,7 @@ class TestAccountService {
 	// Valid test case
 	void testAddExistsAccount() { // before commit update the new account number
 
-		Account account = new Account("1234567890123453", "IDIB000K132", 9361320511l);
+		Account account = new Account("1234567890123455", "IDIB000K132", 9361320511l);
 
 		try {
 			Assertions.assertTrue(accountService.addAccount(account));
